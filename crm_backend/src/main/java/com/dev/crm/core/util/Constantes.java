@@ -17,6 +17,7 @@ public class Constantes {
 	public static final String TAREA_VIEW= "modulo-notificacion/tarea/view";
 	public static final String CORTE_VIEW = "modulo-servicios/instalacion/cortes";
 	public static final String INSTALACIONES_VIEW = "modulo-servicios/instalacion/instalaciones";
+	public static final String LISTA_PAGOS_VIEW = "modulo-pagos/pagos/listapagos";
 	public static final String LOGIN_VIEW = "login";
 	
 	public static final String SP_ACTIVAR_DESACTIVAR_CLIENTE = "sp_activar_desactivar";
@@ -72,6 +73,7 @@ public class Constantes {
 	public static final String SP_LISTAR_INSTALACION_DIA_INTERNET = "sp_listar_instalacion_dia";
 	public static final String SP_LISTAR_PAGOS_DEL_DIA = "sp_listar_pagos_del_dia";
 	public static final String SP_INSERTAR_CONSECUTIVO_PAGO = "sp_insertar_consecutivo_pago";
+	public static final String SP_LISTAR_DETALLE_PAGO = "sp_recuperar_pagos_cliente";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;
@@ -91,5 +93,9 @@ public class Constantes {
 	public static final String MESSAGE_TOTAL_REGISTROS_CON = "";
 	public static final String ESTADO = "SERVICIO OPERANDO";
 	public static final String HECHO = "HECHO";
+	public static final String BUENO = "BUENO";
+	public static final String ERROR = "ERROR";
+	public static final String EXCEDIO = "EXCEDIO";
 	public static final String UPS = "UPS";
+	public static final String SIN_PERMISO = "SIN PERMISO";
 }

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
+import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
@@ -100,13 +102,29 @@ public class PagoRestController {
 		}
 	}
 	
+	@PostMapping("/consecutivoPago")
+	public ResponseEntity<ResponseBaseOperation> spInsertarConsecutivoPago(@Valid @RequestBody ConsecutivoPagoRequest request) {
+		
+		try {
+			
+			String codigoUsuario = "romachenint";
+			request.setCodigoUsuario(codigoUsuario);
+			ResponseBaseOperation response = pagoFacade.spInsertarConsecutivoPago(request);
+			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@GetMapping("/pagosDelDia")
 	public ResponseEntity<List<PagosDelDiaResultViewModel>> spListarPagosDelDia() {
 		
 		try {
 			
-			List<PagosDelDiaResultViewModel> pagosDelDia = pagoFacade.spListarPagosDelDia();
-			if(GenericUtil.isCollectionEmpty(pagosDelDia)) {
+			String usuario = "romachenint";
+			List<PagosDelDiaResultViewModel> pagosDelDia = pagoFacade.spListarPagosDelDia(usuario);
+			if(GenericUtil.isCollectionEmpty(pagosDelDia) && pagosDelDia.isEmpty()) {
 				return new ResponseEntity<List<PagosDelDiaResultViewModel>>(HttpStatus.NO_CONTENT);
 			}
 			else {
@@ -115,6 +133,24 @@ public class PagoRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<PagosDelDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/listaDetallePago/{persona}")
+	public ResponseEntity<List<DetallePagoResultViewModel>> spListaDetallePago(@PathVariable(value="persona") String persona) {
+		
+		try {
+			
+			List<DetallePagoResultViewModel> Dpago = pagoFacade.spListarDetallePago(persona);
+			if(GenericUtil.isNotEmpty(Dpago)) {
+				return new ResponseEntity<List<DetallePagoResultViewModel>>(Dpago, HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<List<DetallePagoResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<DetallePagoResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

@@ -4,6 +4,8 @@ $(document).on('ready', function() {
 	
 	var tablaDeudasCliente;
 	
+	var tablaPagoClienteDetalle;
+	
 	cargarTotalRegistrosPersonita();
 	
 	listarClientesPago();
@@ -39,6 +41,10 @@ $(document).on('ready', function() {
 	realizarPago();
 	
 	verDeudaCliente();
+	
+	evaluadopagos();
+	
+	redireccionarListaPagosView();
 	
 	/**
 	 * function para listar los clientesPago
@@ -215,8 +221,9 @@ $(document).on('ready', function() {
 					$('#clienteReferenciaDireccionPago').val(response.referencia);
 					
 					$('#verDeudaCliente').attr('documentoPersonaCliente', response.documentoPersonaCliente);
-					
+					$('#verPagoCliente').attr('documentoPersonaCliente', response.documentoPersonaCliente);
 					$('#myModalLabelDeudaCliente').html('Deuda Cliente: ' + response.cliente);
+					$('#myModalLabelPagoCliente').html('Pagos Cliente: ' + response.cliente);
 				}
 			});
 		});
@@ -373,6 +380,14 @@ $(document).on('ready', function() {
 								}
 							});
 						}
+						else if(response.message == "EXCEDIO") {
+							
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Excedio el monto a Pagar !'
+				            });
+						}
 					},
 					error: function() {
 						swal({
@@ -393,6 +408,58 @@ $(document).on('ready', function() {
 	 */
 	function limpiarDatosModal() {
 		$('#myModalLabelDeudaCliente').html('');
+	}
+	
+	/**
+	 *
+	 *function para listar deudas cliente  
+	 * 
+	 */
+	
+	function listarPagosCliente(documentoPersonaCliente) {
+		
+		var flag = documentoPersonaCliente;
+		console.log("flag: " + flag);
+		
+		tablaPagoClienteDetalle = $('#tablaPagoClienteDetalle').dataTable({
+			"language": {
+				"sProcessing":     "Procesando...",
+				"sLengthMenu":     "Mostrar _MENU_ registros",
+				"sZeroRecords":    "No se encontraron resultados",
+				"sEmptyTable":     "Ningún dato disponible en esta tabla",
+				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sInfoPostFix":    "",
+				"sSearch":         "Buscar:",
+				"sUrl":            "",
+				"sInfoThousands":  ",",
+				"sLoadingRecords": "Cargando...",
+				"oPaginate": {
+					"sFirst":    "Primero",
+					"sLast":     "Último",
+					"sNext":     "Siguiente",
+					"sPrevious": "Anterior"
+				},
+				"oAria": {
+					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+			},
+			'bProcessing': true,
+			"bDestroy": true,
+			"ajax": {
+				"url": "/api/v1/pago/listaDetallePago/" + flag,
+				"dataSrc": ""
+			},
+			"columns": [
+				{"data": "totalpago"},
+				{"data": "descuentototal"},
+				{"data": "cantidadpago"},
+				{"data": "fechadepago"},
+				{"data": "informacionpago"}
+			]
+		}).DataTable();
 	}
 	
 	/**
@@ -501,6 +568,38 @@ $(document).on('ready', function() {
 					}
 				}
 			});
+		});
+	}
+	
+function evaluadopagos(){
+		
+		$('#verPagoCliente').on('click', function() {
+			
+			var documentoPersonaCliente = $(this).attr('documentoPersonaCliente');
+			
+			setTimeout(function() {
+				$('#modalVerPagoCliente').modal('show');
+				listarPagosCliente(documentoPersonaCliente);
+			}, 2300);
+			console.log(documentoPersonaCliente);
+			
+			
+			$.ajax({
+				
+				type: 'GET',
+				url: '/api/v1/pago/listaDetallePago/' + documentoPersonaCliente,
+				dataType: 'json',
+				success: function(response) {
+					
+					if(response != null) {
+						
+					}
+					else {
+						
+					}
+				}
+			});
+			
 		});
 	}
 	
@@ -720,20 +819,37 @@ $(document).on('ready', function() {
 					dataType: 'json',
 					success: function(response) {
 						
-						
-						swal({
-							type: "success",
-							title: "Se Realizo el Pago con exito",
-							showConfirmButton: true,
-							confirmButtonText: "Cerrar",
-							closeOnConfirm: false
-						}).then((result) => {
+						if(response.message == "HECHO") {
+							
+							swal({
+								type: "success",
+								title: "Se Realizo el Pago con exito",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+							}).then((result) => {
 
-							if(result.value) {
-								$(location).attr('href', '/pago/pagos');
-							}
-						});
-						
+								if(result.value) {
+									$(location).attr('href', '/pago/pagos');
+								}
+							});
+						}
+						else if(response.message == "EXCEDIO") {
+							
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Excedio el monto a Pagar o duplico el Pago !'
+				            });
+						}
+						else if(response.message == "ERROR") {
+							
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Hubo un error al Realizar el Pago !'
+				            });
+						}
 					},
 					error: function() {
 						swal({
@@ -744,6 +860,18 @@ $(document).on('ready', function() {
 					}
 				});
 			}
+		});
+	}
+	
+	/**
+	 * 
+	 *function para redireccionar a la vista lista pagos 
+	 * 
+	 */
+	function redireccionarListaPagosView() {
+		
+		$('#buttonListaPagos').on('click', function() {
+			$(location).attr('href', '/pago/listaPagos');
 		});
 	}
 	

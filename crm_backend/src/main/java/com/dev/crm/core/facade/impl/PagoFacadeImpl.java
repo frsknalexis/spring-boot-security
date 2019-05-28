@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
+import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
@@ -34,7 +36,12 @@ public class PagoFacadeImpl implements PagoFacade {
 			if(GenericUtil.isNotNull(pagoRequest)) {
 				String result = pagoService.spPagoServicio(pagoRequest);
 				if(StringUtil.hasText(result)) {
-					return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, pagoRequest);
+					if(StringUtil.eq(result, Constantes.HECHO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, pagoRequest);
+					}
+					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoRequest);
+					}
 				}
 				else {
 					return null;
@@ -55,7 +62,44 @@ public class PagoFacadeImpl implements PagoFacade {
 			if(GenericUtil.isNotNull(pagoMora)) {
 				String result = pagoService.spPagoMora(pagoMora);
 				if(StringUtil.hasText(result)) {
-					return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, pagoMora);
+					if(StringUtil.eq(result, Constantes.HECHO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, pagoMora);
+					}
+					else if(StringUtil.eq(result, Constantes.ERROR)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoMora);
+					}
+					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoMora);
+					}
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public ResponseBaseOperation spInsertarConsecutivoPago(ConsecutivoPagoRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = pagoService.spInsertarConsecutivoPago(request);
+				if(StringUtil.hasText(result)) {
+					if(StringUtil.eq(result, Constantes.BUENO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.SIN_PERMISO)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.ERROR)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					}
 				}
 				else {
 					return null;
@@ -115,18 +159,43 @@ public class PagoFacadeImpl implements PagoFacade {
 	}
 
 	@Override
-	public List<PagosDelDiaResultViewModel> spListarPagosDelDia() {
+	public List<PagosDelDiaResultViewModel> spListarPagosDelDia(String usuario) {
 		
 		List<PagosDelDiaResultViewModel> pagosDelDia = new ArrayList<PagosDelDiaResultViewModel>();
 		
 		try {
 			
-			pagosDelDia = pagoService.spListarPagosDelDia();
-			if(GenericUtil.isCollectionEmpty(pagosDelDia)) {
-				return null;
+			if(GenericUtil.isNotNull(usuario)) {
+				pagosDelDia = pagoService.spListarPagosDelDia(usuario);
+				if(GenericUtil.isCollectionEmpty(pagosDelDia) && pagosDelDia.isEmpty()) {
+					return null;
+				}
+				else {
+					return pagosDelDia;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<DetallePagoResultViewModel> spListarDetallePago(String persona) {
+		
+		List<DetallePagoResultViewModel> Dpago = new ArrayList<DetallePagoResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotEmpty(persona)) {
+				Dpago = pagoService.spListarDetallePago(persona);
+			}
+			if(GenericUtil.isNotEmpty(Dpago)) {
+				return Dpago;
 			}
 			else {
-				return pagosDelDia;
+				return null;
 			}
 		}
 		catch(Exception e) {

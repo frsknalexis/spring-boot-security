@@ -6,5 +6,5 @@ import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 
 public interface PagoDelDiaJdbcRepository {
 
-	List<PagosDelDiaResultViewModel> spListarPagosDelDia();
+	List<PagosDelDiaResultViewModel> spListarPagosDelDia(String usuario);
 }

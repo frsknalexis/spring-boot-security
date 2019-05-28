@@ -2,6 +2,7 @@ package com.dev.crm.core.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class PagosDelDiaResultViewModel implements Serializable {
 
@@ -23,6 +24,8 @@ public class PagosDelDiaResultViewModel implements Serializable {
 	private String cliente;
 	
 	private String direccionActualCliente;
+	
+	private Date fechaPagoDia;
 
 	public PagosDelDiaResultViewModel() {
 		
@@ -82,5 +85,13 @@ public class PagosDelDiaResultViewModel implements Serializable {
 
 	public void setDireccionActualCliente(String direccionActualCliente) {
 		this.direccionActualCliente = direccionActualCliente;
+	}
+
+	public Date getFechaPagoDia() {
+		return fechaPagoDia;
+	}
+
+	public void setFechaPagoDia(Date fechaPagoDia) {
+		this.fechaPagoDia = fechaPagoDia;
 	}
 }

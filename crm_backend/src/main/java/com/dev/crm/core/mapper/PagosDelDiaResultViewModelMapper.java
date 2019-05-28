@@ -21,6 +21,7 @@ public class PagosDelDiaResultViewModelMapper implements RowMapper<PagosDelDiaRe
 		pagosDelDia.setAnioValido(rs.getString("anio_valido"));
 		pagosDelDia.setCliente(rs.getString("CLIENTE"));
 		pagosDelDia.setDireccionActualCliente(rs.getString("direccióna_persona"));
+		pagosDelDia.setFechaPagoDia(rs.getDate("fecha_pago_dia"));
 		return pagosDelDia;
 	}
 

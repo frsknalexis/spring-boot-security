@@ -10,10 +10,12 @@ import org.springframework.stereotype.Component;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
+import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
+import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.PagoFacade;
 import com.dev.crm.core.service.PagoService;
@@ -65,10 +67,10 @@ public class PagoFacadeImpl implements PagoFacade {
 					if(StringUtil.eq(result, Constantes.HECHO)) {
 						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, pagoMora);
 					}
-					else if(StringUtil.eq(result, Constantes.ERROR)) {
+					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
 						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoMora);
 					}
-					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
+					else if(StringUtil.eq(result, Constantes.ERROR)) {
 						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoMora);
 					}
 				}
@@ -182,6 +184,29 @@ public class PagoFacadeImpl implements PagoFacade {
 	}
 
 	@Override
+	public List<ListaPagosPorCajaResultViewModel> spListaPagosPorCajaReporte(String usuario) {
+		
+		List<ListaPagosPorCajaResultViewModel> pagosPorCaja = new ArrayList<ListaPagosPorCajaResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(usuario)) {
+				pagosPorCaja = pagoService.spListaPagosPorCajaReporte(usuario);
+				if(GenericUtil.isCollectionEmpty(pagosPorCaja) && pagosPorCaja.isEmpty()) {
+					return null;
+				}
+				else {
+					return pagosPorCaja;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
 	public List<DetallePagoResultViewModel> spListarDetallePago(String persona) {
 		
 		List<DetallePagoResultViewModel> Dpago = new ArrayList<DetallePagoResultViewModel>();
@@ -196,6 +221,30 @@ public class PagoFacadeImpl implements PagoFacade {
 			}
 			else {
 				return null;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ReciboResultViewModel spGenerarReciboPago(String usuario, Integer codigoPago) {
+		
+		ReciboResultViewModel reciboResult;
+		
+		try {
+			
+			if(GenericUtil.isNotEmpty(usuario) && GenericUtil.isNotNull(codigoPago) && codigoPago.intValue() > 0) {
+				reciboResult = pagoService.spGenerarReciboPago(usuario, codigoPago);
+				
+				if(GenericUtil.isNotNull(reciboResult)) {
+					return reciboResult;
+				}
+				else if(GenericUtil.isNull(reciboResult)) {
+					return null;
+				}
 			}
 		}
 		catch(Exception e) {

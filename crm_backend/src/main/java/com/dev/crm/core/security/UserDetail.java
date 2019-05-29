@@ -1,19 +1,14 @@
 package com.dev.crm.core.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 @Component("userDetail")
 public class UserDetail {
 
-	public UserDetails findLoggedInUser() {
-		
-		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-		if(userDetails instanceof UserDetails) {
-			System.out.print(((UserDetails) userDetails).getUsername());
-			return (UserDetails) userDetails;
-		}
-		return null;
+	public User findLoggedInUser() {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return user;
 	}
 }

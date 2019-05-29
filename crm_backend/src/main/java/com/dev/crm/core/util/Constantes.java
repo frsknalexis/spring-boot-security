@@ -74,6 +74,8 @@ public class Constantes {
 	public static final String SP_LISTAR_PAGOS_DEL_DIA = "sp_listar_pagos_del_dia";
 	public static final String SP_INSERTAR_CONSECUTIVO_PAGO = "sp_insertar_consecutivo_pago";
 	public static final String SP_LISTAR_DETALLE_PAGO = "sp_recuperar_pagos_cliente";
+	public static final String SP_GENERAR_RECIBO = "sp_generar_recibo";
+	public static final String SP_LISTAR_PAGOS_POR_CAJA_REPORTE = "sp_listar_excel_pdf_pagos_por_caja";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

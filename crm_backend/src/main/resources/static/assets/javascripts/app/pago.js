@@ -850,13 +850,6 @@ function evaluadopagos(){
 				                text: 'Hubo un error al Realizar el Pago !'
 				            });
 						}
-					},
-					error: function() {
-						swal({
-			                type: 'error',
-			                title: 'Ooops',
-			                text: 'Error al Realizar Pago !'
-			            });
 					}
 				});
 			}

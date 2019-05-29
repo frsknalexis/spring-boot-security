@@ -16,7 +16,10 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PersonaDTO;
+import com.dev.crm.core.util.DateUtil;
+import com.dev.crm.core.util.StringUtil;
 
 public class ExcelGenerator {
 
@@ -101,5 +104,73 @@ public class ExcelGenerator {
 			e.printStackTrace();
 		}
 		return new ByteArrayInputStream(out.toByteArray());
-	}	
+	}
+	
+	public static ByteArrayInputStream pagosToExcel(List<PagosDelDiaResultViewModel> pagosDelDia) throws IOException {
+		
+		Workbook workBook = new XSSFWorkbook();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			
+			Sheet sheet = workBook.createSheet("PAGOS");
+			sheet.setDefaultColumnWidth(32);
+			
+			CellStyle style = workBook.createCellStyle();
+			Font font = workBook.createFont();
+			font.setFontName("Arial");
+			style.setFillForegroundColor(IndexedColors.BLUE.getIndex());
+			style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			style.setAlignment(HorizontalAlignment.CENTER);
+			style.setVerticalAlignment(VerticalAlignment.CENTER);
+			font.setBold(true);
+			font.setColor(IndexedColors.WHITE.getIndex());
+			style.setFont(font);
+			
+			Row header = sheet.createRow(0);
+			header.createCell(0).setCellValue("CODIGO PAGO");
+			header.getCell(0).setCellStyle(style);
+			header.createCell(1).setCellValue("DESCUENTO");
+			header.getCell(1).setCellStyle(style);
+			header.createCell(2).setCellValue("MONTO");
+			header.getCell(2).setCellStyle(style);
+			header.createCell(3).setCellValue("MES");
+			header.getCell(3).setCellStyle(style);
+			header.createCell(4).setCellValue("CLIENTE");
+			header.getCell(4).setCellStyle(style);
+			header.createCell(5).setCellValue("FECHA PAGO");
+			header.getCell(5).setCellStyle(style);
+			
+			int rowCount = 1;
+			
+			CellStyle rowStyle = workBook.createCellStyle();
+			rowStyle.setAlignment(HorizontalAlignment.CENTER);
+			rowStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			
+			for(PagosDelDiaResultViewModel pagoDelDia : pagosDelDia) {
+				
+				Row personaRow = sheet.createRow(rowCount++);
+				personaRow.createCell(0).setCellValue(String.valueOf(pagoDelDia.getCodigoPago()));
+				personaRow.getCell(0).setCellStyle(rowStyle);
+				personaRow.createCell(1).setCellValue(StringUtil.bigDecimalToString(pagoDelDia.getDescuento()));
+				personaRow.getCell(1).setCellStyle(rowStyle);
+				personaRow.createCell(2).setCellValue(StringUtil.bigDecimalToString(pagoDelDia.getCantidadPago()));
+				personaRow.getCell(2).setCellStyle(rowStyle);
+				personaRow.createCell(3).setCellValue(pagoDelDia.getMesValido());
+				personaRow.getCell(3).setCellStyle(rowStyle);
+				personaRow.createCell(4).setCellValue(pagoDelDia.getCliente());
+				personaRow.getCell(4).setCellStyle(rowStyle);
+				personaRow.createCell(5).setCellValue(DateUtil.getDateFromStringReport(pagoDelDia.getFechaPagoDia(), "yyyy-MM-dd"));
+				personaRow.getCell(5).setCellStyle(rowStyle);
+				
+			}
+			
+			workBook.write(baos);
+			workBook.close();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
 }

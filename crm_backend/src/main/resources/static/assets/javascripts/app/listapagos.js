@@ -14,6 +14,8 @@ $(document).on('ready', function() {
 	
 	guardarRevalidarPago();
 	
+	generarReciboPago();
+	
 	/**
 	 * 
 	 *function para redireccionar a la vista de pagos 
@@ -72,7 +74,8 @@ $(document).on('ready', function() {
 				{"data": "cliente"},
 				{"data": "direccionActualCliente"},
 				{"data": "fechaPagoDia"},
-				{"defaultContent": '<button type="button" data-toggle="modal" class="btn btn-primary btn-xs btnRevalidarPago" codigoPago><i class="fa fa-money"></i> Revalidar Pago</button>'}
+				{"defaultContent": '<button type="button" data-toggle="modal" class="btn btn-primary btn-xs btnRevalidarPago" codigoPago><i class="fa fa-money"></i> Revalidar Pago</button>'},
+				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnGenerarReciboPago" codigoPago><i class="fa fa-file-pdf-o"></i> Generar Recibo</button>'}
 			]
 		}).DataTable();
 		
@@ -82,6 +85,21 @@ $(document).on('ready', function() {
 		});
 	}
 	
+	/**
+	 * 
+	 *function para generar recibo pago 
+	 * 
+	 */
+	function generarReciboPago() {
+		
+		$('#tablaPagosRealizadosGeneral tbody').on('click', 'button.btnGenerarReciboPago', function() {
+			
+			var codigoPago = $(this).attr('codigoPago');
+			console.log('codigoPago: ' + codigoPago);
+			
+			$(location).attr('href', '/api/v1/pago/generarRecibo');
+		});
+	}
 	
 	/**
 	 * 

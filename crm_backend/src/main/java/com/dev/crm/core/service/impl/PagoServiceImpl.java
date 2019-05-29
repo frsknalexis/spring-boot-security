@@ -11,17 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
+import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
+import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.repository.jdbc.ClientePagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ConsecutivoPagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetallePagoResultJdbcRepository;
+import com.dev.crm.core.repository.jdbc.ListaPagosPorCajaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.MesDeudaResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoDelDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoMoraJdbcRepository;
+import com.dev.crm.core.repository.jdbc.ReciboJdbcRepository;
 import com.dev.crm.core.service.PagoService;
 import com.dev.crm.core.util.GenericUtil;
 import com.dev.crm.core.util.StringUtil;
@@ -57,6 +61,14 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("DetallePagoResultJdbcRepository")
 	private DetallePagoResultJdbcRepository detallePagoResultJdbcRepository;
+	
+	@Autowired
+	@Qualifier("reciboJdbcRepository")
+	private ReciboJdbcRepository reciboJdbcRepository;
+	
+	@Autowired
+	@Qualifier("listaPagosPorCajaJdbcRepository")
+	private ListaPagosPorCajaJdbcRepository listaPagosPorCajaJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -165,6 +177,29 @@ public class PagoServiceImpl implements PagoService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<ListaPagosPorCajaResultViewModel> spListaPagosPorCajaReporte(String usuario) {
+		
+		List<ListaPagosPorCajaResultViewModel> pagosPorCaja = new ArrayList<ListaPagosPorCajaResultViewModel>();
+		
+		try {
+			
+			if(StringUtil.hasText(usuario)) {
+				pagosPorCaja = listaPagosPorCajaJdbcRepository.spListaPagosPorCajaReporte(usuario);
+				if(GenericUtil.isEmpty(pagosPorCaja) && pagosPorCaja.isEmpty()) {
+					return null;
+				}
+				else {
+					return pagosPorCaja;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public List<ClientePagoResultViewModel> spListarClientesPago(String usuario) {
@@ -204,6 +239,30 @@ public class PagoServiceImpl implements PagoService {
 			}
 			else {
 				return null;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ReciboResultViewModel spGenerarReciboPago(String usuario, Integer codigoPago) {
+		
+		ReciboResultViewModel reciboResult;
+		
+		try {
+			
+			if(GenericUtil.isNotEmpty(usuario) && GenericUtil.isNotNull(codigoPago) && codigoPago.intValue() > 0) {
+				reciboResult = reciboJdbcRepository.spGenerarReciboPago(usuario, codigoPago);
+				
+				if(GenericUtil.isNotNull(reciboResult)) {
+					return reciboResult;
+				}
+				else {
+					return null;
+				}
 			}
 		}
 		catch(Exception e) {

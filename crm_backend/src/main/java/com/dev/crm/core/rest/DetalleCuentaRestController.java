@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
+import com.dev.crm.core.security.UserDetail;
 
 @RestController
 @RequestMapping("/api/v1/detalleCuenta")
@@ -24,12 +26,19 @@ public class DetalleCuentaRestController {
 	@Qualifier("detalleCuentaFacade")
 	private DetalleCuentaFacade detalleCuentaFacade;
 	
+	@Autowired
+	@Qualifier("userDetail")
+	private UserDetail userDetail;
+	
 	@PostMapping("/saveCuentaInternet")
 	public ResponseEntity<ResponseBaseOperation> spInsercionCuentaInternet(@Valid @RequestBody DetalleCuentaDTO detalleCuentaDTO) {
 		
 		try {
-			String Mensaje = "mimoraleext";
-			detalleCuentaDTO.setCodigoexterno(Mensaje);
+			
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			//String Mensaje = "mimoraleext";
+			String usuario = usuarioLogueado.getUsername();
+			detalleCuentaDTO.setCodigoexterno(usuario);
 			ResponseBaseOperation response = detalleCuentaFacade.spInsercionCuentaInternet(detalleCuentaDTO);
 			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
 		}
@@ -42,8 +51,11 @@ public class DetalleCuentaRestController {
 	public ResponseEntity<ResponseBaseOperation> spInsercionCuentaCable(@Valid @RequestBody DetalleCuentaDTO detalleCuentaDTO) {
 		
 		try {
-			String Mensaje = "mimoraleext";
-			detalleCuentaDTO.setCodigoexterno(Mensaje);
+			
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			//String Mensaje = "mimoraleext";
+			String usuario = usuarioLogueado.getUsername();
+			detalleCuentaDTO.setCodigoexterno(usuario);
 			ResponseBaseOperation response = detalleCuentaFacade.spInsercionCuentaCable(detalleCuentaDTO);
 			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
 		}

@@ -16,6 +16,8 @@ import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorDiaRequest;
+import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.repository.jdbc.ClientePagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ConsecutivoPagoJdbcRepository;
@@ -25,6 +27,7 @@ import com.dev.crm.core.repository.jdbc.MesDeudaResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoDelDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoMoraJdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagoPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ReciboJdbcRepository;
 import com.dev.crm.core.service.PagoService;
 import com.dev.crm.core.util.GenericUtil;
@@ -69,6 +72,10 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("listaPagosPorCajaJdbcRepository")
 	private ListaPagosPorCajaJdbcRepository listaPagosPorCajaJdbcRepository;
+	
+	@Autowired
+	@Qualifier("pagoPorDiaJdbcRepository")
+	private PagoPorDiaJdbcRepository pagoPorDiaJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -164,7 +171,7 @@ public class PagoServiceImpl implements PagoService {
 		try {
 			if(StringUtil.hasText(usuario)) {
 				pagosDelDia = pagoDelDiaJdbcRepository.spListarPagosDelDia(usuario);
-				if(GenericUtil.isEmpty(pagosDelDia) && pagosDelDia.isEmpty()) {
+				if(GenericUtil.isEmpty(pagosDelDia)) {
 					return null;
 				}
 				else {
@@ -201,6 +208,29 @@ public class PagoServiceImpl implements PagoService {
 		return null;
 	}
 
+	@Override
+	public List<PagosPorDiaResultViewModel> spReporteListaPagosPorDia(PagosPorDiaRequest request) {
+		
+		List<PagosPorDiaResultViewModel> pagosPorDia = new ArrayList<PagosPorDiaResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				pagosPorDia = pagoPorDiaJdbcRepository.spReporteListaPagosPorDia(request);
+				if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
+					return null;
+				}
+				else {
+					return pagosPorDia;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@Override
 	public List<ClientePagoResultViewModel> spListarClientesPago(String usuario) {
 		

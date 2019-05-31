@@ -10,6 +10,8 @@ import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorDiaRequest;
+import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 
 public interface PagoService {
@@ -22,6 +24,8 @@ public interface PagoService {
 	
 	List<ListaPagosPorCajaResultViewModel> spListaPagosPorCajaReporte(String usuario);
 	
+	List<PagosPorDiaResultViewModel> spReporteListaPagosPorDia(PagosPorDiaRequest request);
+	
 	String spPagoServicio(PagoRequest pagoRequest);
 	
 	String spPagoMora(PagoMoraRequest pagoMora);
@@ -31,4 +35,5 @@ public interface PagoService {
 	List<DetallePagoResultViewModel> spListarDetallePago(String persona);
 	
 	ReciboResultViewModel spGenerarReciboPago(String usuario, Integer codigoPago);
+	
 }

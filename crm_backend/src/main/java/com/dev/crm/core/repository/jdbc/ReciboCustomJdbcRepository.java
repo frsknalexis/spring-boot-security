@@ -40,7 +40,7 @@ public class ReciboCustomJdbcRepository implements ReciboJdbcRepository {
 			simpleJdbcCall.useInParameterNames("CODPAG", "CODUSU");
 			simpleJdbcCall.declareParameters(new SqlParameter("CODPAG", Types.INTEGER),
 					new SqlParameter("CODUSU", Types.VARCHAR),
-					new SqlOutParameter("VPAGO", Types.INTEGER),
+					new SqlOutParameter("VPAGO", Types.VARCHAR),
 					new SqlOutParameter("VCLIENTE", Types.VARCHAR),
 					new SqlOutParameter("VDIRECCION", Types.VARCHAR),
 					new SqlOutParameter("VFECHAI", Types.DATE),
@@ -60,13 +60,13 @@ public class ReciboCustomJdbcRepository implements ReciboJdbcRepository {
 				&& GenericUtil.isNotNull(out.get("VDESCUENTO"))) {
 				
 				ReciboResultViewModel recibo = new ReciboResultViewModel();
-				recibo.setCodigoPago((Integer) out.get("VPAGO"));
+				recibo.setCodigoPago((String) out.get("VPAGO"));
 				recibo.setCliente((String) out.get("VCLIENTE"));
 				recibo.setDireccion((String) out.get("VDIRECCION"));
 				recibo.setFechaInicio((Date) out.get("VFECHAI"));
 				recibo.setMesValido((String) out.get("VMES"));
-				recibo.setMonto((BigDecimal) out.get("VCANTIDAD"));
-				recibo.setDescuento((BigDecimal) out.get("VDESCUENTO"));
+				recibo.setMonto(new BigDecimal((Double) out.get("VCANTIDAD")));
+				recibo.setDescuento(new BigDecimal((Double) out.get("VDESCUENTO")));
 				return recibo;
 			}
 			else if(GenericUtil.isNull(out.get("VPAGO")) && GenericUtil.isNull(out.get("VCLIENTE")) && GenericUtil.isNull(out.get("VDIRECCION"))

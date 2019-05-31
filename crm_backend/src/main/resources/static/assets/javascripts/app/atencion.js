@@ -593,42 +593,44 @@ $(document).on('ready', function() {
 					documento: $('#dniruc').val()
 			};
 			
-			
-			
-			$.ajax({
+			if($('#desrecl').val() != "" || $('#desrecl').val() != 0) {
 				
-				type: 'POST',
-				url: '/api/v1/atencion/insrreclamo',
-				headers: {
-					"Content-Type": "application/json",
-					"Accept": "application/json"
-				},
-				data: JSON.stringify(formData),
-				dataType: 'json',
-				success: function(response) {
+				$.ajax({
 					
-					
-					swal({
-						type: "success",
-						title: "Se Registro el Reclamo con exito",
-						showConfirmButton: true,
-						confirmButtonText: "Cerrar",
-						closeOnConfirm: false
-					}).then((result) => {
+					type: 'POST',
+					url: '/api/v1/atencion/insrreclamo',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formData),
+					dataType: 'json',
+					success: function(response) {
+						
+						console.log(response);
+						
+						swal({
+							type: "success",
+							title: "Se Registro el Reclamo con exito",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar",
+							closeOnConfirm: false
+						}).then((result) => {
 
-						if(result.value) {
-							$(location).attr('href', '/atencion/atencion/view');
-						}
-					});
-				},
-				error: function() {
-					swal({
-		                type: 'error',
-		                title: 'Ooops',
-		                text: 'Error el Reclamo!'
-		            });
-				}
-			});
+							if(result.value) {
+								$(location).attr('href', '/atencion/atencion/view');
+							}
+						});
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Error el Reclamo!'
+			            });
+					}
+				});
+			}
 		});
 	}
 

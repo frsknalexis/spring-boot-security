@@ -16,6 +16,7 @@ $(document).on('ready', function() {
 	
 	generarReciboPago();
 	
+	
 	/**
 	 * 
 	 *function para redireccionar a la vista de pagos 
@@ -60,7 +61,7 @@ $(document).on('ready', function() {
 					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
 				}
 			},
-			"bDestroy": true,
+			'bProcessing': true,
 			"ajax": {
 				"url": "/api/v1/pago/pagosDelDia",
 				"dataSrc": ""
@@ -84,7 +85,7 @@ $(document).on('ready', function() {
 			$(this).attr('codigoPago', data.codigoPago);
 		});
 	}
-	
+
 	/**
 	 * 
 	 *function para generar recibo pago 
@@ -95,9 +96,13 @@ $(document).on('ready', function() {
 		$('#tablaPagosRealizadosGeneral tbody').on('click', 'button.btnGenerarReciboPago', function() {
 			
 			var codigoPago = $(this).attr('codigoPago');
-			console.log('codigoPago: ' + codigoPago);
+			$(this).attr('href','/api/v1/pago/generarRecibo/' + codigoPago);
+			var url = $(this).attr('href');
+			window.open(url, '_blank');
+		     return false;
+			console.log(url);
 			
-			$(location).attr('href', '/api/v1/pago/generarRecibo');
+			console.log('codigoPago: ' + codigoPago);
 		});
 	}
 	
@@ -270,14 +275,6 @@ $(document).on('ready', function() {
 				                text: 'Ocurrio un error al Revalidar Pago !'
 				            });
 						}
-					},
-					error: function() {
-						
-						swal({
-			                type: 'error',
-			                title: 'Ooops',
-			                text: 'Error al Revalidar Pago !'
-			            });
 					}
 				});
 			}

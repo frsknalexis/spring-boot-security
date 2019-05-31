@@ -46,6 +46,8 @@ $(document).on('ready', function() {
 	
 	redireccionarListaPagosView();
 	
+	mostrarFormReportePagosPorDia();
+	
 	/**
 	 * function para listar los clientesPago
 	 * 
@@ -376,7 +378,7 @@ $(document).on('ready', function() {
 							}).then((result) => {
 
 								if(result.value) {
-									$(location).attr('href', '/pago/pagos');
+									$(location).attr('href', '/pago/listaPagos');
 								}
 							});
 						}
@@ -830,7 +832,7 @@ function evaluadopagos(){
 							}).then((result) => {
 
 								if(result.value) {
-									$(location).attr('href', '/pago/pagos');
+									$(location).attr('href', '/pago/listaPagos');
 								}
 							});
 						}
@@ -1133,5 +1135,74 @@ function cargarmensajespopusnuevo(valor,id){
 			
 		});	
 		
+	}
+	
+	
+	/**
+	 * 
+	 *function para mostrar el modal de reporte de pagosPorDia 
+	 * 
+	 */
+	function mostrarFormReportePagosPorDia() {
+		
+		$('#buttonReportePagosDia').on('click', function() {
+			
+			$('#modalPagosPorDia').modal('show');
+		});
+		
+		validarFormReportePagosPorDia();
+	}
+	
+	function validarFormReportePagosPorDia() {
+		
+		$('#buscarPagosPorFecha').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#fechaPagoPorDia').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para este campo !'
+	            });
+			}
+			else if($('#fechaPagoPorDia').val() != "") {
+				
+				var fechaPago = $('#fechaPagoPorDia').val();
+				console.log('fechaPago: ' + fechaPago);
+				
+				var form = $('#formPagosPorDia')[0];
+				
+				var data = new FormData(form);
+				
+				var formDataPagoPorDia = {
+						fechaBusqueda: $('#fechaPagoPorDia').val()	
+				};
+				console.log(formDataPagoPorDia);
+				
+				data.append("request", JSON.stringify(formDataPagoPorDia));
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/pago/pagosPorDiaReport',
+					enctype: "multipart/form-data",
+					data: data,
+					processData: false,
+					contentType: false,
+					success: function() {
+						
+					},
+					error: function() {
+						
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+				});
+			}
+		});
 	}
 });

@@ -61,10 +61,10 @@
 			<div id="userbox" class="userbox">
 				<a href="/dashboard" data-toggle="dropdown">
 					<figure class="profile-picture">
-						<img src="https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-9/11228509_10205223842547991_347119019958263288_n.jpg?_nc_cat=101&_nc_ht=scontent.flim19-1.fna&oh=9b6239d6844ee3e53687e3d7112bea26&oe=5D5F6E23" alt="Joseph Doe" class="img-circle" th:data-lock-picture="@{/assets/images/!logged-user.jpg}" />
+						<img th:src="@{/assets/images/default_user.png}" alt="Joseph Doe" class="img-circle" th:data-lock-picture="@{/assets/images/!logged-user.jpg}" />
 					</figure>
 					<div class="profile-info" data-lock-name="Usuario Logeado">
-						<span class="name">VIPCHANNEL</span> 
+						<span class="name" id="nombreUsuario"></span> 
 						<span class="role">administrator</span>
 					</div> 
 					<i class="fa custom-caret"></i>

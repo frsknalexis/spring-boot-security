@@ -15,6 +15,8 @@ import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorDiaRequest;
+import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.PagoFacade;
@@ -169,7 +171,7 @@ public class PagoFacadeImpl implements PagoFacade {
 			
 			if(GenericUtil.isNotNull(usuario)) {
 				pagosDelDia = pagoService.spListarPagosDelDia(usuario);
-				if(GenericUtil.isCollectionEmpty(pagosDelDia) && pagosDelDia.isEmpty()) {
+				if(GenericUtil.isCollectionEmpty(pagosDelDia)) {
 					return null;
 				}
 				else {
@@ -197,6 +199,29 @@ public class PagoFacadeImpl implements PagoFacade {
 				}
 				else {
 					return pagosPorCaja;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<PagosPorDiaResultViewModel> spReporteListaPagosPorDia(PagosPorDiaRequest request) {
+		
+		List<PagosPorDiaResultViewModel> pagosPorDia = new ArrayList<PagosPorDiaResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				pagosPorDia = pagoService.spReporteListaPagosPorDia(request);
+				if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
+					return null;
+				}
+				else {
+					return pagosPorDia;
 				}
 			}
 		}

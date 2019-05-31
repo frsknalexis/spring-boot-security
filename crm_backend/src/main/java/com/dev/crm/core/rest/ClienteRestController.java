@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.ClienteFacade;
+import com.dev.crm.core.security.UserDetail;
 import com.dev.crm.core.util.GenericUtil;
 
 @RestController
@@ -31,6 +33,10 @@ public class ClienteRestController {
 	@Autowired
 	@Qualifier("clienteFacade")
 	private ClienteFacade clienteFacade;
+	
+	@Autowired
+	@Qualifier("userDetail")
+	private UserDetail userDetail;
 		
 	@GetMapping("/clientes")
 	public ResponseEntity<List<ClienteDTO>> findAll() {
@@ -93,8 +99,10 @@ public class ClienteRestController {
 		
 		try {
 			
-			String creadoPor = "mimoraleext";
-			List<ClienteDTO> clientesDTO = clienteFacade.spListarClienteVendedor(creadoPor);
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			String usuario = usuarioLogueado.getUsername();
+			//String creadoPor = "mimoraleext";
+			List<ClienteDTO> clientesDTO = clienteFacade.spListarClienteVendedor(usuario);
 			if(GenericUtil.isNotEmpty(clientesDTO)) {
 				return new ResponseEntity<List<ClienteDTO>>(clientesDTO, HttpStatus.OK);
 			}
@@ -194,7 +202,10 @@ public class ClienteRestController {
 		try {
 			
 			if(GenericUtil.isNotNull(filtro)) {
-				filtro.setCreadoPor("mimoraleext");
+				
+				User usuarioLogueado = userDetail.findLoggedInUser();
+				String usuario = usuarioLogueado.getUsername();
+				filtro.setCreadoPor(usuario);
 				ClienteResultViewModel cliente = clienteFacade.spBuscarPersonaClienteVendedor(filtro);
 				if(GenericUtil.isNotNull(cliente)) {
 					return new ResponseEntity<ClienteResultViewModel>(cliente, HttpStatus.OK);

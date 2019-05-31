@@ -11,7 +11,7 @@ public class ReciboResultViewModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 6867071197749946207L;
 
-	private Integer codigoPago;
+	private String codigoPago;
 	
 	private String cliente;
 	
@@ -29,11 +29,11 @@ public class ReciboResultViewModel implements Serializable {
 		
 	}
 
-	public Integer getCodigoPago() {
+	public String getCodigoPago() {
 		return codigoPago;
 	}
 
-	public void setCodigoPago(Integer codigoPago) {
+	public void setCodigoPago(String codigoPago) {
 		this.codigoPago = codigoPago;
 	}
 

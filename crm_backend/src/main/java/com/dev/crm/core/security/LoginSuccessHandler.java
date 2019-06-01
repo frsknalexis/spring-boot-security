@@ -23,6 +23,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		FlashMap flashMap = new FlashMap();
 		flashMap.put("success", "HA INICIADO SESION CON EXITO");
 		flashMapManager.saveOutputFlashMap(flashMap, request, response);
+		request.getSession().setMaxInactiveInterval(60*60);
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 }

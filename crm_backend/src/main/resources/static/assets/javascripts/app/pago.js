@@ -159,6 +159,9 @@ $(document).on('ready', function() {
 			$('#nombreComercialPago').attr('disabled', true);
 			$('#direccionClientePago').attr('disabled', true);
 			$('#clienteReferenciaDireccionPago').attr('disabled', true);
+			$('#clienteFechaInstalacionPago').attr('disabled', true);
+			$('#clienteGestorResponsablePago').attr('disabled', true);
+			$('#clienteTelefonoGestorPago').attr('disabled', true);
 		}
 		else {
 			$('#documentoPersonaClientePago').attr('disabled', false);
@@ -166,6 +169,9 @@ $(document).on('ready', function() {
 			$('#nombreComercialPago').attr('disabled', false);
 			$('#direccionClientePago').attr('disabled', false);
 			$('#clienteReferenciaDireccionPago').attr('disabled', false);
+			$('#clienteFechaInstalacionPago').attr('disabled', false);
+			$('#clienteGestorResponsablePago').attr('disabled', false);
+			$('#clienteTelefonoGestorPago').attr('disabled', false);
 		}
 	}
 	
@@ -180,6 +186,9 @@ $(document).on('ready', function() {
 		$('#nombreComercialPago').val('');
 		$('#direccionClientePago').val('');
 		$('#clienteReferenciaDireccionPago').val('');
+		$('#clienteFechaInstalacionPago').val('');
+		$('#clienteGestorResponsablePago').val('');
+		$('#clienteTelefonoGestorPago').val('');
 		$('#codigoComprobante').val('');
 		$('#cantidadPago').val('');
 		$('#documentoPersonaPago').val('');
@@ -221,6 +230,9 @@ $(document).on('ready', function() {
 					$('#nombreComercialPago').val(response.nombreComercialCliente);
 					$('#direccionClientePago').val(response.direccionActualCliente);
 					$('#clienteReferenciaDireccionPago').val(response.referencia);
+					$('#clienteFechaInstalacionPago').val(response.fechaInstalacion);
+					$('#clienteGestorResponsablePago').val(response.gestorResponsable);
+					$('#clienteTelefonoGestorPago').val(response.telefonoGestor);
 					
 					$('#verDeudaCliente').attr('documentoPersonaCliente', response.documentoPersonaCliente);
 					$('#verPagoCliente').attr('documentoPersonaCliente', response.documentoPersonaCliente);
@@ -1170,27 +1182,23 @@ function cargarmensajespopusnuevo(valor,id){
 				
 				var fechaPago = $('#fechaPagoPorDia').val();
 				console.log('fechaPago: ' + fechaPago);
-				
-				var form = $('#formPagosPorDia')[0];
-				
-				var data = new FormData(form);
-				
+						
 				var formDataPagoPorDia = {
 						fechaBusqueda: $('#fechaPagoPorDia').val()	
 				};
 				console.log(formDataPagoPorDia);
-				
-				data.append("request", JSON.stringify(formDataPagoPorDia));
-				
+						
 				$.ajax({
 					
 					type: 'POST',
 					url: '/api/v1/pago/pagosPorDiaReport',
-					enctype: "multipart/form-data",
-					data: data,
-					processData: false,
-					contentType: false,
-					success: function() {
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataPagoPorDia),
+					dataType: 'json',
+					success: function(response) {
 						
 					},
 					error: function() {

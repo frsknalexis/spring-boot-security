@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
@@ -39,7 +38,6 @@ import com.dev.crm.core.security.UserDetail;
 import com.dev.crm.core.util.GenericUtil;
 import com.dev.crm.core.view.excel.ExcelGenerator;
 import com.dev.crm.core.view.pdf.PdfGenerator;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/v1/pago")
@@ -52,8 +50,6 @@ public class PagoRestController {
 	@Autowired
 	@Qualifier("userDetail")
 	private UserDetail userDetail;
-	
-	ObjectMapper objectMapper = new ObjectMapper();
 	
 	@GetMapping("/clientes/clientesPago")
 	public ResponseEntity<List<ClientePagoResultViewModel>> spListarClientesPago() {
@@ -236,26 +232,49 @@ public class PagoRestController {
 		}
 	}
 	
-	@PostMapping(value = "/pagosPorDiaReport", produces = MediaType.APPLICATION_PDF_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public ResponseEntity<InputStreamResource> spReporteListaPagosPorDia(@RequestParam(value = "request") String request) {
+	@PostMapping("/pagosPorDia")
+	public ResponseEntity<List<PagosPorDiaResultViewModel>> spListaPagosPorDia(@Valid @RequestBody PagosPorDiaRequest request) {
 		
 		try {
 			
-			PagosPorDiaRequest pagoRequest = objectMapper.readValue(request, PagosPorDiaRequest.class);
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			request.setCodigoUsuario(usuarioLogueado.getUsername());
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<PagosPorDiaResultViewModel> pagosPorDia = pagoFacade.spReporteListaPagosPorDia(request);
+				if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
+					return new ResponseEntity<List<PagosPorDiaResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				else {
+					return new ResponseEntity<List<PagosPorDiaResultViewModel>>(pagosPorDia, HttpStatus.OK);
+				}
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<PagosPorDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@PostMapping(value = "/pagosPorDiaReport", produces = MediaType.APPLICATION_PDF_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<InputStreamResource> spReporteListaPagosPorDia(@Valid @RequestBody PagosPorDiaRequest request) {
+		
+		try {
 			
 			User usuarioLogueado = userDetail.findLoggedInUser();
-			pagoRequest.setCodigoUsuario(usuarioLogueado.getUsername());
+			request.setCodigoUsuario(usuarioLogueado.getUsername());
 			
-			List<PagosPorDiaResultViewModel> pagosPorDia = pagoFacade.spReporteListaPagosPorDia(pagoRequest);
-			ByteArrayInputStream baos = PdfGenerator.pagosPorDiaReportToPDF(pagosPorDia);
+			List<PagosPorDiaResultViewModel> pagosPorDia = pagoFacade.spReporteListaPagosPorDia(request);
+			
+			ByteArrayInputStream bis = PdfGenerator.pagosPorDiaReportToPDF(pagosPorDia);
 			
 			HttpHeaders headers = new HttpHeaders();
-			headers.add("Content-Disposition", "attachment; filename=pagosPorDiaReporte.pdf");
+			headers.add("Content-Disposition", "inline; filename=pagosPorDiaReport.pdf");
 			
 			return ResponseEntity.ok()
 					.headers(headers)
 					.contentType(MediaType.APPLICATION_PDF)
-					.body(new InputStreamResource(baos));
+					.body(new InputStreamResource(bis));
 		}
 		catch(Exception e) {
 			return new ResponseEntity<InputStreamResource>(HttpStatus.BAD_REQUEST);

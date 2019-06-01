@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 $(document).on('ready', function() {
 	
 	cargarTotalRegistrosPersonita();
@@ -771,10 +767,10 @@ $(document).on('ready', function() {
 	});
 	
 });
-	function limpiarFormulario() {
+function limpiarFormulario() {
 	
-		$('#usuarioId').val('');
-		$('#nombreUsuario').val(''),
-		$('#passwordUsuario').val(''),
-		$('#documentoUsuario').val('')
-	}
+	$('#usuarioId').val('');
+	$('#nombreUsuario').val(''),
+	$('#passwordUsuario').val(''),
+	$('#documentoUsuario').val('')
+}

@@ -15,7 +15,7 @@ $(document).on('ready', function() {
 			dataType: 'json',
 			success: function(response) {
 				console.log(response);
-				$('#nombreUsuario').html(response.username);
+				$('#nombreUsuarioLogueado').html(response.username);
 			}
 		});
 	}

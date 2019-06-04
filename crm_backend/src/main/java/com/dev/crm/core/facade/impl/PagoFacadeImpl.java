@@ -17,6 +17,7 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.PagoFacade;
@@ -223,6 +224,28 @@ public class PagoFacadeImpl implements PagoFacade {
 				else {
 					return pagosPorDia;
 				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<PagosPorDiaResultViewModel> spReporteListaPagosPorRangoFecha(
+			PagosPorRangoFechaBusquedaRequest request) {
+		
+		List<PagosPorDiaResultViewModel> pagosPorDia = new ArrayList<PagosPorDiaResultViewModel>();
+		
+		try {
+			
+			pagosPorDia = pagoService.spReporteListaPagosPorRangoFecha(request);
+			if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
+				return null;
+			}
+			else {
+				return pagosPorDia;
 			}
 		}
 		catch(Exception e) {

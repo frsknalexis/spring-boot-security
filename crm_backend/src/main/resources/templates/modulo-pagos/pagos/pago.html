@@ -26,11 +26,14 @@
 					</div>
 					<!-- start: page -->
 					<div class="row" id="mostrarListadoClientesPago">
-						<div class="col-md-4 col-lg-4 mb-xs">
+						<div class="col-md-3 col-lg-3 mb-xs">
 							<button type="button" id="buttonListaPagos" class="btn btn-block btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> Listar Pagos Realizados</button>
 						</div>
-						<div class="col-md-4 col-lg-4 mb-xs">
+						<div class="col-md-3 col-lg-3 mb-xs">
 							<button type="button" id="buttonReportePagosDia" data-toggle="modal" class="btn btn-block btn-sm btn-success"><i class="fa fa-calendar"></i> Reporte Pagos Por Dia</button>
+						</div>
+						<div class="col-md-3 col-lg-3 mb-xs">
+							<button type="button" id="buttonReportePagosPorRangoFecha" data-toggle="modal" class="btn btn-block btn-sm btn-success"><i class="fa fa-calendar"></i> Reporte Pagos Por Rango de Fechas</button>
 						</div>
 						<div class="col-md-4 col-lg-4 mb-xs">
 							<div class="btn-group">
@@ -353,6 +356,7 @@
 									<div class="modal-body">
 										<div class="row">
 											<div class="col-md-12 form-group">
+												<label for="fechaPagoPorDia">Fecha Busqueda</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-calendar"></i>
@@ -365,6 +369,44 @@
 									<div class="modal-footer">
 										<button type="button" id="cancelarAccion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 										<button type="submit" id="buscarPagosPorFecha" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" tabindex="-1" id="modalPagosPorRangoFecha" role="dialog" aria-labelledby="myModalLabelPagosPorRangoFecha" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form role="form" method="post" id="formPagosPorRangoFecha">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelPagosPorRangoFecha">Busqueda de Pagos Por Rango de Fecha</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-6 col-lg-6 form-group">
+												<label for="fechaInicialBusqueda">Fecha Inicial</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</span>
+													<input type="date" class="form-control input-sm" id="fechaInicialBusqueda">
+												</div>
+											</div>
+											<div class="col-md-6 col-lg-6 form-group">
+												<label for="fechaFinBusqueda">Fecha Final</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</span>
+													<input type="date" class="form-control input-sm" id="fechaFinBusqueda">
+												</div>
+											</div>											
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" id="cancelarAccionBuscarRangoPorFecha" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="buscarPagosPorRangoFecha" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
 									</div>
 								</form>
 							</div>

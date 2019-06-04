@@ -48,6 +48,8 @@ $(document).on('ready', function() {
 	
 	mostrarFormReportePagosPorDia();
 	
+	mostrarFormReporteRangoDeFechas();
+	
 	/**
 	 * function para listar los clientesPago
 	 * 
@@ -1191,7 +1193,7 @@ function cargarmensajespopusnuevo(valor,id){
 				$.ajax({
 					
 					type: 'POST',
-					url: '/api/v1/pago/pagosPorDiaReport',
+					url: '/api/v1/pago/pagosPorDia',
 					headers: {
 						"Content-Type": "application/json",
 						"Accept": "application/json"
@@ -1199,7 +1201,7 @@ function cargarmensajespopusnuevo(valor,id){
 					data: JSON.stringify(formDataPagoPorDia),
 					dataType: 'json',
 					success: function(response) {
-						
+						console.log(response);
 					},
 					error: function() {
 						
@@ -1210,6 +1212,92 @@ function cargarmensajespopusnuevo(valor,id){
 			            });
 					}
 				});
+			}
+		});
+	}
+	
+	/**
+	 * 
+	 *function para mostrar el modal de reporte de pagosPorRangoDeFecha
+	 * 
+	 */
+	function mostrarFormReporteRangoDeFechas() {
+		
+		$('#buttonReportePagosPorRangoFecha').on('click', function() {
+			$('#modalPagosPorRangoFecha').modal('show');
+		});
+		
+		validarFormReporteRangoDeFechas();
+		buscarReportePagosPorRangoDeFecha();
+		cancelarAccionBusquedaRangoDeFechas();
+	}
+	
+	function cancelarAccionBusquedaRangoDeFechas() {
+		
+		$('#cancelarAccionBuscarRangoPorFecha').on('click', function() {
+			$('#fechaInicialBusqueda').val('');
+			$('#fechaFinBusqueda').val('');
+		});
+	}
+	
+	/**
+	 * 
+	 * function para validar el form Reporte Rango de Fechas
+	 * 
+	 * */
+	
+	function validarFormReporteRangoDeFechas() {
+		
+		$('#buscarPagosPorRangoFecha').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#fechaInicialBusqueda').val() == "" && $('#fechaFinBusqueda').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe llenar todos los campos !'
+	            });
+				return false;
+			}
+			else {
+				if($('#fechaInicialBusqueda').val() == "") {
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'Debe ingresar un valor valido para la Fecha Inicial !'
+		            });
+					return false;
+				}
+				if($('#fechaFinBusqueda').val() == "") {
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'Debe ingresar un valor valido para la Fecha Final !'
+		            });
+					return false;
+				}
+			}
+		});
+	}
+	
+	/**
+	 * 
+	 *function para buscarReportePorRangoDeFechas 
+	 * 
+	 */
+	function buscarReportePagosPorRangoDeFecha() {
+		
+		$('#buscarPagosPorRangoFecha').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#fechaInicialBusqueda').val() != "" && $('#fechaFinBusqueda').val() != "") {
+				
+				var formDataBusquedaPorRangoFecha = {
+						fechaInicial: $('#fechaInicialBusqueda').val(),
+						fechaFinal: $('#fechaFinBusqueda').val()
+				};
+				console.log(formDataBusquedaPorRangoFecha);
 			}
 		});
 	}

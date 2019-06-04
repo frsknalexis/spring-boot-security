@@ -301,7 +301,7 @@ public class PdfGenerator {
 	
 	public static ByteArrayInputStream generarReciboToPDF(ReciboResultViewModel recibo) {
 		
-		Document documento = new Document(PageSize.A5.rotate());
+		Document documento = new Document(PageSize.A4.rotate());
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		

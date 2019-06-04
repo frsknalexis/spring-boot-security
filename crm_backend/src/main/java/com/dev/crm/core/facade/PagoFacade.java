@@ -12,6 +12,7 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 
@@ -26,6 +27,8 @@ public interface PagoFacade {
 	List<ListaPagosPorCajaResultViewModel> spListaPagosPorCajaReporte(String usuario);
 	
 	List<PagosPorDiaResultViewModel> spReporteListaPagosPorDia(PagosPorDiaRequest request);
+	
+	List<PagosPorDiaResultViewModel> spReporteListaPagosPorRangoFecha(PagosPorRangoFechaBusquedaRequest request);
 	
 	ResponseBaseOperation spPagoServicio(PagoRequest pagoRequest);
 	

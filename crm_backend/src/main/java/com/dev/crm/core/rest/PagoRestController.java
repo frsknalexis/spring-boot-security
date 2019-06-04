@@ -31,6 +31,7 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.PagoFacade;
@@ -38,6 +39,7 @@ import com.dev.crm.core.security.UserDetail;
 import com.dev.crm.core.util.GenericUtil;
 import com.dev.crm.core.view.excel.ExcelGenerator;
 import com.dev.crm.core.view.pdf.PdfGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/v1/pago")
@@ -50,6 +52,8 @@ public class PagoRestController {
 	@Autowired
 	@Qualifier("userDetail")
 	private UserDetail userDetail;
+	
+	ObjectMapper mapper = new ObjectMapper();
 	
 	@GetMapping("/clientes/clientesPago")
 	public ResponseEntity<List<ClientePagoResultViewModel>> spListarClientesPago() {
@@ -230,6 +234,30 @@ public class PagoRestController {
 		catch(Exception e) {
 			return new ResponseEntity<InputStreamResource>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PostMapping("/pagosPorRangoFechaBusqueda")
+	public ResponseEntity<List<PagosPorDiaResultViewModel>> spReporteListaPagosPorRangoFecha(@Valid @RequestBody PagosPorRangoFechaBusquedaRequest request) {
+		
+		try {
+			
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			request.setCodigoUsuario(usuarioLogueado.getUsername());
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<PagosPorDiaResultViewModel> pagosPorDia = pagoFacade.spReporteListaPagosPorRangoFecha(request);
+				if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
+					return new ResponseEntity<List<PagosPorDiaResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				else {
+					return new ResponseEntity<List<PagosPorDiaResultViewModel>>(pagosPorDia, HttpStatus.OK);
+				}
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<PagosPorDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
 	}
 	
 	@PostMapping("/pagosPorDia")

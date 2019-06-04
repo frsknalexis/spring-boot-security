@@ -77,6 +77,7 @@ public class Constantes {
 	public static final String SP_GENERAR_RECIBO = "sp_generar_recibo";
 	public static final String SP_LISTAR_PAGOS_POR_CAJA_REPORTE = "sp_listar_excel_pdf_pagos_por_caja";
 	public static final String SP_LISTAR_PAGOS_PDF_DIA= "sp_listar_pagos_pdf_dia";
+	public static final String SP_LISTAR_PAGOS_PDF_RANGO = "sp_listar_pagos_pdf_rango";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

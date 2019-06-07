@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.DescuentoHistorialRequest;
+import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
@@ -18,6 +20,7 @@ import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
+import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.PagoFacade;
@@ -44,9 +47,14 @@ public class PagoFacadeImpl implements PagoFacade {
 					if(StringUtil.eq(result, Constantes.HECHO)) {
 						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, pagoRequest);
 					}
-					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
+					else
+						if(StringUtil.eq(result, Constantes.AUTORIZADO)) {
 						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoRequest);
 					}
+						else
+							if(StringUtil.eq(result, Constantes.EXCEDIO)) {
+							return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoRequest);
+							}
 				}
 				else {
 					return null;
@@ -73,7 +81,7 @@ public class PagoFacadeImpl implements PagoFacade {
 					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
 						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoMora);
 					}
-					else if(StringUtil.eq(result, Constantes.ERROR)) {
+					else if(StringUtil.eq(result, Constantes.AUTORIZADO)) {
 						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, pagoMora);
 					}
 				}
@@ -291,6 +299,79 @@ public class PagoFacadeImpl implements PagoFacade {
 					return reciboResult;
 				}
 				else if(GenericUtil.isNull(reciboResult)) {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<PdfPagoDiaResultViewModel> spListaPdfPagoDia(String usuario) {
+
+		List<PdfPagoDiaResultViewModel> clientesPagos = new ArrayList<PdfPagoDiaResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotEmpty(usuario)) {
+				clientesPagos = pagoService.spListaPdfPagosDia(usuario);
+			}
+			if(GenericUtil.isNotEmpty(clientesPagos)) {
+				return clientesPagos;
+			}
+			else {
+				return null;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ResponseBaseOperation spGenerarDescuento(DescuentoHistorialRequest codigo) {
+
+		try {
+			
+			if(GenericUtil.isNotNull(codigo)) {
+				String result = pagoService.spGenerarDescuento(codigo);
+				if(StringUtil.hasText(result)) {
+					if(StringUtil.eq(result, Constantes.HECHO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, codigo);
+					}
+					else
+						if(StringUtil.eq(result, Constantes.ERROR)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, codigo);
+					}
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public DescuentoPagoResultViewModel spRecuperarDatosMesPago(String persona) {
+
+		DescuentoPagoResultViewModel cDaOnu;
+		
+		try {
+			
+			if(!GenericUtil.isEmpty(persona)) {
+				cDaOnu = pagoService.spRecuperarMesPago(persona);
+				if(GenericUtil.isNotNull(cDaOnu)) {
+					return cDaOnu;
+				}
+				else {
 					return null;
 				}
 			}

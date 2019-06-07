@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.PersonaDTO;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.util.DateUtil;
@@ -215,6 +216,99 @@ public class PdfGenerator {
 		return new ByteArrayInputStream(baos.toByteArray());
 	}
 	
+	public static ByteArrayInputStream PdfPagoDia(List<PdfPagoDiaResultViewModel> pagosPorCaja) {
+		
+		Document document = new Document(PageSize.A4);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			
+			PdfPTable table = new PdfPTable(6);
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {1.7f, 1, 1, 1, 1, 1});
+			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+			font.setColor(BaseColor.WHITE);
+			
+			PdfPCell hcell;
+			hcell = new PdfPCell(new Phrase("N°DE OPERACION:", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("N° DE RECIBO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MES - AÑO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("IMPORTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("FECHA DE PAGO (AÑO - MES - DIA)", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLIENTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			for(PdfPagoDiaResultViewModel pagoPorCaja : pagosPorCaja) {
+				
+				PdfPCell cell;
+				
+				Font f = FontFactory.getFont(FontFactory.HELVETICA, 10);
+				
+				cell = new PdfPCell(new Phrase(pagoPorCaja.getNumero_interno_x_dia().toString(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pagoPorCaja.getCodigo_pago_general().toString(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pagoPorCaja.getNombre_del_mes(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pagoPorCaja.getMonto_pago(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pagoPorCaja.getFecha_dia_pago(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pagoPorCaja.getCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+			}
+			
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			document.add(table);
+			
+			document.close();
+		}
+		catch(DocumentException e) {
+			e.printStackTrace();
+		}
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+	
 	public static ByteArrayInputStream pagosPorDiaReportToPDF(List<PagosPorDiaResultViewModel> pagosPorDia) {
 		
 		Document document = new Document(PageSize.A4);
@@ -301,7 +395,7 @@ public class PdfGenerator {
 	
 	public static ByteArrayInputStream generarReciboToPDF(ReciboResultViewModel recibo) {
 		
-		Document documento = new Document(PageSize.A4.rotate());
+		Document documento = new Document(PageSize.A4_LANDSCAPE.rotate());
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.DescuentoHistorialRequest;
+import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
@@ -13,6 +15,7 @@ import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
+import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 
@@ -39,4 +42,10 @@ public interface PagoFacade {
 	List<DetallePagoResultViewModel> spListarDetallePago(String persona);
 	
 	ReciboResultViewModel spGenerarReciboPago(String usuario, Integer codigoPago);
+	
+	List<PdfPagoDiaResultViewModel> spListaPdfPagoDia(String usuario);
+	
+	ResponseBaseOperation spGenerarDescuento(DescuentoHistorialRequest codigo);
+	
+	DescuentoPagoResultViewModel spRecuperarDatosMesPago(String persona);
 }

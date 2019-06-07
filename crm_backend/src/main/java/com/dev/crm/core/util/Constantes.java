@@ -39,6 +39,7 @@ public class Constantes {
 	public static final String SP_PAGO_SERVICIO = "sp_pago_servicio";
 	public static final String SP_LISTAR_CLIENTE_VENDEDOR = "sp_listar_cliente_vendedor";
 	public static final String SP_BUSCAR_CLIENTE_PAGO = "sp_buscar_cliente_pago";
+	public static final String SP_BUSCAR_DATOS_PAGOS_MES = "a";
 	public static final String SP_LISTAR_COMPROBANTE = "sp_listar_comprobante";
 	public static final String SP_MESES_DEUDAS = "sp_meses_deudas";
 	public static final String SP_PAGO_MORA = "sp_insercion_pago_mora";
@@ -48,6 +49,7 @@ public class Constantes {
 	public static final String SP_LISTAR_CLIENTES_ATENCION_DETALLE = "sp_listar_clientes_atencion_detalle";
 	public static final String SP_LISTAR_HERRAMIENTA_GENERAL = "sp_listar_herramienta_general";
 	public static final String SP_INSERCCION_HERRAMIENTA = "sp_inserccion_herramienta";
+	public static final String SP_GUARDAR_DESCUENTO_MES= "sp_inserccion_historial_descuento";
 	public static final String SP_INSERCCION_DETALLE_HERRAMIENTA = "sp_inserccion_detalle_herramienta";
 	public static final String SP_BUSQUEDA_HERRAMIENTA = "sp_envio_herramienta";
 	public static final String SP_LISTAR_PREGUNTAS = "sp_listar_detalle_herramienta";
@@ -60,6 +62,7 @@ public class Constantes {
 	public static final String SP_EDITAR_TAREA = "sp_update_tarea";
 	public static final String SP_EDITAR_PERSONA = "sp_update_persona";
 	public static final String SP_LISTAR_COMBO_TECNICO = "sp_combo_asignar_tecnico";
+	public static final String SP_LISTA_PLANILLA = "sp_listar_pagos_pdf_dia";
 	public static final String SP_LISTAR_RECLAMO = "sp_listar_Reclamo";
 	public static final String SP_LISTA_MODULO = "sp_listar_modulos_usuario";
 	public static final String SP_LISTAR_TAREA = "sp_listar_tarea";
@@ -102,4 +105,5 @@ public class Constantes {
 	public static final String EXCEDIO = "EXCEDIO";
 	public static final String UPS = "UPS";
 	public static final String SIN_PERMISO = "SIN PERMISO";
+	public static final String AUTORIZADO = "MES NO AUTORIZADO";
 }

@@ -44,6 +44,8 @@ $(document).on('ready', function() {
 	
 	evaluadopagos();
 	
+	valgenerardescuento();
+	
 	redireccionarListaPagosView();
 	
 	mostrarFormReportePagosPorDia();
@@ -238,8 +240,11 @@ $(document).on('ready', function() {
 					
 					$('#verDeudaCliente').attr('documentoPersonaCliente', response.documentoPersonaCliente);
 					$('#verPagoCliente').attr('documentoPersonaCliente', response.documentoPersonaCliente);
+					$('#generarDescuento').attr('documentoPersonaCliente', response.documentoPersonaCliente);
 					$('#myModalLabelDeudaCliente').html('Deuda Cliente: ' + response.cliente);
 					$('#myModalLabelPagoCliente').html('Pagos Cliente: ' + response.cliente);
+					$('#myModalLabelDstosClienteDescuento').html('Cliente: ' + response.cliente);
+					$('#documentoPersonaClienteDescuento').val(response.documentoPersonaCliente);
 				}
 			});
 		});
@@ -587,7 +592,7 @@ $(document).on('ready', function() {
 		});
 	}
 	
-function evaluadopagos(){
+	function evaluadopagos(){
 		
 		$('#verPagoCliente').on('click', function() {
 			
@@ -597,7 +602,7 @@ function evaluadopagos(){
 				$('#modalVerPagoCliente').modal('show');
 				listarPagosCliente(documentoPersonaCliente);
 			}, 2300);
-			console.log(documentoPersonaCliente);
+			
 			
 			
 			$.ajax({
@@ -619,6 +624,47 @@ function evaluadopagos(){
 		});
 	}
 	
+	/**
+	 * 
+	 * GENERAR DESCUENTOS POR MOTIVO
+	 * 
+	 * */
+	
+	function valgenerardescuento(){
+		
+	$('#generarDescuento').on('click', function() {
+		
+		var documentoPersonaCliente = $(this).attr('documentoPersonaCliente');
+		
+		setTimeout(function() {
+			$('#modalGenerarDescuentoMes').modal('show');
+		}, 2300);
+		
+		
+		$.ajax({
+			
+			type: 'GET',
+			url: '/api/v1/pago/recuperarDatoPagoMes/' + documentoPersonaCliente,
+			dataType: 'json',
+			success: function(response) {
+				
+				if(response != null) {
+					$('#ClienteDescuentoMesPago').val(response.mesvalidopago);
+					$('#ClienteDescuentoMT').val(response.montoapagar);
+					$('#ClienteDescuento').val(response.montoapagar);
+					$('#ClienteDescuento').focus();
+				}
+				else {
+					
+				}
+			}
+		});
+		
+		GuardarDescuentDelMESACTUAL();
+		
+	});
+	}
+
 	/**
 	 * 
 	 * funcion para cargar combo comprobante pago deuda
@@ -715,6 +761,63 @@ function evaluadopagos(){
 		$('#cancelarAccionPagoDeuda').on('click', function() {
 			enabledFormPagoDeuda(false);
 			limpiarFormPagoDeuda();
+		})
+	}
+	
+	function GuardarDescuentDelMESACTUAL() {
+		
+		$('#generarDescuentoClienteSave').on('click', function(e) {
+			e.preventDefault();
+			
+			var formData = {
+					documentopersoma: $('#documentoPersonaClienteDescuento').val(),
+					numerodemes: $('#ClienteDescuentoMesPago').val(),
+					anioalido: $('#ClienteDescuentoMesPago').val(),
+					descuentodelmes: $('#ClienteDescuento').val(),
+					motivodeldescuento: $('#ClienteDescuentoMotivo').val()
+			};
+			
+			console.log(formData);
+			
+			$.ajax({
+				
+				type: 'POST',
+				url: '/api/v1/pago/generarDescuentoMensualidad',
+				headers: {
+					"Content-Type": "application/json",
+					"Accept": "application/json"
+				},
+				data: JSON.stringify(formData),
+				dataType: 'json',
+				success: function(response) {
+					
+					console.log(response);
+					if(response.message == "HECHO") {
+						
+						swal({
+							type: "success",
+							title: "Se Realizo el Descuento con exito",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar",
+							closeOnConfirm: false
+						}).then((result) => {
+
+							if(result.value) {
+								$(location).attr('href', '/pago/pagos');
+							}
+						});
+					}
+					else if(response.message == "ERROR") {
+						
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ups algo salio mal, contatce con el responsable del sistema !'
+			            });
+					}
+				}
+			});
+			
 		})
 	}
 	
@@ -821,7 +924,7 @@ function evaluadopagos(){
 						anioValido:$('#anioValidoDeuda').val()
 				};
 				
-			
+				
 				
 				$.ajax({
 					
@@ -834,7 +937,7 @@ function evaluadopagos(){
 					data: JSON.stringify(formDataPagoDeuda),
 					dataType: 'json',
 					success: function(response) {
-						
+						console.log(response);
 						if(response.message == "HECHO") {
 							
 							swal({
@@ -855,7 +958,7 @@ function evaluadopagos(){
 							swal({
 				                type: 'error',
 				                title: 'Ooops',
-				                text: 'Excedio el monto a Pagar o duplico el Pago !'
+				                text: 'Excedio el monto a Pagar !'
 				            });
 						}
 						else if(response.message == "ERROR") {

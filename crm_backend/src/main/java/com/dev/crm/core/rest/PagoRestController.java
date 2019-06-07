@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.DescuentoHistorialRequest;
+import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
@@ -32,6 +34,7 @@ import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
+import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.PagoFacade;
@@ -54,6 +57,27 @@ public class PagoRestController {
 	private UserDetail userDetail;
 	
 	ObjectMapper mapper = new ObjectMapper();
+	
+	@GetMapping("/recuperarDatoPagoMes/{persona}")
+	public ResponseEntity<DescuentoPagoResultViewModel> spListarDatosGeneralesCliente(@PathVariable(value="persona") String persona) {
+		
+		try {
+			
+			if(GenericUtil.isNotEmpty(persona)) {
+				DescuentoPagoResultViewModel clienteDatosAtencion = pagoFacade.spRecuperarDatosMesPago(persona);
+				if(GenericUtil.isNotNull(clienteDatosAtencion)) {
+					return new ResponseEntity<DescuentoPagoResultViewModel>(clienteDatosAtencion, HttpStatus.OK);
+				}
+				else {
+					return new ResponseEntity<DescuentoPagoResultViewModel>(HttpStatus.NO_CONTENT);
+				}
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<DescuentoPagoResultViewModel>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
 	
 	@GetMapping("/clientes/clientesPago")
 	public ResponseEntity<List<ClientePagoResultViewModel>> spListarClientesPago() {
@@ -148,6 +172,19 @@ public class PagoRestController {
 		}
 	}
 	
+	@PostMapping("/generarDescuentoMensualidad")
+	public ResponseEntity<ResponseBaseOperation> apLGenerarDescuento(@Valid @RequestBody DescuentoHistorialRequest codigo) {
+		
+		try {
+			
+			ResponseBaseOperation response = pagoFacade.spGenerarDescuento(codigo);
+			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@GetMapping("/pagosDelDia")
 	public ResponseEntity<List<PagosDelDiaResultViewModel>> spListarPagosDelDia() {
 		
@@ -225,6 +262,31 @@ public class PagoRestController {
 			
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Content-Disposition", "inline; filename=pagosReport.pdf");
+			
+			return ResponseEntity.ok()
+					.headers(headers)
+					.contentType(MediaType.APPLICATION_PDF)
+					.body(new InputStreamResource(bis));
+		}
+		catch(Exception e) {
+			return new ResponseEntity<InputStreamResource>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping(value = "/pdfReportDia", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> PdfPagoDia() throws IOException {
+		
+		try {
+			
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			
+			String usuario = usuarioLogueado.getUsername();
+			List<PdfPagoDiaResultViewModel> pagosPorCaja = pagoFacade.spListaPdfPagoDia(usuario);
+			
+			ByteArrayInputStream bis = PdfGenerator.PdfPagoDia(pagosPorCaja);
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Disposition", "inline; filename=Planilla_Dia.pdf");
 			
 			return ResponseEntity.ok()
 					.headers(headers)

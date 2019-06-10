@@ -21,6 +21,7 @@ import com.dev.crm.core.dto.ClienteDTO;
 import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
+import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.ClienteFacade;
 import com.dev.crm.core.security.UserDetail;
@@ -101,7 +102,6 @@ public class ClienteRestController {
 			
 			User usuarioLogueado = userDetail.findLoggedInUser();
 			String usuario = usuarioLogueado.getUsername();
-			//String creadoPor = "mimoraleext";
 			List<ClienteDTO> clientesDTO = clienteFacade.spListarClienteVendedor(usuario);
 			if(GenericUtil.isNotEmpty(clientesDTO)) {
 				return new ResponseEntity<List<ClienteDTO>>(clientesDTO, HttpStatus.OK);
@@ -112,6 +112,26 @@ public class ClienteRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<ClienteDTO>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/clientes/listarClientesPorVendedor")
+	public ResponseEntity<List<ClienteVendedorResultViewModel>> listarClientesPorVendedor() {
+		
+		try {
+			
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			String usuario = usuarioLogueado.getUsername();
+			List<ClienteVendedorResultViewModel> clientes = clienteFacade.listarClientesPorVendedor(usuario);
+			if(GenericUtil.isCollectionEmpty(clientes)) {
+				return new ResponseEntity<List<ClienteVendedorResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			else {
+				return new ResponseEntity<List<ClienteVendedorResultViewModel>>(clientes, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<ClienteVendedorResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

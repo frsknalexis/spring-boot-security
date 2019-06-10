@@ -12,12 +12,14 @@ import com.dev.crm.core.dto.ClienteDTO;
 import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
+import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.ClienteFacade;
 import com.dev.crm.core.model.entity.Cliente;
 import com.dev.crm.core.service.ClienteService;
 import com.dev.crm.core.util.Constantes;
 import com.dev.crm.core.util.GenericUtil;
+import com.dev.crm.core.util.StringUtil;
 
 @Component("clienteFacade")
 public class ClienteFacadeImpl implements ClienteFacade {
@@ -80,6 +82,29 @@ public class ClienteFacadeImpl implements ClienteFacade {
 				clientesDTO.add(modelMapper.map(c, ClienteDTO.class));
 			});
 			return clientesDTO;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<ClienteVendedorResultViewModel> listarClientesPorVendedor(String usuario) {
+		
+		List<ClienteVendedorResultViewModel> clientes = new ArrayList<ClienteVendedorResultViewModel>();
+		
+		try {
+
+			if(StringUtil.hasText(usuario)) {
+				clientes = clienteService.listarClientesPorVendedor(usuario);
+				if(GenericUtil.isCollectionEmpty(clientes)) {
+					return null;
+				}
+				else {
+					return clientes;
+				}
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();

@@ -6,6 +6,7 @@ import com.dev.crm.core.dto.ClienteDTO;
 import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
+import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 
 public interface ClienteFacade {
@@ -15,6 +16,8 @@ public interface ClienteFacade {
 	List<ClienteDTO> getActiveListClientes();
 	
 	List<ClienteDTO> spListarClienteVendedor(String creadoPor);
+	
+	List<ClienteVendedorResultViewModel> listarClientesPorVendedor(String usuario);
 	
 	ClienteDTO getByDocumentoPersonaCliente(String documentoPersonaCliente);
 	

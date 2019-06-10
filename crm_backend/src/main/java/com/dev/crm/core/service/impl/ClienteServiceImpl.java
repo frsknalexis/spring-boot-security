@@ -12,12 +12,15 @@ import com.dev.crm.core.dao.ClienteDAO;
 import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
+import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.model.entity.Cliente;
 import com.dev.crm.core.repository.jdbc.ClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClientePagoResultJdbcRepository;
+import com.dev.crm.core.repository.jdbc.ClienteVendedorJdbcRepository;
 import com.dev.crm.core.service.ClienteService;
 import com.dev.crm.core.util.Constantes;
 import com.dev.crm.core.util.GenericUtil;
+import com.dev.crm.core.util.StringUtil;
 
 @Service("clienteService")
 @Transactional("hibernateTransactionManager")
@@ -34,6 +37,10 @@ public class ClienteServiceImpl implements ClienteService {
 	@Autowired
 	@Qualifier("clientePagoResultJdbcRepository")
 	private ClientePagoResultJdbcRepository clientePagoResultJdbcRepository;
+	
+	@Autowired
+	@Qualifier("clienteVendedorJdbcRepository")
+	private ClienteVendedorJdbcRepository clienteVendedorJdbcRepository;
 	
 	@Override
 	public List<Cliente> findAll() {
@@ -81,6 +88,29 @@ public class ClienteServiceImpl implements ClienteService {
 			clientes = clienteDAO.spListarClienteVendedor(creadoPor);
 			if(GenericUtil.isNotNull(clientes)) {
 				return clientes;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<ClienteVendedorResultViewModel> listarClientesPorVendedor(String usuario) {
+		
+		List<ClienteVendedorResultViewModel> clientes = new ArrayList<ClienteVendedorResultViewModel>();
+		
+		try {
+			
+			if(StringUtil.hasText(usuario)) {
+				clientes = clienteVendedorJdbcRepository.spListarClienteVendedor(usuario);
+				if(GenericUtil.isCollectionEmpty(clientes)) {
+					return null;
+				}
+				else {
+					return clientes;
+				}
 			}
 		}
 		catch(Exception e) {

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PdfClienteResultViewModel;
 import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.PersonaDTO;
 import com.dev.crm.core.dto.ReciboResultViewModel;
@@ -292,6 +293,110 @@ public class PdfGenerator {
 				table.addCell(cell);
 				
 				cell = new PdfPCell(new Phrase(pagoPorCaja.getCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+			}
+			
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			document.add(table);
+			
+			document.close();
+		}
+		catch(DocumentException e) {
+			e.printStackTrace();
+		}
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+	
+	public static ByteArrayInputStream clientesReportToPDF(List<PdfClienteResultViewModel> pdfClientes) {
+		
+		Document document = new Document(PageSize.A4);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			
+			PdfPTable table = new PdfPTable(7);
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {1, 1.7f, 1.7f, 1, 1, 1, 1});
+			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+			font.setColor(BaseColor.WHITE);
+			
+			PdfPCell hcell;
+			hcell = new PdfPCell(new Phrase("DNI-RUC", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLIENTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DIRECCION", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CODIGO CLIENTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CORREO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("FACEBOOK", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ESTADO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			for(PdfClienteResultViewModel pdfCliente : pdfClientes) {
+				
+				PdfPCell cell;
+				
+				Font f = FontFactory.getFont(FontFactory.HELVETICA, 10);
+				
+				cell = new PdfPCell(new Phrase(pdfCliente.getDocumentoPersonaCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pdfCliente.getCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pdfCliente.getDireccionCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pdfCliente.getCodigoCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pdfCliente.getCorreoCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pdfCliente.getFacebookCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pdfCliente.getEstadoCliente(), f));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(cell);

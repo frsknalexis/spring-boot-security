@@ -8,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.dev.crm.core.dto.CambioDireccionRequest;
 import com.dev.crm.core.dto.ClienteDTO;
 import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
+import com.dev.crm.core.dto.DatosClienteResultViewModel;
+import com.dev.crm.core.dto.PdfClienteResultViewModel;
+import com.dev.crm.core.dto.PersonaClienteRequest;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.ClienteFacade;
 import com.dev.crm.core.model.entity.Cliente;
@@ -71,25 +75,6 @@ public class ClienteFacadeImpl implements ClienteFacade {
 	}
 	
 	@Override
-	public List<ClienteDTO> spListarClienteVendedor(String creadoPor) {
-		
-		List<ClienteDTO> clientesDTO = new ArrayList<ClienteDTO>();
-		
-		try {
-			
-			List<Cliente> clientes = clienteService.spListarClienteVendedor(creadoPor);
-			clientes.stream().forEach(c -> {
-				clientesDTO.add(modelMapper.map(c, ClienteDTO.class));
-			});
-			return clientesDTO;
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	@Override
 	public List<ClienteVendedorResultViewModel> listarClientesPorVendedor(String usuario) {
 		
 		List<ClienteVendedorResultViewModel> clientes = new ArrayList<ClienteVendedorResultViewModel>();
@@ -103,6 +88,29 @@ public class ClienteFacadeImpl implements ClienteFacade {
 				}
 				else {
 					return clientes;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<PdfClienteResultViewModel> spListarPdfCliente(String usuario) {
+		
+		List<PdfClienteResultViewModel> pdfClientes = new ArrayList<PdfClienteResultViewModel>();
+		
+		try {
+			
+			if(StringUtil.hasText(usuario)) {
+				pdfClientes = clienteService.spListarPdfCliente(usuario);
+				if(GenericUtil.isCollectionEmpty(pdfClientes)) {
+					return null;
+				}
+				else {
+					return pdfClientes;
 				}
 			}
 		}
@@ -242,7 +250,59 @@ public class ClienteFacadeImpl implements ClienteFacade {
 		}
 		return null;
 	}
+	
+	@Override
+	public ResponseBaseOperation updatePersonaCliente(PersonaClienteRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = clienteService.updatePersonaCliente(request);
+				if(StringUtil.hasText(result)) {
+					if(StringUtil.eq(result, Constantes.HECHO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.ERROR)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					}
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
+	@Override
+	public ResponseBaseOperation spModificarDomicilio(CambioDireccionRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = clienteService.spModificarDomicilio(request);
+				if(StringUtil.hasText(result)) {
+					if(StringUtil.eq(result, Constantes.BUENO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.ERROR)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					}
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@Override
 	public ClienteResultViewModel spBuscarPersonaClienteVendedor(ClienteFiltroRequest filtro) {
 		
@@ -278,6 +338,29 @@ public class ClienteFacadeImpl implements ClienteFacade {
 			}
 			if(GenericUtil.isNotNull(clientePago)) {
 				return clientePago;
+			}
+			else {
+				return null;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public DatosClienteResultViewModel recuperarDatosCliente(String documentoPersonaCliente) {
+		
+		DatosClienteResultViewModel clienteDatos = null;
+		
+		try {
+			
+			if(StringUtil.hasText(documentoPersonaCliente)) {
+				clienteDatos = clienteService.recuperarDatosCliente(documentoPersonaCliente);
+			}
+			if(GenericUtil.isNotNull(clienteDatos)) {
+				return clienteDatos;
 			}
 			else {
 				return null;

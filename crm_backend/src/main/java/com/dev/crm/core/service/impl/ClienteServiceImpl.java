@@ -9,14 +9,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dao.ClienteDAO;
+import com.dev.crm.core.dto.CambioDireccionRequest;
 import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
+import com.dev.crm.core.dto.DatosClienteResultViewModel;
+import com.dev.crm.core.dto.PdfClienteResultViewModel;
+import com.dev.crm.core.dto.PersonaClienteRequest;
 import com.dev.crm.core.model.entity.Cliente;
+import com.dev.crm.core.repository.jdbc.CambioDomicilioJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClientePagoResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClienteVendedorJdbcRepository;
+import com.dev.crm.core.repository.jdbc.EditarPersonaClienteJdbcRepository;
+import com.dev.crm.core.repository.jdbc.PdfListaClienteJdbcRepository;
+import com.dev.crm.core.repository.jdbc.RecuperarDatosClienteJdbcRepository;
 import com.dev.crm.core.service.ClienteService;
 import com.dev.crm.core.util.Constantes;
 import com.dev.crm.core.util.GenericUtil;
@@ -41,6 +49,22 @@ public class ClienteServiceImpl implements ClienteService {
 	@Autowired
 	@Qualifier("clienteVendedorJdbcRepository")
 	private ClienteVendedorJdbcRepository clienteVendedorJdbcRepository;
+	
+	@Autowired
+	@Qualifier("recuperarDatosClienteJdbcRepository")
+	private RecuperarDatosClienteJdbcRepository recuperarDatosClienteJdbcRepository;
+	
+	@Autowired
+	@Qualifier("editarPersonaClienteJdbcRepository")
+	private EditarPersonaClienteJdbcRepository editarPersonaClienteJdbcRepository;
+	
+	@Autowired
+	@Qualifier("cambioDomicilioJdbcRepository")
+	private CambioDomicilioJdbcRepository cambioDomicilioJdbcRepository;
+	
+	@Autowired
+	@Qualifier("pdfListaClienteJdbcRepository")
+	private PdfListaClienteJdbcRepository pdfListaClienteJdbcRepository;
 	
 	@Override
 	public List<Cliente> findAll() {
@@ -79,24 +103,6 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 
 	@Override
-	public List<Cliente> spListarClienteVendedor(String creadoPor) {
-		
-		List<Cliente> clientes = new ArrayList<Cliente>();
-		
-		try {
-			
-			clientes = clienteDAO.spListarClienteVendedor(creadoPor);
-			if(GenericUtil.isNotNull(clientes)) {
-				return clientes;
-			}
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	@Override
 	public List<ClienteVendedorResultViewModel> listarClientesPorVendedor(String usuario) {
 		
 		List<ClienteVendedorResultViewModel> clientes = new ArrayList<ClienteVendedorResultViewModel>();
@@ -119,6 +125,29 @@ public class ClienteServiceImpl implements ClienteService {
 		return null;
 	}
 
+	@Override
+	public List<PdfClienteResultViewModel> spListarPdfCliente(String usuario) {
+		
+		List<PdfClienteResultViewModel> pdfClientes = new ArrayList<PdfClienteResultViewModel>();
+		
+		try {
+			
+			if(StringUtil.hasText(usuario)) {
+				pdfClientes = pdfListaClienteJdbcRepository.spListarPdfCliente(usuario);
+				if(GenericUtil.isCollectionEmpty(pdfClientes)) {
+					return null;
+				}
+				else {
+					return pdfClientes;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@Override
 	public Cliente getByDocumentoPersonaCliente(String documentoPersonaCliente) {
 		
@@ -271,6 +300,71 @@ public class ClienteServiceImpl implements ClienteService {
 			}
 			else {
 				return null;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public DatosClienteResultViewModel recuperarDatosCliente(String documentoPersonaCliente) {
+		
+		DatosClienteResultViewModel clienteDatos = null;
+		
+		try {
+			
+			if(StringUtil.hasText(documentoPersonaCliente)) {
+				clienteDatos = recuperarDatosClienteJdbcRepository.recuperarDatosCliente(documentoPersonaCliente);
+			}
+			if(GenericUtil.isNotNull(clienteDatos)) {
+				return clienteDatos;
+			}
+			else {
+				return null;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String updatePersonaCliente(PersonaClienteRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = editarPersonaClienteJdbcRepository.updatePersonaCliente(request);
+				if(StringUtil.hasText(result)) {
+					return result;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String spModificarDomicilio(CambioDireccionRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = cambioDomicilioJdbcRepository.spModificarDomicilio(request);
+				if(StringUtil.hasText(result)) {
+					return result;
+				}
+				else {
+					return null;
+				}
 			}
 		}
 		catch(Exception e) {

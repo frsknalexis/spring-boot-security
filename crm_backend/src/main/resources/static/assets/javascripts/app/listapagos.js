@@ -218,7 +218,7 @@ $(document).on('ready', function() {
 					return false;
 				}
 				
-				if($('#cantidadPagoRevalidar').val() <= 0) {
+				if($('#cantidadPagoRevalidar').val() <= -1) {
 					
 					swal({
 		                type: 'error',
@@ -238,7 +238,7 @@ $(document).on('ready', function() {
 			var valor = $(this).val();
 			
 			
-			if(parseInt(valor) <= 0) {
+			if(parseInt(valor) <= -1) {
 				
 				swal({
 	                type: 'error',
@@ -262,7 +262,7 @@ $(document).on('ready', function() {
 		$('#guardarPagoRevalidado').on('click', function(e) {
 			e.preventDefault();
 			
-			if($('#codigoComprobanteRevalidar').val().trim() != "" && $('#cantidadPagoRevalidar').val() > 0) {
+			if($('#codigoComprobanteRevalidar').val().trim() != "" && $('#cantidadPagoRevalidar').val() >= 0) {
 				
 				var formData = {
 						codigoPago: $('#codigoPagoRevalidar').val(),

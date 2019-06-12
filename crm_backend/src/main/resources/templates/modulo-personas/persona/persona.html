@@ -39,8 +39,8 @@
 								<div class="btn-group">
 									<button type="button" class="mb-xs mr-xs btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown"><i class="fa fa-download"></i> Exportar Clientes <span class="caret"></span></button>
 									<ul class="dropdown-menu" role="menu">
-										<li><a th:href="@{/api/v1/persona/pdfReport}" target="_blank"><i class="fa fa-file-pdf-o"></i> Exportar PDF</a></li>
-										<li><a th:href="@{/api/v1/persona/excelReport}" target="_blank"><i class="fa fa-file-excel-o"></i> Exportar Excel</a></li>
+										<li><a th:href="@{/api/v1/cliente/pdfClientes}" target="_blank"><i class="fa fa-file-pdf-o"></i> Exportar PDF</a></li>
+										<li><a th:href="@{/api/v1/cliente/excelClientes}" target="_blank"><i class="fa fa-file-excel-o"></i> Exportar Excel</a></li>
 									</ul>
 								</div>
 							</div>
@@ -89,11 +89,10 @@
 														<thead class="text-center">
 															<tr>
 																<th>DNI-RUC</th>
-																<th>Consecutivo Cliente</th>
-																<th>Codigo Cliente</th>
-																<th>Nombre Comercial</th>
-																<th>Correo Electronico</th>
-																<th>Facebook Cliente</th>
+																<th style="width:230px;">Cliente</th>
+																<th style="width:230px;">Direccion Actual</th>
+																<th style="width:170px;">Facebook Cliente</th>
+																<th>Correo</th>
 																<th>Activo</th>
 																<th>Acciones</th>
 															</tr>
@@ -394,6 +393,214 @@
 										<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 									</div>
 								</div>
+							</div>
+						</div>
+						<input style="display:none" id="canje" name="canje" value="0"></input>
+						<input style="display:none" id="canjes" name="canjes" value="0"></input>
+						<input style="display:none" id="canjess" name="canjess" value="0"></input>
+					</div>
+					<div class="modal fade" tabindex="-1" id="modalDatosPersona" role="dialog" aria-labelledby="myModalLabelDatosPersona" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form role="form" method="post">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelDatosPersona"></h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12 form-group">
+												<div class="col-md-12">
+													<input type="hidden" class="form-control" id="usuarioId">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="documentoPersonaClientePersona">DNI-RUC</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-credit-card"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="documentoPersonaClientePersona" placeholder="Numero Documento">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="nombreClientePersona">Nombre Cliente</label>
+											 	<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-user"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="nombreClientePersona" placeholder="Nombre Persona">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="apellidoPaternoClientePersona">Apellido Paterno</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-user"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="apellidoPaternoClientePersona" placeholder="Apellido Paterno">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="apellidoMaternoClientePersona">Apellido  Materno</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-user"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="apellidoMaternoClientePersona" placeholder="Apellido Materno">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="telefonoUnoClientePersona">Telefono Uno</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-phone"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="telefonoUnoClientePersona" placeholder="Telefono Uno">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="telefonoDosClientePersona">Telefono Dos</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-phone"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="telefonoDosClientePersona" placeholder="Telefono Dos">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="telefonoTresClientePersona">Telefono Tres</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-phone"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="telefonoTresClientePersona" placeholder="Telefono Tres">
+												</div>
+											</div>	
+											<div class="col-md-6 form-group">
+												<label for="direccionClientePersona">Direccion Cliente</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-home"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="direccionClientePersona" placeholder="Direccion Cliente">
+												</div>
+											</div>										
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" id="cancelarAccion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="guardarDatosClientePersona" class="btn btn-primary"><i class="fa fa-check"></i> Modificar Datos</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<input style="display:none" id="canje" name="canje" value="0"></input>
+						<input style="display:none" id="canjes" name="canjes" value="0"></input>
+						<input style="display:none" id="canjess" name="canjess" value="0"></input>
+					</div>
+					<div class="modal fade" tabindex="-1" id="modalCambiarDireccion" role="dialog" aria-labelledby="myModalLabelCambiarDireccion" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form role="form" method="post">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelCambiarDireccion"></h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12 col-lg-12">
+												<section class="panel panel-featured panel-featured-primary">
+													<header class="panel-heading">
+														<h2 class="panel-title">Datos Cliente</h2>
+													</header>
+													<div class="panel-body">
+														<div class="row">
+															<div class="col-md-6 form-group">
+																<label for="documentoPersonaClienteCambiarDireccion">DNI-RUC</label>
+																<div class="input-group mb-md">
+																	<span class="input-group-addon">
+																		<i class="fa fa-credit-card"></i>
+																	</span>
+																	<input type="text" class="form-control input-sm" id="documentoPersonaClienteCambiarDireccion" placeholder="Numero Documento">
+																</div>
+															</div>
+															<div class="col-md-6 form-group">
+																<label for="nombreClienteCambiarDireccion">Nombre Cliente</label>
+											 					<div class="input-group mb-md">
+																	<span class="input-group-addon">
+																		<i class="fa fa-user"></i>
+																	</span>
+																	<input type="text" class="form-control input-sm" id="nombreClienteCambiarDireccion" placeholder="Nombre Persona">
+																</div>
+															</div>
+															<div class="col-md-6 form-group">
+																<label for="apellidoPaternoClienteCambiarDireccion">Apellido Cliente</label>
+																<div class="input-group mb-md">
+																	<span class="input-group-addon">
+																		<i class="fa fa-user"></i>
+																	</span>
+																	<input type="text" class="form-control input-sm" id="apellidoPaternoClienteCambiarDireccion" placeholder="Apellido Paterno">
+																</div>
+															</div>
+															<div class="col-md-6 form-group">
+																<label for="direccionClienteCambiarDireccion">Direccion Cliente</label>
+																<div class="input-group mb-md">
+																	<span class="input-group-addon">
+																		<i class="fa fa-home"></i>
+																	</span>
+																	<input type="text" class="form-control input-sm" id="direccionClienteCambiarDireccion" placeholder="Direccion Cliente">
+																</div>
+															</div>
+															<div class="col-md-12 form-group">
+																<label for="nuevaDireccionCliente">Nueva Direccion</label>
+																<div class="input-group mb-md">
+																	<span class="input-group-addon">
+																		<i class="fa fa-home"></i>
+																	</span>
+																	<input type="text" class="form-control input-sm" id="nuevaDireccionCliente" placeholder="Nueva Direccion Cliente">
+																</div>
+															</div>
+														</div>
+													</div>
+												</section>
+											</div>
+											<div class="col-md-12 col-lg-12">
+												<section class="panel panel-featured panel-featured-primary">
+													<header class="panel-heading">
+														<h2 class="panel-title">Datos Cuenta</h2>
+													</header>
+													<div class="panel-body">
+														<div class="row">
+															<div class="col-md-6 form-group">
+																<label for="observacionCambiarDireccion">Observacion</label>
+																<div class="input-group mb-md">
+																	<span class="input-group-addon">
+																		<i class="fa fa-pencil-square-o"></i>
+																	</span>
+																	<textarea class="form-control input-sm" id="observacionCambiarDireccion"></textarea>
+																</div>
+															</div>
+															<div class="col-md-6 form-group">
+																<label for="fechaSugerenciaCambiarDireccion">Fecha Sugerencia</label>
+																<div class="input-group mb-md">
+																	<span class="input-group-addon">
+																		<i class="fa fa-calendar"></i>
+																	</span>
+																	<input type="date" class="form-control input-sm" id="fechaSugerenciaCambiarDireccion">
+																</div>
+															</div>
+														</div>
+													</div>
+												</section>
+											</div>						
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" id="cancelarAccion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="guardarDatosCambiarDireccion" class="btn btn-primary"><i class="fa fa-check"></i> Cambiar Direccion</button>
+									</div>
+								</form>
 							</div>
 						</div>
 						<input style="display:none" id="canje" name="canje" value="0"></input>

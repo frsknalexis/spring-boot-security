@@ -9,6 +9,8 @@ public class ClienteVendedorResultViewModel implements Serializable {
 	 */
 	private static final long serialVersionUID = -2242841541725559829L;
 	
+	private String documentoPersonaCliente;
+	
 	private String nombreComercialCliente;
 	
 	private String cliente;
@@ -20,12 +22,21 @@ public class ClienteVendedorResultViewModel implements Serializable {
 	private String facebookCliente;
 	
 	private String correoCliente;
+	
+	private Boolean estadoCliente;
 
 	public ClienteVendedorResultViewModel() {
-		
-		
+				
 	}
 
+	public String getDocumentoPersonaCliente() {
+		return documentoPersonaCliente;
+	}
+
+	public void setDocumentoPersonaCliente(String documentoPersonaCliente) {
+		this.documentoPersonaCliente = documentoPersonaCliente;
+	}
+	
 	public String getNombreComercialCliente() {
 		return nombreComercialCliente;
 	}
@@ -72,5 +83,13 @@ public class ClienteVendedorResultViewModel implements Serializable {
 
 	public void setCorreoCliente(String correoCliente) {
 		this.correoCliente = correoCliente;
+	}
+
+	public Boolean getEstadoCliente() {
+		return estadoCliente;
+	}
+
+	public void setEstadoCliente(Boolean estadoCliente) {
+		this.estadoCliente = estadoCliente;
 	}	
 }

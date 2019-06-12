@@ -11,6 +11,8 @@ $(document).on('ready', function() {
 	
 	ocultar_mostrar(20);
 	
+	validarFormGenerarCuenta();
+	
 	window.setInterval(
 		    function(){
 		    // Sección de código para modificar el DIV
@@ -150,7 +152,7 @@ $(document).on('ready', function() {
 					data: JSON.stringify(formData),
 					dataType: 'json',
 					success: function(response) {
-						
+		
 						if(response != null) {
 							
 							$('#documentoPersonaCliente').val(response.documentoPersona);
@@ -223,6 +225,31 @@ $(document).on('ready', function() {
 	
 	/**
 	 * 
+	 *function para validarFormGenerarCuenta 
+	 * 
+	 */
+	function validarFormGenerarCuenta() {
+		
+		$('#generarCuenta').on('click', function(e) {
+			
+			e.preventDefault();
+			
+			if($('#fechaSolicitudClienteDetalleCuenta').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para la Fecha de Solicitud'
+	            });
+				
+				$('#fechaSolicitudClienteDetalleCuenta').focus();
+				return false;
+			}
+		});
+	}
+	
+	/**
+	 * 
 	 *funcion para generarCuentaInternetColor 
 	 * 
 	 */
@@ -231,11 +258,12 @@ $(document).on('ready', function() {
 		$('#generarCuenta').on('click', function(e) {
 			
 			e.preventDefault();
-			if($('#documentoPersonaCliente').val().match(/^[0-9]{7,11}$/)) {
+			if($('#documentoPersonaCliente').val().match(/^[0-9]{7,11}$/) && $('#fechaSolicitudClienteDetalleCuenta').val() != "") {
 				
 				var formDataIC = {
 						documentoPersonaCliente: $('#documentoPersonaCliente').val(),
-						observacionDetalleCuenta: $('#detalleCuentaObservacion').val()
+						observacionDetalleCuenta: $('#detalleCuentaObservacion').val(),
+						fechaSolicitudClienteDetalleCuenta: $('#fechaSolicitudClienteDetalleCuenta').val()
 				};
 				
 				

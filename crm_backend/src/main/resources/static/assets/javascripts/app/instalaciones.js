@@ -1,9 +1,27 @@
 $(document).on('ready', function() {
 	
+	var cont = 0;
+	
+	setTimeout(function() {
+		mostrarFormMateriales(false);
+	}, 1000);
+	
+	agregarMaterialForm();
+	
+	cargarComboMateriales();
+	
+	limpiarInputsModalFormMateriales();
+	
+	agregarMaterialToTabla();
+	
+	eliminarFilaDeTabla();
+	
+	cancelarAccionFormMaterialesDetalle();
+	
 	var tablaInstalacionesDiaCable;
 	
 	var tablaInstalacionesDiaInternet;
-	
+		
 	cargarComboResponsable();
 	
 	redireccionarCortesView();
@@ -58,6 +76,24 @@ $(document).on('ready', function() {
 			}
 		}
 	
+	}
+	
+	/**
+	 * 
+	 * 
+	 *@function mostrar formMateriales 
+	 * 
+	 */
+	function mostrarFormMateriales(flag) {
+		
+		if(flag) {
+			$('#listadoInstalaciones').hide();
+			$('#formMateriales').show();
+		}
+		else {
+			$('#listadoInstalaciones').show();
+			$('#formMateriales').hide();
+		}
 	}
 	
 	function redireccionarCortesView() {
@@ -149,14 +185,18 @@ $(document).on('ready', function() {
 				{"data": "referenciaDireccion"},
 				{"data": "telefonoCliente"},
 				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btntecnicoinsta" codigoDetalleCuenta><i class="fa fa-hand-o-up "></i> Asignar Técnico</button>'},
-				{"defaultContent": '<button type="button" class="btn btn-success btn-xs"><i class="fa fa-plus-square"></i> Agregar Materiales</button>'}
+				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnMostrarFormMateriales" codigoDetalleCuenta documentoPersonaCliente clienteCuenta direccionCliente><i class="fa fa-plus-square"></i> Agregar Materiales</button>'}
 			]
 		}).DataTable();
 		
 		$('#tablaInstalacionesDiaInternet tbody').on('click', 'button', function(){
 			
 			var data = tablaInstalacionesDiaInternet.row( $(this).parents('tr')).data();
+			console.log(data);
 			$(this).attr('codigoDetalleCuenta', data.codigoDetalleCuenta);
+			$(this).attr('documentoPersonaCliente', data.documentoPersonaCliente);
+			$(this).attr('clienteCuenta', data.cliente);
+			$(this).attr('direccionCliente', data.direccionActualCliente);
 			
 		});
 		
@@ -170,6 +210,217 @@ $(document).on('ready', function() {
 			
 		});
 		
+		mostrarFormDetalleMateriales();
+		
+	}
+	
+	/**
+	 * 
+	 * 
+	 *cancelar accion form materiales detalle 
+	 * 
+	 */
+	function cancelarAccionFormMaterialesDetalle() {
+		
+		$('#cancelarAccion').on('click', function() {
+			mostrarFormMateriales(false);
+		});
+	}
+	
+	/**
+	 * 
+	 * 
+	 *function para cargar el combo materiales
+	 * 
+	 */
+	function cargarComboMateriales() {
+		
+		var $nombreMaterial = $('#nombreMaterial');
+		
+		$.ajax({
+			
+			type: 'GET',
+			url: '/api/v1/material/materiales',
+			dataType: 'json',
+			success: function(response) {
+				console.log(response);
+				$nombreMaterial.html('');
+				$nombreMaterial.append('<option value="">Seleccione un Material</option>');
+				for(var  i = 0; i < response.length; i++) {
+					$nombreMaterial.append('<option value="' + response[i].descripcion + '">' + response[i].descripcion + '</option>');
+				}
+			}
+		});
+	}
+
+	
+	/**
+	 *function agregarFilaToTabla 
+	 * 
+	 */
+	function agregarFilaToTabla(data) {
+		cont++;
+		var fila = '<tr id="fila' + cont + '"><td>' + cont +'</td><td class="text-center">' + data.nombre +'</td><td class="text-center">' + data.cantidad + '</td><td><button type="button" class="btn btn-danger btn-sm btnEliminarFila" cont="' + cont +'"><i class="fa fa-times"><i></button></td></tr>';
+		$('#contenidoMateriales').append(fila);
+		reordenarNumeracionTabla();
+	}
+	
+	/**
+	 * 
+	 *function para eliminar la fila de la tabla 
+	 */
+	function eliminarFilaDeTabla() {
+		
+		$('#tablaMateriales tbody').on('click', 'button.btnEliminarFila', function() {
+			var cont = $(this).attr('cont');
+			$("#fila" + cont).remove();
+			reordenarNumeracionTabla();
+		});
+	}
+	
+	/**
+	 *
+	 * function reordenar numeracion tabla
+	 * 
+	 */
+	function reordenarNumeracionTabla() {
+		var num = 1;
+		$('#tablaMateriales tbody tr').each(function() {
+			$(this).find('td').eq(0).text(num);
+			num++;
+		});
+	}
+	
+	/**
+	 * 
+	 *function para limpiar inputs del modal 
+	 * 
+	 */
+	function limpiarInputsModalFormMateriales() {
+		
+		$('#cancelarModal').on('click', function() {
+			$('#nombreMaterial').val('');
+			$('#cantidadMaterial').val(1);
+		});
+	}
+	
+	/**
+	 * 
+	 *function para agregar material a la tabla 
+	 * 
+	 */
+	function agregarMaterialToTabla() {
+		
+		$('#agregarMaterialToTabla').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#nombreMaterial').val().trim() != "" && $('#cantidadMaterial').val() > 0) {
+							
+				var data = {
+					nombre: $('#nombreMaterial').val(), 
+					cantidad: $('#cantidadMaterial').val()
+				};
+				
+				console.log(data);
+				 agregarFilaToTabla(data);
+				 $('#cantidadMaterial').val(1);
+			}
+			
+			if($('#nombreMaterial').val().trim() == "" && $('#cantidadMaterial').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe llenar algunos los Campos !'
+	            });
+				return false;
+			}
+			
+			else {
+				
+				if($('#nombreMaterial').val().trim() == "") {
+					
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'Debe Seleccionar un Material !'
+		            });
+					return false;
+				}
+				
+				if($('#cantidadMaterial').val() <= 0) {
+					
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'Ingrese un valor valido para la Cantidad de Material !'
+		            });
+					
+					$('#cantidadMaterial').val('');
+					$('#cantidadMaterial').focus();
+					return false
+				}
+			}
+		});
+		
+		$('#cantidadMaterial').on('keyup', function() {
+			
+			var valor = $(this).val();
+			
+			
+			if(parseInt(valor) <= 0) {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Ingrese un valor valido para la Cantidad de Material'
+	            });
+				
+				$(this).val('');
+				$(this).focus();
+			}
+		});
+	}
+	
+	/**
+	 * 
+	 *function agregar material 
+	 * 
+	 */
+	function agregarMaterialForm() {
+		
+		$('#agregarMaterialForm').on('click', function() {
+			$('#modalFormAgregarMaterial').modal('show');
+		});
+	}
+	
+	/**
+	 * 
+	 *@function para mostrar form materiales detalle 
+	 * 
+	 */
+	function mostrarFormDetalleMateriales() {
+		
+		$('#tablaInstalacionesDiaInternet tbody').on('click', 'button.btnMostrarFormMateriales', function(){
+			
+			var codigoDetalleCuenta = $(this).attr('codigoDetalleCuenta');
+			var documentoPersonaCliente = $(this).attr('documentoPersonaCliente');
+			var clienteCuenta = $(this).attr('clienteCuenta');
+			var direccionCliente = $(this).attr('direccionCliente');
+			
+			console.log("codigoDetalleCuenta: " + codigoDetalleCuenta);
+			
+			mostrarFormMateriales(true);
+			$('#codigoCuentaDetalle').attr('disabled', true);
+			$('#documentoPersonaClienteDetalle').attr('disabled', true);
+			$('#clienteDetalle').attr('disabled', true);
+			$('#direccionClienteDetalle').attr('disabled', true);
+			
+			$('#codigoCuentaDetalle').val(codigoDetalleCuenta);
+			$('#documentoPersonaClienteDetalle').val(documentoPersonaCliente);
+			$('#clienteDetalle').val(clienteCuenta);
+			$('#direccionClienteDetalle').val(direccionCliente);
+		});
 	}
 	
 	function cargarComboResponsable() {

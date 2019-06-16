@@ -64,6 +64,20 @@ public class DateUtil {
 		return calendar.get(Calendar.MONTH);
 	}
 	
+	public static String getCurrentMonthWithZeroLeft() {
+		
+		Calendar calendar = Calendar.getInstance();
+		String MM = "";
+		int mm = calendar.get(Calendar.MONTH) + 1;
+		
+		if(mm < 10) {
+			MM = "0" + String.valueOf(mm);
+			return MM;
+		}
+		return String.valueOf(mm);
+	}
+	
+	
 	/**
 	 * 
 	 *@return 
@@ -84,6 +98,19 @@ public class DateUtil {
 		
 		Calendar calendar = Calendar.getInstance();
 		return calendar.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	public static String getCurrentDayWithZeroLeft() {
+		
+		Calendar calendar = Calendar.getInstance();
+		String day = "";
+		int dd = calendar.get(Calendar.DAY_OF_MONTH);
+		
+		if(dd < 10) {
+			day = "0" + String.valueOf(dd);
+			return day;
+		}
+		return String.valueOf(dd);
 	}
 	
 	/**

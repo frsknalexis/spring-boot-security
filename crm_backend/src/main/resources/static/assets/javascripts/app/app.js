@@ -16,6 +16,9 @@ $(document).on('ready', function() {
 			success: function(response) {
 				console.log(response);
 				$('#nombreUsuarioLogueado').html(response.username);
+				for(var i = 0; i < response.authorities.length; i++) {
+					console.log(response.authorities[i]);
+				}
 			}
 		});
 	}

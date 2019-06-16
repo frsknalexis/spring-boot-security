@@ -266,6 +266,7 @@ $(document).on('ready', function() {
 						fechaSolicitudClienteDetalleCuenta: $('#fechaSolicitudClienteDetalleCuenta').val()
 				};
 				
+				console.log(formDataIC);
 				
 				$.ajax({
 					
@@ -302,6 +303,14 @@ $(document).on('ready', function() {
 				                type: 'error',
 				                title: 'Ooops',
 				                text: 'Ya se Genero la Cuenta de Internet para el Cliente, verifique el estado del Servicio !'
+				            });
+						}
+						else if(response.status == "ERROR" && response.message == "LLENO") {
+							
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Dia Ocupado Totalmente, instalaciones del dia completados !'
 				            });
 						}
 					},

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.DetalleCuentaDTO;
+import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
 import com.dev.crm.core.security.UserDetail;
@@ -31,15 +32,14 @@ public class DetalleCuentaRestController {
 	private UserDetail userDetail;
 	
 	@PostMapping("/saveCuentaInternet")
-	public ResponseEntity<ResponseBaseOperation> spInsercionCuentaInternet(@Valid @RequestBody DetalleCuentaDTO detalleCuentaDTO) {
+	public ResponseEntity<ResponseBaseOperation> spInsercionCuentaInternet(@Valid @RequestBody DetalleCuentaRequest request) {
 		
 		try {
 			
 			User usuarioLogueado = userDetail.findLoggedInUser();
-			//String Mensaje = "mimoraleext";
 			String usuario = usuarioLogueado.getUsername();
-			detalleCuentaDTO.setCodigoexterno(usuario);
-			ResponseBaseOperation response = detalleCuentaFacade.spInsercionCuentaInternet(detalleCuentaDTO);
+			request.setCodigoUsuario(usuario);
+			ResponseBaseOperation response = detalleCuentaFacade.spInsercionCuentaInternet(request);
 			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
 		}
 		catch(Exception e) {
@@ -47,13 +47,13 @@ public class DetalleCuentaRestController {
 		}
 	}
 	
+	/*
 	@PostMapping("/saveCuentaCable")
 	public ResponseEntity<ResponseBaseOperation> spInsercionCuentaCable(@Valid @RequestBody DetalleCuentaDTO detalleCuentaDTO) {
 		
 		try {
 			
 			User usuarioLogueado = userDetail.findLoggedInUser();
-			//String Mensaje = "mimoraleext";
 			String usuario = usuarioLogueado.getUsername();
 			detalleCuentaDTO.setCodigoexterno(usuario);
 			ResponseBaseOperation response = detalleCuentaFacade.spInsercionCuentaCable(detalleCuentaDTO);
@@ -64,6 +64,7 @@ public class DetalleCuentaRestController {
 		}
 	}
 	
+	*/
 	@GetMapping("/contadorPendientesCable")
 	public ResponseEntity<ResponseBaseOperation> spContadorPendientesCable() {
 		

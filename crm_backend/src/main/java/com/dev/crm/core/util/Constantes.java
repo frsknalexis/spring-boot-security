@@ -87,6 +87,7 @@ public class Constantes {
 	public static final String SP_LISTAR_PDF_CLIENTE = "sp_listar_pdf_cliente";
 	public static final String SP_LISTAR_MATERIAL = "sp_listar_material";
 	public static final String SP_ENVIO_DATOS_IN_SERVICIO = "sp_envio_datos_in_servicio";
+	public static final String SP_ENVIO_DATOS_MATERIAL = "sp_envio_datos_material";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

@@ -20,6 +20,7 @@ import com.dev.crm.core.dto.AsignarTecnicoComboResultViewModel;
 import com.dev.crm.core.dto.ClienteAtencionDetalleResultViewModel;
 import com.dev.crm.core.dto.ClienteAtencionResultViewModel;
 import com.dev.crm.core.dto.ClienteDatosAtencionResultViewModel;
+import com.dev.crm.core.dto.DatosOnuRequest;
 import com.dev.crm.core.dto.DatosOnusResultViewModel;
 import com.dev.crm.core.dto.InsertarReclamoRequest;
 import com.dev.crm.core.dto.InsertarTecnicTareaRequest;
@@ -260,17 +261,18 @@ public class AtencionRestController {
 			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	@GetMapping("/searchDatosOnu/{sn}/{mac}")
-	public ResponseEntity<DatosOnusResultViewModel> spRecuperaDatosOnu(@PathVariable(value="sn") String sn , @PathVariable(value="mac") String mac){
+	
+	@PostMapping("/searchDatosOnu")
+	public ResponseEntity<DatosOnusResultViewModel> spRecuperarDatosOnu(@Valid @RequestBody DatosOnuRequest request) {
 		
 		try {
 			
-			if(GenericUtil.isNotEmpty(sn) && GenericUtil.isNotEmpty(mac)) {
-				DatosOnusResultViewModel clientePago = atencionFacade.sppRecuperarDatos(sn, mac);
-				if(GenericUtil.isNotNull(clientePago)) {
-					return new ResponseEntity<DatosOnusResultViewModel>(clientePago, HttpStatus.OK);
+			if(GenericUtil.isNotNull(request)) {
+				DatosOnusResultViewModel datosOnu = atencionFacade.spRecuperarDatosOnu(request);
+				if(GenericUtil.isNotNull(datosOnu)) {
+					return new ResponseEntity<DatosOnusResultViewModel>(datosOnu, HttpStatus.OK);
 				}
-				else {
+				else if(GenericUtil.isNull(datosOnu)) {
 					return new ResponseEntity<DatosOnusResultViewModel>(HttpStatus.NO_CONTENT);
 				}
 			}

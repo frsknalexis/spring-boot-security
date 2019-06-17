@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dao.DetalleCuentaDAO;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
+import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 import com.dev.crm.core.repository.jdbc.DatosInternetServicioJdbcRepository;
+import com.dev.crm.core.repository.jdbc.DatosMaterialesJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetalleCuentaInternetJdbcRepository;
 import com.dev.crm.core.service.DetalleCuentaService;
 import com.dev.crm.core.util.GenericUtil;
@@ -30,6 +32,10 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 	@Autowired
 	@Qualifier("datosInternetServicioJdbcRepository")
 	private DatosInternetServicioJdbcRepository datosInternetServicioJdbcRepository;
+	
+	@Autowired
+	@Qualifier("datosMaterialesJdbcRepository")
+	private DatosMaterialesJdbcRepository datosMaterialesJdbcRepository;
 	
 	@Override
 	public String spInsercionCuentaInternet(DetalleCuentaRequest request) {
@@ -80,6 +86,27 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 			
 			if(GenericUtil.isNotNull(request)) {
 				String result = datosInternetServicioJdbcRepository.spEnvioDatosInternetServicio(request);
+				if(StringUtil.hasText(result)) {
+					return result;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public String spEnvioDatosMaterial(DatosMaterialesRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = datosMaterialesJdbcRepository.spEnvioDatosMaterial(request);
 				if(StringUtil.hasText(result)) {
 					return result;
 				}

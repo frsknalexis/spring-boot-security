@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.crm.core.dto.DatosInternetServicioRequest;
+import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
 import com.dev.crm.core.security.UserDetail;
+import com.dev.crm.core.util.GenericUtil;
 
 @RestController
 @RequestMapping("/api/v1/detalleCuenta")
@@ -40,6 +43,32 @@ public class DetalleCuentaRestController {
 			String usuario = usuarioLogueado.getUsername();
 			request.setCodigoUsuario(usuario);
 			ResponseBaseOperation response = detalleCuentaFacade.spInsercionCuentaInternet(request);
+			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/envioDatos")
+	public ResponseEntity<ResponseBaseOperation> spEnvioDatosInternetServicio(@Valid @RequestBody DatosInternetServicioRequest request) {
+		
+		try {
+			
+			ResponseBaseOperation response = detalleCuentaFacade.spEnvioDatosInternetServicio(request);
+			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/datosMateriales")
+	public ResponseEntity<ResponseBaseOperation> spEnvioDatosMaterial(@Valid @RequestBody DatosMaterialesRequest request) {
+		
+		try {
+			
+			ResponseBaseOperation response = detalleCuentaFacade.spEnvioDatosMaterial(request);
 			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
 		}
 		catch(Exception e) {

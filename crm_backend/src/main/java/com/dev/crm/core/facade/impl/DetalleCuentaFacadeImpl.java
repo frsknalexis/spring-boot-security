@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.dev.crm.core.dto.DatosInternetServicioRequest;
+import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.ResponseBaseOperation;
@@ -62,6 +64,49 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 				}
 				else if(result.equals(Constantes.ESTADO)) {
 					return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, detalleCuentaDTO);
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public ResponseBaseOperation spEnvioDatosInternetServicio(DatosInternetServicioRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = detalleCuentaService.spEnvioDatosInternetServicio(request);
+				if(StringUtil.eq(result, Constantes.BUENO)) {
+					return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+				}
+				else if(StringUtil.eq(result, Constantes.ERROR)) {
+					return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+
+	@Override
+	public ResponseBaseOperation spEnvioDatosMaterial(DatosMaterialesRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = detalleCuentaService.spEnvioDatosMaterial(request);
+				if(StringUtil.eq(result, Constantes.BUENO)) {
+					return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+				}
+				else if(StringUtil.eq(result, Constantes.ERROR)) {
+					return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
 				}
 			}
 		}

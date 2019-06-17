@@ -2,6 +2,9 @@ $(document).on('ready', function() {
 	
 	var cont = 0;
 	
+	var num;
+	var arrayMaterialesJson = new Array();
+	
 	setTimeout(function() {
 		mostrarFormMateriales(false);
 	}, 1000);
@@ -17,6 +20,14 @@ $(document).on('ready', function() {
 	eliminarFilaDeTabla();
 	
 	cancelarAccionFormMaterialesDetalle();
+	
+	mostrarFormBuscarOnu();
+	
+	disabledInputsONU(false);
+	
+	limpiarDatosONU();
+	
+	realizarRegistroMateriales();
 	
 	var tablaInstalacionesDiaCable;
 	
@@ -224,6 +235,9 @@ $(document).on('ready', function() {
 		
 		$('#cancelarAccion').on('click', function() {
 			mostrarFormMateriales(false);
+			disabledInputsONU(false);
+			limpiarDatosONU();
+			eliminarTodasLasFilas();
 		});
 	}
 	
@@ -263,6 +277,8 @@ $(document).on('ready', function() {
 		var fila = '<tr id="fila' + cont + '"><td>' + cont +'</td><td class="text-center">' + data.nombre +'</td><td class="text-center">' + data.cantidad + '</td><td><button type="button" class="btn btn-danger btn-sm btnEliminarFila" cont="' + cont +'"><i class="fa fa-times"><i></button></td></tr>';
 		$('#contenidoMateriales').append(fila);
 		reordenarNumeracionTabla();
+		arrayMaterialesJson.push(data);
+		console.log(arrayMaterialesJson);
 	}
 	
 	/**
@@ -275,7 +291,23 @@ $(document).on('ready', function() {
 			var cont = $(this).attr('cont');
 			$("#fila" + cont).remove();
 			reordenarNumeracionTabla();
+			arrayMaterialesJson.splice(num-1, 1);
+			console.log(arrayMaterialesJson);
 		});
+	}
+	
+	/**
+	 *function para eliminar todas las filas de la tabla 
+	 * 
+	 */
+	function eliminarTodasLasFilas() {
+		
+		 $("#tablaMateriales tbody tr").each(function() { 
+			 this.parentNode.removeChild( this ); 
+		 });
+		 
+		 arrayMaterialesJson.splice(0, arrayMaterialesJson.length);
+		 console.log(arrayMaterialesJson);
 	}
 	
 	/**
@@ -284,7 +316,7 @@ $(document).on('ready', function() {
 	 * 
 	 */
 	function reordenarNumeracionTabla() {
-		var num = 1;
+		num = 1;
 		$('#tablaMateriales tbody tr').each(function() {
 			$(this).find('td').eq(0).text(num);
 			num++;
@@ -550,6 +582,287 @@ $(document).on('ready', function() {
 			}
 			
 		}
+	}
+	
+	/**
+	 * 
+	 *function para mostra form buscar ONU 
+	 * 
+	 */
+	
+	function mostrarFormBuscarOnu() {
+		
+		$('#formBuscarOnu').on('click', function() {
+			
+			limpiarFormBuscarDatosONU();
+			$('#modalFormBuscarONU').modal('show');
+			buscarOnu();
+		});
+	}
+	
+	/**
+	 * 
+	 *function para limpiar datos ONU 
+	 *
+	 */
+	function limpiarDatosONU() {
+		
+		$('#snDescripcion').val('');
+		$('#macDescripcion').val('');
+		$('#winUser').val('');
+		$('#winPassword').val('');
+		$('#wifissid').val('');
+		$('#wifiPassword').val('');
+		$('#estado').val('');
+	}
+	
+	/**
+	 * 
+	 *function para deshabilitar inputs 
+	 * 
+	 */
+	function disabledInputsONU(flag) {
+		
+		if(flag) {
+			
+			$('#snDescripcion').attr('disabled', true);
+			$('#macDescripcion').attr('disabled', true);
+			$('#winUser').attr('disabled', true);
+			$('#winPassword').attr('disabled', true);
+			$('#wifissid').attr('disabled', true);
+			$('#wifiPassword').attr('disabled', true);
+			$('#estado').attr('disabled', true);
+		}
+		else {
+			$('#snDescripcion').attr('disabled', false);
+			$('#macDescripcion').attr('disabled', false);
+			$('#winUser').attr('disabled', false);
+			$('#winPassword').attr('disabled', false);
+			$('#wifissid').attr('disabled', false);
+			$('#wifiPassword').attr('disabled', false);
+			$('#estado').attr('disabled', false);
+		}
+	}
+	
+	/**
+	 * 
+	 *function para limpiar el form buscar datos ONU 
+	 * 
+	 */
+	function limpiarFormBuscarDatosONU() {
+		
+		$('#snOnuDescripcion').val('');
+		$('#macOnuDescripcion').val('');
+	}
+	
+	/**
+	 *
+	 * function para buscarOnu
+	 * 
+	 */
+	function buscarOnu() {
+		
+		$('#buscarOnu').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#snOnuDescripcion').val() != "" && $('#macOnuDescripcion').val() != "") {
+				
+				var formDataBuscarOnu = {
+						snDescripcion: $('#snOnuDescripcion').val(),
+						macDescripcion: $('#macOnuDescripcion').val()
+				};
+				
+				console.log(formDataBuscarOnu);
+				
+				limpiarDatosONU();
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/atencion/searchDatosOnu',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataBuscarOnu),
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response != null) {
+							
+							console.log(response);
+							disabledInputsONU(true);
+							$('#snDescripcion').val(response.snDescripcion);
+							$('#macDescripcion').val(response.macDescripcion);
+							$('#winUser').val(response.winUser);
+							$('#winPassword').val(response.winPassword);
+							$('#wifissid').val(response.wifissidDescripcion);
+							$('#wifiPassword').val(response.wifiPasswordDescripcion);
+							$('#estado').val(response.estado);
+						}
+						else if(response == null) {
+							
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'No se encontraron datos de la ONU, verifique si existe!'
+				            });
+						}
+					}
+				});
+			}
+			
+			if($('#snOnuDescripcion').val() == "" && $('#macOnuDescripcion').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe llenar algunos los Campos !'
+	            });
+				return false;
+			}
+			else if($('#snOnuDescripcion').val() == "" || $('#snOnuDescripcion').val() == 0) {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Ingrese un valor valido para la Serie ONU'
+	            });
+				
+				$('#snOnuDescripcion').val('');
+				$('#snOnuDescripcion').focus();
+			}
+			else if($('#macOnuDescripcion').val() == "" || $('#macOnuDescripcion').val() == 0) {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Ingrese un valor valido para la Mac ONU'
+	            });
+				
+				$('#macOnuDescripcion').val('');
+				$('#macOnuDescripcion').focus();
+			}
+		});
+	}
+	
+	/**
+	 * 
+	 *function realizarRegistro Materiales 
+	 * 
+	 */
+	function realizarRegistroMateriales() {
+		
+		$('#realizarRegistroMateriales').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#codigoCuentaDetalle').val() != "" && $('#documentoPersonaClienteDetalle').val() != "") {
+				
+				var formDataDetalleCuenta = {
+						codigoCuenta: $('#codigoCuentaDetalle').val(),
+						documentoPersonaCliente: $('#documentoPersonaClienteDetalle').val()
+				};
+				
+				console.log(formDataDetalleCuenta);
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/detalleCuenta/envioDatos',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataDetalleCuenta),
+					dataType: 'json',
+					success: function(response) {
+						
+						console.log(response);
+						
+						if(response.status == "SUCCESS" && response.message == "BUENO") {
+							
+							var indice;
+							
+							var codigoCuenta = response.data.codigoCuenta;
+							for(var i = 0; i < arrayMaterialesJson.length; i++) {
+
+								var formDataMateriales = {
+										codigoInternetServicio: codigoCuenta,
+										nombreMaterial: arrayMaterialesJson[i].nombre,
+										cantidadMaterial: arrayMaterialesJson[i].cantidad
+								};
+								console.log(formDataMateriales);
+								
+								$.ajax({
+									type: 'POST',
+									url: '/api/v1/detalleCuenta/datosMateriales',
+									headers: {
+										"Content-Type": "application/json",
+										"Accept": "application/json"
+									},
+									data: JSON.stringify(formDataMateriales),
+									dataType: 'json',
+									success: function(response) {
+										console.log(response);
+										
+										if(response.status == "SUCCESS" && response.message == "BUENO") {
+											indice = true;
+										}
+										else if(response.status == "ERROR" && response.message == "ERROR") {
+											indice = false;
+										}
+									}
+								});
+								
+							}
+							
+							setTimeout(function() {
+								
+								if(indice) {
+									
+									swal({
+										type: "success",
+										title: "Se Registraron los Materiales con exito",
+										showConfirmButton: true,
+										confirmButtonText: "Cerrar",
+										closeOnConfirm: false
+									}).then((result) => {
+
+										if(result.value) {
+											$(location).attr('href', '/instalacion/instalaciones/view');
+										}
+									});
+								}
+								else if(!indice) {
+									swal({
+						                type: 'error',
+						                title: 'Ooops',
+						                text: 'Error al Registrar Materiales !'
+						            });
+								}
+								
+							}, 4000);
+						}
+						else if(response.status == "ERROR", response.message == "ERROR") {
+							
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Error al Registrar Materiales !'
+				            });
+						}
+					},
+					error: function() {
+						
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Error al Registrar Materiales !'
+			            });
+					}
+				});
+			}
+		});
 	}
 
 	function cargarmensajespopus(id){

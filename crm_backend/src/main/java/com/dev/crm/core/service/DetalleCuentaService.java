@@ -1,6 +1,7 @@
 package com.dev.crm.core.service;
 
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
+import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 
@@ -11,6 +12,8 @@ public interface DetalleCuentaService {
 	String spInsercionCuentaCable(DetalleCuenta detalleCuenta);
 	
 	String spEnvioDatosInternetServicio(DatosInternetServicioRequest request);
+	
+	String spEnvioDatosMaterial(DatosMaterialesRequest request);
 	
 	Integer spContadorPendientesCable();
 	

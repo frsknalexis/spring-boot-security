@@ -8,6 +8,7 @@ public class Constantes {
 	public static final String PERSONA_VIEW = "modulo-personas/persona/persona";
 	public static final String EMPLEADO_VIEW = "modulo-personas/empleado/empleado";
 	public static final String DETALLE_CUENTA_VIEW = "modulo-servicios/detallecuenta/detallecuenta";
+	public static final String CUENTAS_VIEW = "modulo-servicios/detallecuenta/cuentas";
 	public static final String REPROGRAMACION_VIEW = "modulo-servicios/detallecuenta/reprogramacion";
 	public static final String PAGOS_VIEW = "modulo-pagos/pagos/pago";
 	public static final String ATENCION_VIEW = "modulo-atencion/herramienta/herramienta";
@@ -88,6 +89,10 @@ public class Constantes {
 	public static final String SP_LISTAR_MATERIAL = "sp_listar_material";
 	public static final String SP_ENVIO_DATOS_IN_SERVICIO = "sp_envio_datos_in_servicio";
 	public static final String SP_ENVIO_DATOS_MATERIAL = "sp_envio_datos_material";
+	public static final String SP_LISTAR_VENTAS_POR_INSTALAR = "sp_listar_ventas_por_instalar";
+	public static final String SP_LISTAR_CUENTA_POR_INSTALAR = "sp_listar_cuenta_por_instalar";
+	public static final String SP_UPDATE_DETALLE_CUENTA = "sp_update_detalle_cuenta";
+	public static final String SP_RECUPERAR_OBSERVACION = "sp_recuperar_obser";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

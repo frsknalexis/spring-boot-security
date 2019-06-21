@@ -25,6 +25,11 @@
 					<!-- start: page -->
 					<div class="row">
 						<div class="col-md-4 col-lg-4 mb-xs">
+							<button class="btn btn-sm btn-block btn-primary" id="listaCuentasGeneradas"><i class="fa fa-pencil-square-o"></i> Listar Cuentas Generadas</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-lg-4 mb-xs">
 							<section class="panel panel-featured-left panel-featured-primary">
 								<header class="panel-heading">
 									<h2 class="panel-title">
@@ -133,12 +138,21 @@
 												<textarea class="form-control" rows="3" id="detalleCuentaObservacion"></textarea>
 											</div>
 											<div class="col-md-6 col-sm-6 form-group">
-												<label for="fechaSolicitudClienteDetalleCuenta">Fecha Solicitud</label>
+												<label for="fechaSolicitudClienteDetalleCuenta">Fecha Instalacion</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-calendar"></i>
 													</span>
 													<input type="date" class="form-control input-sm" id="fechaSolicitudClienteDetalleCuenta">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6 form-group">
+												<label for="detalleCuentaVendedor">Vendedor</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-users"></i>
+													</span>
+													<select class="form-control populate" id="detalleCuentaVendedor"></select>
 												</div>
 											</div>
 											<div class="col-md-12 form-group">

@@ -74,10 +74,11 @@
 															<th>DNI-RUC</th>
 															<th>Cliente</th>
 															<th>Direccion</th>
-															<th>Referencia</th>
+															<th style="width:200px;">Referencia</th>
 															<th>Telefono</th>
 															<th>Asignar Tecnico</th>
 															<th>Acciones</th>
+															<th></th>
 														</tr>
 													</thead>
 												</table>
@@ -381,6 +382,34 @@
 							</div>
 						</div>
 					</div>
+					<div class="modal fade" id="modalVerObservacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabelVerObservacion" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelVerObservacion">Observacion Cuenta</h4>
+									</div>
+									<div class="modal-body">
+										<form role="form">
+											<div class="row">
+												<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+													<label for="observacionCuenta">Observacion</label>
+													<div class="input-group mb-md">
+														<span class="input-group-addon">
+															<i class="fa fa-credit-card"></i>
+														</span>
+														<textarea rows="5" id="observacionCuenta" class="form-control"></textarea>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					<!-- end: page -->
 					<input style="display:none" id="canje" name="canje" value="0"></input>
 					<input style="display:none" id="canjes" name="canjes" value="0"></input>

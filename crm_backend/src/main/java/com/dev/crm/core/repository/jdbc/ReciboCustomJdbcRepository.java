@@ -46,7 +46,8 @@ public class ReciboCustomJdbcRepository implements ReciboJdbcRepository {
 					new SqlOutParameter("VFECHAI", Types.DATE),
 					new SqlOutParameter("VMES", Types.VARCHAR),
 					new SqlOutParameter("VCANTIDAD", Types.FLOAT),
-					new SqlOutParameter("VDESCUENTO", Types.FLOAT));
+					new SqlOutParameter("VDESCUENTO", Types.FLOAT),
+					new SqlOutParameter("VFECHA", Types.DATE));
 			
 			Map<String, Object> inParams = new HashMap<String, Object>();
 			inParams.put("CODPAG", codigoPago);
@@ -57,7 +58,7 @@ public class ReciboCustomJdbcRepository implements ReciboJdbcRepository {
 			
 			if(GenericUtil.isNotNull(out.get("VPAGO")) && GenericUtil.isNotNull(out.get("VCLIENTE")) && GenericUtil.isNotNull(out.get("VDIRECCION"))
 				&& GenericUtil.isNotNull(out.get("VFECHAI")) && GenericUtil.isNotNull(out.get("VMES")) && GenericUtil.isNotNull(out.get("VCANTIDAD"))
-				&& GenericUtil.isNotNull(out.get("VDESCUENTO"))) {
+				&& GenericUtil.isNotNull(out.get("VDESCUENTO")) && GenericUtil.isNotNull(out.get("VFECHA"))) {
 				
 				ReciboResultViewModel recibo = new ReciboResultViewModel();
 				recibo.setCodigoPago((String) out.get("VPAGO"));
@@ -67,11 +68,12 @@ public class ReciboCustomJdbcRepository implements ReciboJdbcRepository {
 				recibo.setMesValido((String) out.get("VMES"));
 				recibo.setMonto(new BigDecimal((Double) out.get("VCANTIDAD")));
 				recibo.setDescuento(new BigDecimal((Double) out.get("VDESCUENTO")));
+				recibo.setFechaPago((Date) out.get("VFECHA"));
 				return recibo;
 			}
 			else if(GenericUtil.isNull(out.get("VPAGO")) && GenericUtil.isNull(out.get("VCLIENTE")) && GenericUtil.isNull(out.get("VDIRECCION"))
 					&& GenericUtil.isNull(out.get("VFECHAI")) && GenericUtil.isNull(out.get("VMES")) && GenericUtil.isNull(out.get("VCANTIDAD"))
-					&& GenericUtil.isNull(out.get("VDESCUENTO"))) {
+					&& GenericUtil.isNull(out.get("VDESCUENTO")) && GenericUtil.isNull(out.get("VFECHA"))) {
 				return null;
 			}
 		}

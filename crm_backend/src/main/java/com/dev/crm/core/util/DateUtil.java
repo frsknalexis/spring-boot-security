@@ -77,6 +77,65 @@ public class DateUtil {
 		return String.valueOf(mm);
 	}
 	
+	public static void main(String[] args) {
+		Date date = new Date();
+		System.out.println(getYearOfDateWithString(date));
+	}
+	
+	public static String getDayOfDateWithZeroLeft(Date date) {
+		
+		String formato = "dd";
+		SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+		int dd = Integer.valueOf(dateFormat.format(date));
+		
+		if(dd < 10) {
+			String day = "0" + String.valueOf(dd);
+			return day;
+		}
+		return String.valueOf(dd);
+	}
+	
+	public static Integer getDayOfDate(Date date) {
+		
+		String formato = "dd";
+		SimpleDateFormat format = new SimpleDateFormat(formato);
+		return Integer.valueOf(format.format(date));
+	}
+	
+	public static String getMonthOfDateWithZeroLeft(Date date) {
+		
+		String formato = "MM";
+		SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+		int mm = Integer.valueOf(dateFormat.format(date));
+		
+		if(mm < 10) {
+			String month = "0" + String.valueOf(mm);
+			return month;
+		}
+		return String.valueOf(mm);
+	}
+	
+	public static Integer getMonthOfDate(Date date) {
+		
+		String formato = "MM";
+		SimpleDateFormat format = new SimpleDateFormat(formato);
+		return Integer.valueOf(format.format(date));
+	}
+	
+	public static Integer getYearOfDate(Date date) {
+		
+		String formato = "yyyy";
+		SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+		return Integer.valueOf(dateFormat.format(date));
+	}
+	
+	public static String getYearOfDateWithString(Date date) {
+		
+		String formato = "yyyy";
+		SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+		String anio = dateFormat.format(date);
+		return anio;
+	}
 	
 	/**
 	 * 

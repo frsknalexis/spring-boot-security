@@ -196,7 +196,8 @@ $(document).on('ready', function() {
 				{"data": "referenciaDireccion"},
 				{"data": "telefonoCliente"},
 				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btntecnicoinsta" codigoDetalleCuenta><i class="fa fa-hand-o-up "></i> Asignar Técnico</button>'},
-				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnMostrarFormMateriales" codigoDetalleCuenta documentoPersonaCliente clienteCuenta direccionCliente><i class="fa fa-plus-square"></i> Agregar Materiales</button>'}
+				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnMostrarFormMateriales" codigoDetalleCuenta documentoPersonaCliente clienteCuenta direccionCliente><i class="fa fa-plus-square"></i> Agregar Materiales</button>'},
+				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnMostrarObservacion" data-toggle="modal" codigoDetalleCuenta><i class="fa fa-pencil-square-o"></i> Ver Observacion</button>'}
 			]
 		}).DataTable();
 		
@@ -223,6 +224,47 @@ $(document).on('ready', function() {
 		
 		mostrarFormDetalleMateriales();
 		
+		visualizarObservacionCuenta();
+		
+	}
+	
+	/**
+	 * 
+	 *
+	 *function para limpiar el input observacion 
+	 * 
+	 **/
+	function limpiarInputsObservacion() {
+		
+		$('#observacionCuenta').val('');
+	}
+	
+	/**
+	 * 
+	 *function para visualizar la observacion de cuenta 
+	 * 
+	 */
+	function visualizarObservacionCuenta() {
+		
+		$('#tablaInstalacionesDiaInternet tbody').on('click', 'button.btnMostrarObservacion', function() {
+			
+			var codigoDetalleCuenta = $(this).attr('codigoDetalleCuenta');
+			console.log("codigoDetalleCuenta: " + codigoDetalleCuenta);
+			
+			limpiarInputsObservacion();
+			$('#modalVerObservacion').modal('show');
+			$('#observacionCuenta').attr('disabled', true);
+			
+			$.ajax({
+				
+				type: 'GET',
+				url: '/api/v1/detalleCuenta/observacion/' + codigoDetalleCuenta,
+				dataType: 'json',
+				success: function(response) {	
+					$('#observacionCuenta').val(response.observacion);
+				}
+			});
+		});
 	}
 	
 	/**

@@ -24,6 +24,8 @@ public class ReciboResultViewModel implements Serializable {
 	private BigDecimal monto;
 	
 	private BigDecimal descuento;
+	
+	private Date fechaPago;
 
 	public ReciboResultViewModel() {
 		
@@ -83,5 +85,13 @@ public class ReciboResultViewModel implements Serializable {
 
 	public void setDescuento(BigDecimal descuento) {
 		this.descuento = descuento;
+	}
+
+	public Date getFechaPago() {
+		return fechaPago;
+	}
+
+	public void setFechaPago(Date fechaPago) {
+		this.fechaPago = fechaPago;
 	}
 }

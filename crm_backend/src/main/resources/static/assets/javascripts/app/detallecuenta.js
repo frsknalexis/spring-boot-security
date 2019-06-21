@@ -293,7 +293,7 @@ $(document).on('ready', function() {
 							}).then((result) => {
 
 								if(result.value) {
-									$(location).attr('href', '/detalleCuenta/generarCuenta/view');
+									$(location).attr('href', '/detalleCuenta/cuentas/view');
 								}
 							});
 						}

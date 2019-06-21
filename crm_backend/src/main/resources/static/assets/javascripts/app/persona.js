@@ -26,7 +26,7 @@ $(document).on('ready', function() {
 	setTimeout(function() {
 		cargarEstadoCliente();
 		ocultarBotones();
-	}, 6500);
+	}, 8000);
 	
 	ocultar_mostrar(20);
 	
@@ -540,6 +540,7 @@ $(document).on('ready', function() {
 			    	return false;
 				}
 				
+				/**
 				else if(!($('#referenciaPersona').val().match(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\#.-\s]+$/))) {
 					
 					swal({
@@ -552,6 +553,7 @@ $(document).on('ready', function() {
 			    	$('#referenciaPersona').focus();
 			    	return false;
 				}
+				*/
 				
 				else if(!($('#telefonoUnoPersona').val().match(/^[0-9]{7,9}$/))) {
 					
@@ -660,7 +662,7 @@ $(document).on('ready', function() {
 			success: function(response) {
 			
 				$codigoSexo.html('');
-				$codigoSexo.append('<option value="">Seleccione una opcion</option>');
+				$codigoSexo.append('<option value="">Seleccione un sexo</option>');
 				for(var i = 0; i < response.length; i++) {
 					$codigoSexo.append('<option id="optionComboSexo" value="' + response[i].codigoSexo +'">' + response[i].descripcionSexo + '</option>');
 				}
@@ -956,7 +958,9 @@ $(document).on('ready', function() {
 				{"data": "facebookCliente"},
 				{"data": "correoCliente"},
 				{"defaultContent": '<span class="label label-success estadoCliente">Activo</span>'},
-				{"defaultContent": '<div class="btn-group"><button type="button" data-toggle="modal" class="btn btn-info btn-sm btnVerCliente" idDocumentoCliente><i class="fa fa-eye" title="Ver"></i></button><button type="button" class="btn btn-primary btn-sm btnEditarCliente" idDocumentoCliente><i class="fa fa-pencil" title="Editar"></i></button><button type="button" data-toggle="modal" class="btn btn-warning btn-xs btnEditarDatosPersona" idDocumentoCliente><i class="fa fa-user" title="Editar"></i> Datos Persona</button><button type="button" data-toggle="modal" class="btn btn-success btn-xs btnCambiarDireccionCliente" idDocumentoCliente><i class="fa fa-user" title="Editar"></i> Cambiar Direccion</button></div>'}
+				{"defaultContent": '<div class="btn-group"><button type="button" data-toggle="modal" class="btn btn-info btn-sm btnVerCliente" idDocumentoCliente><i class="fa fa-eye" title="Ver"></i></button><button type="button" class="btn btn-primary btn-sm btnEditarCliente" idDocumentoCliente><i class="fa fa-pencil" title="Editar"></i></button></div>'},
+				{"defaultContent": '<button type="button" data-toggle="modal" class="btn btn-warning btn-xs btnEditarDatosPersona" idDocumentoCliente><i class="fa fa-user" title="Editar"></i> Datos Persona</button>'},
+				{"defaultContent": '<button type="button" data-toggle="modal" class="btn btn-success btn-xs btnCambiarDireccionCliente" idDocumentoCliente><i class="fa fa-home" title="Editar"></i> Cambiar Direccion</button>'}
 			]
 		}).DataTable();
 		

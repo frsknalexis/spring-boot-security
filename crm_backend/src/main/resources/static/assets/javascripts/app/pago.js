@@ -723,6 +723,7 @@ $(document).on('ready', function() {
 
 			
 			enabledFormPagoDeuda(true);
+			$('#modalFormPagoDeuda').modal('show');
 			
 			$('#documentoPersonaClientePagoDeuda').val(documentoPersonaClienteDeuda);
 			$('#tipoServicioDeudaCliente').val(tipoServicio);

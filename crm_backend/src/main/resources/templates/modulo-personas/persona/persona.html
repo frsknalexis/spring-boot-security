@@ -89,12 +89,14 @@
 														<thead class="text-center">
 															<tr>
 																<th>DNI-RUC</th>
-																<th style="width:230px;">Cliente</th>
-																<th style="width:230px;">Direccion Actual</th>
-																<th style="width:170px;">Facebook Cliente</th>
+																<th style="width:210px;">Cliente</th>
+																<th style="width:210px;">Direccion Actual</th>
+																<th style="width:165px;">Facebook Cliente</th>
 																<th>Correo</th>
 																<th>Activo</th>
 																<th>Acciones</th>
+																<th></th>
+																<th></th>
 															</tr>
 														</thead>
 													</table>
@@ -115,6 +117,7 @@
 										<form role="form" method="post">
 											<div class="row">
 												<div class="col-md-6 form-group">
+													<label for="documentoPersona">DNI-RUC</label>
 													<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-credit-card"></i>
@@ -123,6 +126,7 @@
 													</div>
 												</div>
 												<div class="col-md-6 form-group">
+													<label for="nombreUbigeo">Ubigeo</label>
 													<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-bookmark"></i>
@@ -132,6 +136,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="nombrePersona">Nombres Persona</label>
 													<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-user"></i>
@@ -140,6 +145,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="apellidoPaternoPersona">Apellido Paterno</label>
 													<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-user"></i>
@@ -148,6 +154,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="apellidoMaternoPersona">Apellido Materno</label>
 													<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-user"></i>
@@ -156,6 +163,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="direccionReniecPersona">Direccion RENIEC</label>
 													<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-home"></i>
@@ -164,6 +172,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="direccionActualPersona">Direccion Actual</label>
 													<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-home"></i>
@@ -172,6 +181,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="referenciaPersona">Referencia Direccion</label>
 													<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-home"></i>
@@ -180,6 +190,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="telefonoUnoPersona">Telefono Uno</label>
 											 		<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-phone"></i>
@@ -188,6 +199,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="telefonoDosPersona">Telefono Dos</label>
 											 		<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-phone"></i>
@@ -196,6 +208,7 @@
 													</div>
 												</div>
 												<div class="col-md-4 form-group">
+													<label for="telefonoTresPersona">Telefono Tres</label>
 											 		<div class="input-group mb-md">
 														<span class="input-group-addon">
 															<i class="fa fa-phone"></i>
@@ -204,7 +217,7 @@
 													</div>
 												</div>
 												<div class="col-md-12 form-group">
-													<button type="submit" id="guardarPersona" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> Guardar</button>
+													<button type="submit" id="guardarPersona" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Guardar</button>
 													<button type="button" id="cancelarAccion" class="btn btn-sm btn-danger"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
 												</div>											
 											</div>
@@ -222,6 +235,7 @@
 									<div class="panel-body">
 										<form role="form" method="post">
 											<div class="col-md-4 form-group">
+												<label for="documentoPersonaCliente">DNI-RUC</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-credit-card"></i>
@@ -230,6 +244,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 form-group">
+												<label for="clienteNombrePersona">Nombres Cliente</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-user"></i>
@@ -238,6 +253,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 form-group">
+												<label for="clienteApellidosPersona">Apellidos Cliente</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-user"></i>
@@ -246,6 +262,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 form-group" id="inputConsecutivoCliente">
+												<label for="consecutivoCliente">Consecutivo Cliente</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-tags"></i>
@@ -254,6 +271,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 form-group" id="inputCodigoCliente">
+												<label for="codigoCliente">Codigo Cliente</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-barcode"></i>
@@ -262,6 +280,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 form-group">
+												<label for="nombreComercialCliente">Nombre Comercial</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-bookmark"></i>
@@ -270,6 +289,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 form-group">
+												<label for="correoCliente">Correo Electronico</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														@
@@ -278,6 +298,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 form-group">
+												<label for="facebookCliente">Facebook</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-facebook-square"></i>
@@ -286,6 +307,7 @@
 												</div>
 											</div>
 											<div class="col-md-4 form-group">
+												<label for="codigoSexo">Sexo</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-male"></i>
@@ -295,7 +317,7 @@
 												</div>
 											</div>
 											<div class="col-md-12 form-group">
-												<button type="submit" id="guardarCliente" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> Guardar Cliente</button>
+												<button type="submit" id="guardarCliente" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Guardar Cliente</button>
 												<button type="button" id="cancelarAccionCliente" class="btn btn-sm btn-danger"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
 											</div>
 										</form>	

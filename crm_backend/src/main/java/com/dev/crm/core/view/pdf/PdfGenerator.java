@@ -563,7 +563,6 @@ public class PdfGenerator {
 			hcelll.disableBorderSide(Rectangle.BOX);
 			table.addCell(hcelll);
 			
-			
 			PdfPCell celldatos;
 			String cliente = recibo.getCliente();
 			String direccion = recibo.getDireccion();
@@ -682,7 +681,7 @@ public class PdfGenerator {
 			pdfcel.disableBorderSide(Rectangle.BOX);
 			tables.addCell(pdfcel);
 			
-			pdfcel = new PdfPCell(new Phrase("\nHuacho, " + DateUtil.getCurrentDay() + " de " + (DateUtil.getCurrentMonth() + 1) + " del " + DateUtil.getCurrentYear(), fff));
+			pdfcel = new PdfPCell(new Phrase("\nHuacho, " + DateUtil.getDayOfDateWithZeroLeft(recibo.getFechaPago()) + " de " + DateUtil.getMonthOfDateWithZeroLeft(recibo.getFechaPago()) + " del " + DateUtil.getYearOfDateWithString(recibo.getFechaPago()), fff));
 			pdfcel.setHorizontalAlignment(Element.ALIGN_BOTTOM);
 			pdfcel.disableBorderSide(Rectangle.BOX);
 			tables.addCell(pdfcel);

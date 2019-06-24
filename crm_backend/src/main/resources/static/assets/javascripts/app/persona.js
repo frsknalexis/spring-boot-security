@@ -222,8 +222,8 @@ $(document).on('ready', function() {
 		
 		if($('#documentoPersona').val().match(/^[0-9]{7,11}$/) && $('#nombreUbigeo').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
 			&& $('#nombrePersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#apellidoPaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
-			&& $('#apellidoMaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#direccionActualPersona').val().match(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\#.-\s]+$/)
-			&& $('#referenciaPersona').val().match(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\#.-\s]+$/) && $('#telefonoUnoPersona').val().match(/^[0-9]{7,9}$/)) {
+			&& $('#apellidoMaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#direccionActualPersona').val() != "" 
+				&& $('#referenciaPersona').val() != "" && $('#telefonoUnoPersona').val().match(/^[0-9]{7,9}$/)) {
 		
 			var formData = {
 					
@@ -527,6 +527,7 @@ $(document).on('ready', function() {
 			    	return false;
 				}
 				
+				/**
 				else if(!($('#direccionActualPersona').val().match(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\#.-\s]+$/))) {
 					
 					swal({
@@ -539,6 +540,8 @@ $(document).on('ready', function() {
 					$('#direccionActualPersona').focus();
 			    	return false;
 				}
+				
+				*/
 				
 				/**
 				else if(!($('#referenciaPersona').val().match(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\#.-\s]+$/))) {

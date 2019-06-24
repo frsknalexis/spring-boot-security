@@ -2,6 +2,8 @@ package com.dev.crm.core.view.pdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -219,19 +221,58 @@ public class PdfGenerator {
 	
 	public static ByteArrayInputStream PdfPagoDia(List<PdfPagoDiaResultViewModel> pagosPorCaja) {
 		
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A4.rotate());
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
 		try {
 			
+			
+			String imageUrl = "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-9/61296693_2742619672420355_3895064617646292992_n.jpg?_nc_cat=107&_nc_ht=scontent.flim19-1.fna&oh=275d98534984bba9612bb14e98a96f10&oe=5D900E4A";
+			
+			Image img = Image.getInstance(new URL(imageUrl));
+			img.scaleAbsolute(100f, 45f);
+			img.disableBorderSide(Rectangle.BOX);
+			
 			PdfPTable table = new PdfPTable(6);
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] {1.7f, 1, 1, 1, 1, 1});
+			table.setWidths(new float[] {0.2f, 1, 1, 1, 1.7f, 1});
 			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
 			font.setColor(BaseColor.WHITE);
 			
+			PdfPTable tables = new PdfPTable(1);
+			tables.setWidthPercentage(35f);
+			tables.setHorizontalAlignment(Element.ALIGN_LEFT);
+			
+			PdfPTable tabla = new PdfPTable(6);
+			tabla.setWidthPercentage(100);
+			tabla.setWidths(new float[] {0.2f, 1, 1, 1, 1.7f, 1});
+			Font fant = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+			font.setColor(BaseColor.WHITE);
+			
+			PdfPCell hcells;
+			Paragraph celda = new Paragraph();
+			Paragraph celdas = new Paragraph();
+			hcells = new PdfPCell();
+			hcells.disableBorderSide(Rectangle.BOX);
+			celdas.add(new Phrase(new Chunk(img, 45, 0)));
+			celda.add(new Paragraph(  " "
+					+ "Vip Channel S.A.C.                                    ."));
+			celda.setAlignment(Element.ALIGN_RIGHT);
+			hcells.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcells.setVerticalAlignment(Element.ALIGN_MIDDLE);;
+			hcells.addElement(celdas);
+			hcells.addElement(celda);
+			tables.addCell(hcells);
+			
+			hcells = new PdfPCell(new Phrase(" "));
+			hcells.setHorizontalAlignment(Element.ALIGN_LEFT);
+			hcells.disableBorderSide(Rectangle.BOX);
+			tables.addCell(hcells);
+			
+			
+			
 			PdfPCell hcell;
-			hcell = new PdfPCell(new Phrase("N°DE OPERACION:", font));
+			hcell = new PdfPCell(new Phrase("N°:", font));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
 			table.addCell(hcell);
@@ -241,7 +282,17 @@ public class PdfGenerator {
 			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
 			table.addCell(hcell);
 			
-			hcell = new PdfPCell(new Phrase("MES - AÑO", font));
+			hcell = new PdfPCell(new Phrase("MENSUALIDAD", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("FECHA DE PAGO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("ABONADO", font));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
 			table.addCell(hcell);
@@ -251,15 +302,7 @@ public class PdfGenerator {
 			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
 			table.addCell(hcell);
 			
-			hcell = new PdfPCell(new Phrase("FECHA DE PAGO (AÑO - MES - DIA)", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
 			
-			hcell = new PdfPCell(new Phrase("CLIENTE", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
 			
 			for(PdfPagoDiaResultViewModel pagoPorCaja : pagosPorCaja) {
 				
@@ -282,11 +325,6 @@ public class PdfGenerator {
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase(pagoPorCaja.getMonto_pago(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-				
 				cell = new PdfPCell(new Phrase(pagoPorCaja.getFecha_dia_pago(), f));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -294,17 +332,69 @@ public class PdfGenerator {
 				
 				cell = new PdfPCell(new Phrase(pagoPorCaja.getCliente(), f));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(pagoPorCaja.getMonto_pago(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				table.addCell(cell);
 			}
 			
+			PdfPCell hcelda;
+			hcelda = new PdfPCell(new Phrase(" ", fant));
+			hcelda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcelda.setBackgroundColor(BaseColor.WHITE);
+			hcelda.disableBorderSide(Rectangle.BOX);
+			tabla.addCell(hcelda);
+			
+			hcelda = new PdfPCell(new Phrase("______________________ \n"
+											+"Supervisor de Cobranzas", fant));
+			hcelda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcelda.setBackgroundColor(BaseColor.WHITE);
+			hcelda.disableBorderSide(Rectangle.BOX);
+			tabla.addCell(hcelda);
+			
+			hcelda = new PdfPCell(new Phrase(" ", fant));
+			hcelda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcelda.setBackgroundColor(BaseColor.WHITE);
+			hcelda.disableBorderSide(Rectangle.BOX);
+			tabla.addCell(hcelda);
+			
+			hcelda = new PdfPCell(new Phrase("______________________ \n"
+											+"Caja", fant));
+			hcelda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcelda.setBackgroundColor(BaseColor.WHITE);
+			hcelda.disableBorderSide(Rectangle.BOX);
+			tabla.addCell(hcelda);
+			
+			hcelda = new PdfPCell(new Phrase(" ", fant));
+			hcelda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcelda.setBackgroundColor(BaseColor.WHITE);
+			hcelda.disableBorderSide(Rectangle.BOX);
+			tabla.addCell(hcelda);
+			
+			hcelda = new PdfPCell(new Phrase(" ", fant));
+			hcelda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcelda.setBackgroundColor(BaseColor.WHITE);
+			hcelda.disableBorderSide(Rectangle.BOX);
+			tabla.addCell(hcelda);
+			
 			PdfWriter.getInstance(document, baos);
 			document.open();
+			document.add(tables);
+			document.add(new Phrase("\n"));
 			document.add(table);
-			
+			document.add(new Phrase("\n"));
+			document.add(new Phrase("\n"));
+			document.add(tabla);
 			document.close();
 		}
 		catch(DocumentException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return new ByteArrayInputStream(baos.toByteArray());
@@ -500,7 +590,7 @@ public class PdfGenerator {
 	
 	public static ByteArrayInputStream generarReciboToPDF(ReciboResultViewModel recibo) {
 		
-		Document documento = new Document(PageSize.A4_LANDSCAPE.rotate());
+		Document documento = new Document(PageSize.A4.rotate());
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		

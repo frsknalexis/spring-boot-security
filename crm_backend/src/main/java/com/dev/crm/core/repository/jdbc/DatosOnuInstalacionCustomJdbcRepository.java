@@ -13,11 +13,11 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import com.dev.crm.core.dto.DatosInternetServicioRequest;
+import com.dev.crm.core.dto.DatosOnuInstalacionRequest;
 import com.dev.crm.core.util.Constantes;
 
-@Repository("datosInternetServicioJdbcRepository")
-public class DatosInternetServicioCustomJdbcRepository implements DatosInternetServicioJdbcRepository {
+@Repository("datosOnuInstalacionJdbcRepository")
+public class DatosOnuInstalacionCustomJdbcRepository implements DatosOnuInstalacionJdbcRepository {
 
 	private SimpleJdbcCall simpleJdbcCall;
 	
@@ -28,20 +28,22 @@ public class DatosInternetServicioCustomJdbcRepository implements DatosInternetS
 	}
 	
 	@Override
-	public String spEnvioDatosInternetServicio(DatosInternetServicioRequest request) {
+	public String envioDatosOnu(DatosOnuInstalacionRequest request) {
 		
 		try {
 			
-			simpleJdbcCall.withProcedureName(Constantes.SP_ENVIO_DATOS_IN_SERVICIO);
-			simpleJdbcCall.declareParameters(new SqlParameter("CODCUN", Types.INTEGER),
+			simpleJdbcCall.withProcedureName(Constantes.SP_ENVIO_DATOS_ONU);
+			simpleJdbcCall.declareParameters(new SqlParameter("CODDET", Types.INTEGER),
 					new SqlParameter("DNIRUC", Types.VARCHAR),
-					new SqlParameter("OBS", Types.VARCHAR),
+					new SqlParameter("SERIE", Types.VARCHAR),
+					new SqlParameter("MAC", Types.VARCHAR),
 					new SqlOutParameter("MENSAJE", Types.VARCHAR));
 			
 			Map<String, Object> inParams = new HashMap<String, Object>();
-			inParams.put("CODCUN", request.getCodigoCuenta());
+			inParams.put("CODDET", request.getCodigoDetalleCuenta());
 			inParams.put("DNIRUC", request.getDocumentoPersonaCliente());
-			inParams.put("OBS", request.getObservacion());
+			inParams.put("SERIE", request.getSerieOnu());
+			inParams.put("MAC", request.getMacOnu());
 			
 			Map<String, Object> out = simpleJdbcCall.execute(inParams);
 			String result = (String) out.get("MENSAJE");

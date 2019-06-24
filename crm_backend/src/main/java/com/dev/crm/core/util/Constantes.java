@@ -18,7 +18,9 @@ public class Constantes {
 	public static final String TAREA_VIEW= "modulo-notificacion/tarea/view";
 	public static final String CORTE_VIEW = "modulo-servicios/instalacion/cortes";
 	public static final String INSTALACIONES_VIEW = "modulo-servicios/instalacion/instalaciones";
+	public static final String INFORME_INSTALACION_VIEW = "modulo-servicios/instalacion/informeinstalaciones";
 	public static final String LISTA_PAGOS_VIEW = "modulo-pagos/pagos/listapagos";
+	public static final String CLIENTE_GESTORES_VIEW = "modulo-pagos/gestores/clientegestores";
 	public static final String LOGIN_VIEW = "login";
 	
 	public static final String SP_ACTIVAR_DESACTIVAR_CLIENTE = "sp_activar_desactivar";
@@ -88,11 +90,14 @@ public class Constantes {
 	public static final String SP_LISTAR_PDF_CLIENTE = "sp_listar_pdf_cliente";
 	public static final String SP_LISTAR_MATERIAL = "sp_listar_material";
 	public static final String SP_ENVIO_DATOS_IN_SERVICIO = "sp_envio_datos_in_servicio";
+	public static final String SP_ENVIO_DATOS_ONU = "sp_envio_datos_onu";
 	public static final String SP_ENVIO_DATOS_MATERIAL = "sp_envio_datos_material";
 	public static final String SP_LISTAR_VENTAS_POR_INSTALAR = "sp_listar_ventas_por_instalar";
 	public static final String SP_LISTAR_CUENTA_POR_INSTALAR = "sp_listar_cuenta_por_instalar";
 	public static final String SP_UPDATE_DETALLE_CUENTA = "sp_update_detalle_cuenta";
 	public static final String SP_RECUPERAR_OBSERVACION = "sp_recuperar_obser";
+	public static final String SP_LISTAR_INFORME_INSTALACION_DIA = "sp_listar_informe_instalacion_dia";
+	public static final String SP_LISTAR_CLIENTE_GESTOR = "sp_listar_cliente_gestor";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

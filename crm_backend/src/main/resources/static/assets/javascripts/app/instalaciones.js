@@ -190,14 +190,16 @@ $(document).on('ready', function() {
 			},
 			"columns": [
 				{"data": "codigoDetalleCuenta"},
+				{"data": "codigoCuenta"},
 				{"data": "documentoPersonaCliente"},
 				{"data": "cliente"},
 				{"data": "direccionActualCliente"},
 				{"data": "referenciaDireccion"},
 				{"data": "telefonoCliente"},
+				{"data": "fechaInstalacion"},
 				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btntecnicoinsta" codigoDetalleCuenta><i class="fa fa-hand-o-up "></i> Asignar Técnico</button>'},
-				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnMostrarFormMateriales" codigoDetalleCuenta documentoPersonaCliente clienteCuenta direccionCliente><i class="fa fa-plus-square"></i> Agregar Materiales</button>'},
-				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnMostrarObservacion" data-toggle="modal" codigoDetalleCuenta><i class="fa fa-pencil-square-o"></i> Ver Observacion</button>'}
+				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnMostrarFormMateriales" codigoDetalleCuenta documentoPersonaCliente clienteCuenta direccionCliente><i class="fa fa-plus-square"></i> Añadir Materiales</button>'},
+				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnMostrarObservacion" data-toggle="modal" codigoDetalleCuenta><i class="fa fa-pencil-square-o"></i> Observacion</button>'}
 			]
 		}).DataTable();
 		
@@ -489,6 +491,7 @@ $(document).on('ready', function() {
 			$('#documentoPersonaClienteDetalle').attr('disabled', true);
 			$('#clienteDetalle').attr('disabled', true);
 			$('#direccionClienteDetalle').attr('disabled', true);
+			disabledInputsONU(true);
 			
 			$('#codigoCuentaDetalle').val(codigoDetalleCuenta);
 			$('#documentoPersonaClienteDetalle').val(documentoPersonaCliente);
@@ -651,11 +654,8 @@ $(document).on('ready', function() {
 		
 		$('#snDescripcion').val('');
 		$('#macDescripcion').val('');
-		$('#winUser').val('');
 		$('#winPassword').val('');
 		$('#wifissid').val('');
-		$('#wifiPassword').val('');
-		$('#estado').val('');
 	}
 	
 	/**
@@ -669,20 +669,14 @@ $(document).on('ready', function() {
 			
 			$('#snDescripcion').attr('disabled', true);
 			$('#macDescripcion').attr('disabled', true);
-			$('#winUser').attr('disabled', true);
-			$('#winPassword').attr('disabled', true);
 			$('#wifissid').attr('disabled', true);
 			$('#wifiPassword').attr('disabled', true);
-			$('#estado').attr('disabled', true);
 		}
 		else {
 			$('#snDescripcion').attr('disabled', false);
 			$('#macDescripcion').attr('disabled', false);
-			$('#winUser').attr('disabled', false);
-			$('#winPassword').attr('disabled', false);
 			$('#wifissid').attr('disabled', false);
 			$('#wifiPassword').attr('disabled', false);
-			$('#estado').attr('disabled', false);
 		}
 	}
 	
@@ -736,11 +730,8 @@ $(document).on('ready', function() {
 							disabledInputsONU(true);
 							$('#snDescripcion').val(response.snDescripcion);
 							$('#macDescripcion').val(response.macDescripcion);
-							$('#winUser').val(response.winUser);
-							$('#winPassword').val(response.winPassword);
 							$('#wifissid').val(response.wifissidDescripcion);
 							$('#wifiPassword').val(response.wifiPasswordDescripcion);
-							$('#estado').val(response.estado);
 						}
 						else if(response == null) {
 							
@@ -802,7 +793,8 @@ $(document).on('ready', function() {
 				
 				var formDataDetalleCuenta = {
 						codigoCuenta: $('#codigoCuentaDetalle').val(),
-						documentoPersonaCliente: $('#documentoPersonaClienteDetalle').val()
+						documentoPersonaCliente: $('#documentoPersonaClienteDetalle').val(),
+						observacion: $('#observacionInstalacionDetalle').val()
 				};
 				
 				console.log(formDataDetalleCuenta);
@@ -823,67 +815,110 @@ $(document).on('ready', function() {
 						
 						if(response.status == "SUCCESS" && response.message == "BUENO") {
 							
-							var indice;
-							
 							var codigoCuenta = response.data.codigoCuenta;
-							for(var i = 0; i < arrayMaterialesJson.length; i++) {
-
-								var formDataMateriales = {
-										codigoInternetServicio: codigoCuenta,
-										nombreMaterial: arrayMaterialesJson[i].nombre,
-										cantidadMaterial: arrayMaterialesJson[i].cantidad
-								};
-								console.log(formDataMateriales);
-								
-								$.ajax({
-									type: 'POST',
-									url: '/api/v1/detalleCuenta/datosMateriales',
-									headers: {
-										"Content-Type": "application/json",
-										"Accept": "application/json"
-									},
-									data: JSON.stringify(formDataMateriales),
-									dataType: 'json',
-									success: function(response) {
-										console.log(response);
-										
-										if(response.status == "SUCCESS" && response.message == "BUENO") {
-											indice = true;
-										}
-										else if(response.status == "ERROR" && response.message == "ERROR") {
-											indice = false;
-										}
-									}
-								});
-								
+							
+							var documentoPersonaCliente = response.data.documentoPersonaCliente;
+							
+							var formDataDatosOnu = {
+									codigoDetalleCuenta: codigoCuenta,
+									documentoPersonaCliente: documentoPersonaCliente,
+									serieOnu: $('#snDescripcion').val(),
+									macOnu: $('#macDescripcion').val()
 							}
 							
-							setTimeout(function() {
+							console.log(formDataDatosOnu);
+							
+							$.ajax({
 								
-								if(indice) {
+								type: 'POST',
+								url: '/api/v1/onu/envioDatosOnu',
+								headers: {
+									"Content-Type": "application/json",
+									"Accept": "application/json"
+								},
+								data: JSON.stringify(formDataDatosOnu),
+								dataType: 'json',
+								success: function(response) {
+									console.log(response);
 									
-									swal({
-										type: "success",
-										title: "Se Registraron los Materiales con exito",
-										showConfirmButton: true,
-										confirmButtonText: "Cerrar",
-										closeOnConfirm: false
-									}).then((result) => {
+									if(response.status == "SUCCESS" && response.message == "BUENO") {
+										
+										var indice;
+										
+										for(var i = 0; i < arrayMaterialesJson.length; i++) {
 
-										if(result.value) {
-											$(location).attr('href', '/instalacion/instalaciones/view');
+											var formDataMateriales = {
+													codigoInternetServicio: codigoCuenta,
+													nombreMaterial: arrayMaterialesJson[i].nombre,
+													cantidadMaterial: arrayMaterialesJson[i].cantidad
+											};
+											console.log(formDataMateriales);
+											
+											$.ajax({
+												type: 'POST',
+												url: '/api/v1/detalleCuenta/datosMateriales',
+												headers: {
+													"Content-Type": "application/json",
+													"Accept": "application/json"
+												},
+												data: JSON.stringify(formDataMateriales),
+												dataType: 'json',
+												success: function(response) {
+													console.log(response);
+													
+													if(response.status == "SUCCESS" && response.message == "BUENO") {
+														indice = true;
+													}
+													else if(response.status == "ERROR" && response.message == "ERROR") {
+														indice = false;
+													}
+												}
+											});
+											
 										}
-									});
-								}
-								else if(!indice) {
+										setTimeout(function() {
+											console.log(indice);
+											if(indice) {
+												
+												swal({
+													type: "success",
+													title: "Se Registraron los Materiales con exito",
+													showConfirmButton: true,
+													confirmButtonText: "Cerrar",
+													closeOnConfirm: false
+												}).then((result) => {
+
+													if(result.value) {
+														$(location).attr('href', '/instalacion/instalaciones/view');
+													}
+												});
+											}
+											else if(!indice) {
+												swal({
+									                type: 'error',
+									                title: 'Ooops',
+									                text: 'Error al Registrar Materiales !'
+									            });
+											}
+											
+										}, 5000);
+									}
+									else if(response.status == "ERROR", response.message == "ERROR") {
+										swal({
+											type: 'error',
+							                title: 'Ooops',
+							                text: 'Error al Registrar Materiales !'
+							            });
+									}
+								},
+								error: function() {
 									swal({
 						                type: 'error',
 						                title: 'Ooops',
 						                text: 'Error al Registrar Materiales !'
 						            });
 								}
-								
-							}, 4000);
+							});
 						}
 						else if(response.status == "ERROR", response.message == "ERROR") {
 							

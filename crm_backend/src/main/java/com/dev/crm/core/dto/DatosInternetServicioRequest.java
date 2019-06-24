@@ -12,6 +12,8 @@ public class DatosInternetServicioRequest implements Serializable {
 	private Integer codigoCuenta;
 	
 	private String documentoPersonaCliente;
+	
+	private String observacion;
 
 	public DatosInternetServicioRequest() {
 	
@@ -31,5 +33,13 @@ public class DatosInternetServicioRequest implements Serializable {
 
 	public void setDocumentoPersonaCliente(String documentoPersonaCliente) {
 		this.documentoPersonaCliente = documentoPersonaCliente;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 }

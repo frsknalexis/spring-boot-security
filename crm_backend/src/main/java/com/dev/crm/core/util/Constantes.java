@@ -98,6 +98,7 @@ public class Constantes {
 	public static final String SP_RECUPERAR_OBSERVACION = "sp_recuperar_obser";
 	public static final String SP_LISTAR_INFORME_INSTALACION_DIA = "sp_listar_informe_instalacion_dia";
 	public static final String SP_LISTAR_CLIENTE_GESTOR = "sp_listar_cliente_gestor";
+	public static final String SP_UPDATE_CLIENTE_GESTOR = "sp_update_cliente_gestor";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

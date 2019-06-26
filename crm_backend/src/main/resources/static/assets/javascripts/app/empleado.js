@@ -8,7 +8,7 @@ $(document).on('ready', function() {
 		 mostrarFormPersona(false);
 	}, 1000);
 	
-	ocultar_mostrar(20);
+	ocultar_mostrar(50);
 	
 	setTimeout(function() {
 		cargarEstadEmpleado();

@@ -28,7 +28,7 @@ $(document).on('ready', function() {
 		ocultarBotones();
 	}, 8000);
 	
-	ocultar_mostrar(20);
+	ocultar_mostrar(50);
 	
 	cargarTotalRegistrosPersonita();
 	

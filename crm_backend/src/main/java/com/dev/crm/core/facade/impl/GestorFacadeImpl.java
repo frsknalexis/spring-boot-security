@@ -7,10 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.GestorFacade;
 import com.dev.crm.core.service.GestorService;
+import com.dev.crm.core.util.Constantes;
 import com.dev.crm.core.util.GenericUtil;
+import com.dev.crm.core.util.StringUtil;
 
 @Component("gestorFacade")
 public class GestorFacadeImpl implements GestorFacade {
@@ -32,6 +36,27 @@ public class GestorFacadeImpl implements GestorFacade {
 			}
 			else {
 				return clientesGestor;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ResponseBaseOperation updateClienteGestor(ClienteGestorRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = gestorService.updateClienteGestor(request);
+				if(StringUtil.eq(result, Constantes.BUENO)) {
+					return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+				}
+				else if(StringUtil.eq(result, Constantes.ERROR)) {
+					return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+				}
 			}
 		}
 		catch(Exception e) {

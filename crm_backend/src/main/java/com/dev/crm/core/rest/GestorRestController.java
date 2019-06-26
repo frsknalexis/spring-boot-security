@@ -2,15 +2,21 @@ package com.dev.crm.core.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.GestorFacade;
 import com.dev.crm.core.util.GenericUtil;
 
@@ -37,6 +43,19 @@ public class GestorRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<ClienteGestorResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/updateClienteGestor")
+	public ResponseEntity<ResponseBaseOperation> updateClienteGestor(@Valid @RequestBody ClienteGestorRequest request) {
+		
+		try {
+			
+			ResponseBaseOperation response = gestorFacade.updateClienteGestor(request);
+			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

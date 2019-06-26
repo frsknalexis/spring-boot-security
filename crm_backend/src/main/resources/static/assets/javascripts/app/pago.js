@@ -14,7 +14,7 @@ $(document).on('ready', function() {
 		mostrarFormRealizarPago(false);
 	}, 100);
 	
-	ocultar_mostrar(20);
+	ocultar_mostrar(50);
 	
 	window.setInterval(
 		    function(){
@@ -988,7 +988,7 @@ $(document).on('ready', function() {
 		});
 	}
 	
-function cargarmensajespopusnuevo(valor,id){
+	function cargarmensajespopusnuevo(valor,id){
 		
 		
 		

@@ -9,6 +9,8 @@ public class ClienteGestorResultViewModel implements Serializable {
 	 */
 	private static final long serialVersionUID = -2620434850908286759L;
 	
+	private String documentoPersonaCliente;
+	
 	private Integer consecutivoCliente;
 	
 	private String cliente;
@@ -17,6 +19,14 @@ public class ClienteGestorResultViewModel implements Serializable {
 
 	public ClienteGestorResultViewModel() {
 		
+	}
+	
+	public String getDocumentoPersonaCliente() {
+		return documentoPersonaCliente;
+	}
+	
+	public void setDocumentoPersonaCliente(String documentoPersonaCliente) {
+		this.documentoPersonaCliente = documentoPersonaCliente;
 	}
 
 	public Integer getConsecutivoCliente() {

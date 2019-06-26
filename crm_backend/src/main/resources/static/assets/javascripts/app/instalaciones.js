@@ -41,7 +41,7 @@ $(document).on('ready', function() {
 	
 	listarInstalacionDiaInternet();
 	
-	ocultar_mostrar(20);
+	ocultar_mostrar(50);
 	
 	asignartecnico();
 	
@@ -76,8 +76,6 @@ $(document).on('ready', function() {
 					url: '/api/v1/usuario/listamodulos/' + i,
 					dataType: 'json',
 					success: function(response) {
-							console.log(response);
-							
 							var descrip = response.descripcionmodulo;
 							
 							document.getElementById(descrip).style.display = 'block';
@@ -206,7 +204,7 @@ $(document).on('ready', function() {
 		$('#tablaInstalacionesDiaInternet tbody').on('click', 'button', function(){
 			
 			var data = tablaInstalacionesDiaInternet.row( $(this).parents('tr')).data();
-			console.log(data);
+		
 			$(this).attr('codigoDetalleCuenta', data.codigoDetalleCuenta);
 			$(this).attr('documentoPersonaCliente', data.documentoPersonaCliente);
 			$(this).attr('clienteCuenta', data.cliente);
@@ -251,8 +249,8 @@ $(document).on('ready', function() {
 		$('#tablaInstalacionesDiaInternet tbody').on('click', 'button.btnMostrarObservacion', function() {
 			
 			var codigoDetalleCuenta = $(this).attr('codigoDetalleCuenta');
-			console.log("codigoDetalleCuenta: " + codigoDetalleCuenta);
-			
+
+
 			limpiarInputsObservacion();
 			$('#modalVerObservacion').modal('show');
 			$('#observacionCuenta').attr('disabled', true);
@@ -301,7 +299,7 @@ $(document).on('ready', function() {
 			url: '/api/v1/material/materiales',
 			dataType: 'json',
 			success: function(response) {
-				console.log(response);
+				
 				$nombreMaterial.html('');
 				$nombreMaterial.append('<option value="">Seleccione un Material</option>');
 				for(var  i = 0; i < response.length; i++) {
@@ -322,7 +320,7 @@ $(document).on('ready', function() {
 		$('#contenidoMateriales').append(fila);
 		reordenarNumeracionTabla();
 		arrayMaterialesJson.push(data);
-		console.log(arrayMaterialesJson);
+		
 	}
 	
 	/**
@@ -336,7 +334,7 @@ $(document).on('ready', function() {
 			$("#fila" + cont).remove();
 			reordenarNumeracionTabla();
 			arrayMaterialesJson.splice(num-1, 1);
-			console.log(arrayMaterialesJson);
+			
 		});
 	}
 	
@@ -351,7 +349,7 @@ $(document).on('ready', function() {
 		 });
 		 
 		 arrayMaterialesJson.splice(0, arrayMaterialesJson.length);
-		 console.log(arrayMaterialesJson);
+		
 	}
 	
 	/**
@@ -397,7 +395,7 @@ $(document).on('ready', function() {
 					cantidad: $('#cantidadMaterial').val()
 				};
 				
-				console.log(data);
+				
 				 agregarFilaToTabla(data);
 				 $('#cantidadMaterial').val(1);
 			}
@@ -484,7 +482,6 @@ $(document).on('ready', function() {
 			var clienteCuenta = $(this).attr('clienteCuenta');
 			var direccionCliente = $(this).attr('direccionCliente');
 			
-			console.log("codigoDetalleCuenta: " + codigoDetalleCuenta);
 			
 			mostrarFormMateriales(true);
 			$('#codigoCuentaDetalle').attr('disabled', true);
@@ -708,7 +705,6 @@ $(document).on('ready', function() {
 						macDescripcion: $('#macOnuDescripcion').val()
 				};
 				
-				console.log(formDataBuscarOnu);
 				
 				limpiarDatosONU();
 				
@@ -726,7 +722,6 @@ $(document).on('ready', function() {
 						
 						if(response != null) {
 							
-							console.log(response);
 							disabledInputsONU(true);
 							$('#snDescripcion').val(response.snDescripcion);
 							$('#macDescripcion').val(response.macDescripcion);
@@ -797,7 +792,6 @@ $(document).on('ready', function() {
 						observacion: $('#observacionInstalacionDetalle').val()
 				};
 				
-				console.log(formDataDetalleCuenta);
 				
 				$.ajax({
 					
@@ -811,7 +805,6 @@ $(document).on('ready', function() {
 					dataType: 'json',
 					success: function(response) {
 						
-						console.log(response);
 						
 						if(response.status == "SUCCESS" && response.message == "BUENO") {
 							
@@ -826,7 +819,6 @@ $(document).on('ready', function() {
 									macOnu: $('#macDescripcion').val()
 							}
 							
-							console.log(formDataDatosOnu);
 							
 							$.ajax({
 								
@@ -839,7 +831,6 @@ $(document).on('ready', function() {
 								data: JSON.stringify(formDataDatosOnu),
 								dataType: 'json',
 								success: function(response) {
-									console.log(response);
 									
 									if(response.status == "SUCCESS" && response.message == "BUENO") {
 										
@@ -852,7 +843,6 @@ $(document).on('ready', function() {
 													nombreMaterial: arrayMaterialesJson[i].nombre,
 													cantidadMaterial: arrayMaterialesJson[i].cantidad
 											};
-											console.log(formDataMateriales);
 											
 											$.ajax({
 												type: 'POST',
@@ -864,7 +854,6 @@ $(document).on('ready', function() {
 												data: JSON.stringify(formDataMateriales),
 												dataType: 'json',
 												success: function(response) {
-													console.log(response);
 													
 													if(response.status == "SUCCESS" && response.message == "BUENO") {
 														indice = true;
@@ -877,7 +866,6 @@ $(document).on('ready', function() {
 											
 										}
 										setTimeout(function() {
-											console.log(indice);
 											if(indice) {
 												
 												swal({

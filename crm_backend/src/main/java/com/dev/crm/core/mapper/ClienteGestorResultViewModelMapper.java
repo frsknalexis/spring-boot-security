@@ -13,6 +13,7 @@ public class ClienteGestorResultViewModelMapper implements RowMapper<ClienteGest
 	public ClienteGestorResultViewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		ClienteGestorResultViewModel clienteGestor = new ClienteGestorResultViewModel();
+		clienteGestor.setDocumentoPersonaCliente(rs.getString("documento_personac"));
 		clienteGestor.setConsecutivoCliente(rs.getInt("cons_cliente"));
 		clienteGestor.setCliente(rs.getString("cliente"));
 		clienteGestor.setGestor(rs.getString("gestor"));

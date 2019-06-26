@@ -10,15 +10,7 @@ $(document).on('ready', function() {
 	
 	cargarTotalRegistrosPersonita();
 	
-	ocultar_mostrar(20);
-	
-	cargarComboComprobante();
-	
-	validarFormRevalidarPago();
-	
-	guardarRevalidarPago();
-	
-	generarReciboPago();
+	ocultar_mostrar(50);
 	
 	window.setInterval(
 		    function(){
@@ -27,9 +19,18 @@ $(document).on('ready', function() {
 		    	$('#total').load(cargarTotalRegistrosPersona());
 		    	evaluando();
 		    // Ejemplo: Cada dos segundos se imprime la hora
-		    
-	}// Intervalo de tiempo
-	,5000);
+		 
+		  }
+		  // Intervalo de tiempo
+		,5000);
+	
+	cargarComboComprobante();
+	
+	validarFormRevalidarPago();
+	
+	guardarRevalidarPago();
+	
+	generarReciboPago();
 	
 	function ocultar_mostrar(id){
 		
@@ -322,7 +323,7 @@ $(document).on('ready', function() {
 		});
 	}
 	
-	function cargarmensajespopusnuevo(valor,id){
+function cargarmensajespopusnuevo(valor,id){
 		
 		
 		

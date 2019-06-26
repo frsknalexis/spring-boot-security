@@ -6,16 +6,13 @@ $(document).on('ready', function() {
 	
 	var valorvalue ;
 	
-	var dinamico = 0;
-	var estatico = 0;
-	
 	redireccionViewHerramientas();
 	
 	listarTablaClientesAtencion();
 	
 	cargarTotalRegistrosPersonita();
 	
-	ocultar_mostrar(20);
+	ocultar_mostrar(50);
 	
 	window.setInterval(
 		    function(){
@@ -60,10 +57,8 @@ $(document).on('ready', function() {
 					url: '/api/v1/usuario/listamodulos/' + i,
 					dataType: 'json',
 					success: function(response) {
-							console.log(response);
 							
 							var descrip = response.descripcionmodulo;
-							
 							document.getElementById(descrip).style.display = 'block';
 						}
 					});
@@ -632,9 +627,5 @@ $(document).on('ready', function() {
 				});
 			}
 		});
-	}
-
-	
-	
-	
+	}	
 });

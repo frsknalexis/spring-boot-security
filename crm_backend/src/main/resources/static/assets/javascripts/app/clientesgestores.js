@@ -8,6 +8,8 @@ $(document).on('ready', function() {
 	
 	listarTablaClientesGestores();
 	
+	listarComboGestores(); 
+	
 	cargarTotalRegistrosPersonita();
 	
 	ocultar_mostrar(50);
@@ -371,9 +373,137 @@ $(document).on('ready', function() {
 			var documentoPersonaCliente = $(this).attr('documentoPersonaCliente');
 			console.log("documentoPersonaCliente: " +  documentoPersonaCliente);
 			
+			limpiarModalFormAsignarGestor();
+			
 			$('#modalFormAsignarGestor').modal('show');
 			$('#documentoPersonaCliente').attr('disabled', true);
 			$('#documentoPersonaCliente').val(documentoPersonaCliente);
+			
+			validarFormAsignarGestor();
+		});
+	}
+	
+	function listarComboGestores() {
+		
+		$gestorResponsable = $('#gestorResponsable');
+		
+		$.ajax({
+			
+			type: 'GET',
+			url: '/api/v1/gestor/gestores',
+			dataType: 'json',
+			success: function(response) {
+				
+				console.log(response);
+				$gestorResponsable.html('');
+				$gestorResponsable.append('<option value="">Seleccione un Gestor</option>');
+				for(var i = 0; i < response.length; i++) {
+					$gestorResponsable.append('<option value="' + response[i].gestor + '">' + response[i].gestor + '</option>');
+				}
+			}
+		});
+	}
+	
+	function limpiarModalFormAsignarGestor() {
+		
+		$('#cancelarModalAsignarGestor').on('click', function() {
+			
+			$('#documentoPersonaCliente').val('');
+			$('#gestorResponsable').val('');
+		});
+	}
+	
+	function validarFormAsignarGestor() {
+		
+		$('#guardarAsignarGestor').on('click', function(e) {
+			
+			e.preventDefault();
+			
+			if($('#documentoPersonaCliente').val() != "" && $('#gestorResponsable').val().trim() != "") {
+				
+				var formDataAsignarGestores = {
+						documentoPersonaCliente: $('#documentoPersonaCliente').val(),
+						gestorResponsable: $('#gestorResponsable').val()
+				};
+				
+				console.log(formDataAsignarGestores);
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/gestor/updateClienteGestor',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					}
+					data: JSON.stringify(formDataAsignarGestores),
+					dataType: 'json',
+					success: function(response) {
+						
+						console.log(response);
+						
+						if(response.status == "SUCCESS" && response.message == "BUENO") {
+							
+							swal({
+								type: "success",
+								title: "Se asigno al Gestor Responsable con exito",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+							}).then((result) => {
+
+								if(result.value) {
+									$(location).attr('href', '/gestor/clienteGestores/view');
+								}
+							});
+						}
+						
+						else if(response.status == "ERROR", response.message == "ERROR") {
+							
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Error al Asignar Gestor Responsable !'
+				            });
+						}
+					},
+					error: function() {
+						
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Error al Asignar Gestor Responsable !'
+			            });
+					}
+				});
+			}
+			
+			if($('#documentoPersonaCliente').val() == "" && $('#gestorResponsable').val().trim() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe llenar algunos los Campos !'
+	            });
+				return false;
+			}
+			else if($('#documentoPersonaCliente').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'El Campo Numero Documento Cliente no puede estar vacio, ingrese un valor valido !'
+	            });
+			}
+			else if($('#gestorResponsable').val().trim() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe Seleccionar un Gestor Responsable !'
+	            });
+				return false;
+			}
 		});
 	}
 });

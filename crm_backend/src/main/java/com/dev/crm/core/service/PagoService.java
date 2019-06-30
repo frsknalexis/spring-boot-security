@@ -9,6 +9,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
+import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
@@ -35,6 +36,8 @@ public interface PagoService {
 	String spPagoServicio(PagoRequest pagoRequest);
 	
 	String spPagoMora(PagoMoraRequest pagoMora);
+	
+	String spPagoAdelantado(PagoAdelantadoRequest request);
 	
 	String spInsertarConsecutivoPago(ConsecutivoPagoRequest request);
 	

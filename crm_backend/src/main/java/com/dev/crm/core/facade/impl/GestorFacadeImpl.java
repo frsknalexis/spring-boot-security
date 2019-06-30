@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.GestoresResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.GestorFacade;
 import com.dev.crm.core.service.GestorService;
@@ -36,6 +37,27 @@ public class GestorFacadeImpl implements GestorFacade {
 			}
 			else {
 				return clientesGestor;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<GestoresResultViewModel> listarGestores() {
+	
+		List<GestoresResultViewModel> gestores = new ArrayList<GestoresResultViewModel>();
+		
+		try {
+			
+			gestores = gestorService.listarGestores();
+			if(GenericUtil.isCollectionEmpty(gestores)) {
+				return null;
+			}
+			else {
+				return gestores;
 			}
 		}
 		catch(Exception e) {

@@ -15,6 +15,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
+import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
@@ -29,6 +30,7 @@ import com.dev.crm.core.repository.jdbc.DetallePagoResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.HistorialDescuentoResquestdbcRepository;
 import com.dev.crm.core.repository.jdbc.ListaPagosPorCajaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.MesDeudaResultJdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagoAdelantadoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoDelDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoListOutdbcRepository;
@@ -101,6 +103,10 @@ public class PagoServiceImpl implements PagoService {
 	@Qualifier("PagoListOutdbcRepository")
 	private PagoListOutdbcRepository pagoListOutdbcRepository;
 	
+	@Autowired
+	@Qualifier("pagoAdelantadoJdbcRepository")
+	private PagoAdelantadoJdbcRepository pagoAdelantadoJdbcRepository;
+	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
 		
@@ -129,6 +135,27 @@ public class PagoServiceImpl implements PagoService {
 			
 			if(GenericUtil.isNotNull(pagoMora)) {
 				String result = pagoMoraJdbcRepository.spPagoMora(pagoMora);
+				if(StringUtil.hasText(result)) {
+					return result;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public String spPagoAdelantado(PagoAdelantadoRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = pagoAdelantadoJdbcRepository.spPagoAdelantado(request);
 				if(StringUtil.hasText(result)) {
 					return result;
 				}

@@ -14,6 +14,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
+import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
@@ -95,6 +96,36 @@ public class PagoFacadeImpl implements PagoFacade {
 		}
 		return null;
 	}
+	
+	@Override
+	public ResponseBaseOperation spPagoAdelantado(PagoAdelantadoRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = pagoService.spPagoAdelantado(request);
+				if(StringUtil.hasText(result)) {
+					if(StringUtil.eq(result, Constantes.PAGO_RAPIDO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.PAGO_ADELANTADO_SIN_PROMO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.PAGO_ADELANTADO_CON_PROMO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					}
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	@Override
 	public ResponseBaseOperation spInsertarConsecutivoPago(ConsecutivoPagoRequest request) {

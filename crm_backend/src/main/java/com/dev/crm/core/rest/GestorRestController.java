@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.GestoresResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.GestorFacade;
 import com.dev.crm.core.util.GenericUtil;
@@ -43,6 +44,24 @@ public class GestorRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<ClienteGestorResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/gestores")
+	public ResponseEntity<List<GestoresResultViewModel>> listarGestores() {
+		
+		try {
+			
+			List<GestoresResultViewModel> gestores = gestorFacade.listarGestores();
+			if(GenericUtil.isCollectionEmpty(gestores)) {
+				return new ResponseEntity<List<GestoresResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			else {
+				return new ResponseEntity<List<GestoresResultViewModel>>(gestores, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<GestoresResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

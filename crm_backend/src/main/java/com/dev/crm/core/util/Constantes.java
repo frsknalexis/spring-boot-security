@@ -99,6 +99,8 @@ public class Constantes {
 	public static final String SP_LISTAR_INFORME_INSTALACION_DIA = "sp_listar_informe_instalacion_dia";
 	public static final String SP_LISTAR_CLIENTE_GESTOR = "sp_listar_cliente_gestor";
 	public static final String SP_UPDATE_CLIENTE_GESTOR = "sp_update_cliente_gestor";
+	public static final String SP_LISTA_GESTORES = "sp_lista_gestores";
+	public static final String SP_INSERTAR_MESES_ADELANTADOS = "sp_insertar_meses_adelantados";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;
@@ -125,4 +127,7 @@ public class Constantes {
 	public static final String SIN_PERMISO = "SIN PERMISO";
 	public static final String AUTORIZADO = "MES NO AUTORIZADO";
 	public static final String LLENO = "LLENO";
+	public static final String PAGO_RAPIDO = "PAGO RAPIDO";
+	public static final String PAGO_ADELANTADO_SIN_PROMO = "PAGO ADELANTADO SIN PROMO";
+	public static final String PAGO_ADELANTADO_CON_PROMO = "PAGO ADELANTADO CON PROMO";
 }

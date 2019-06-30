@@ -367,16 +367,16 @@ $(document).on('ready', function() {
 				var formData = {
 					documentoPersonaCliente: $('#documentoPersonaClientePago').val(),
 					codigoComprobante: $('#codigoComprobante').val(),
-					cantidadPago: $('#cantidadPago').val(),
+					montoPago: $('#cantidadPago').val(),
 					documentoPersonaPago: $('#documentoPersonaPago').val()
 				};
 				
-				
+				console.log(formData);
 				
 				$.ajax({
 					
 					type: 'POST',
-					url: '/api/v1/pago/realizarPago',
+					url: '/api/v1/pago/pagosAdelantados',
 					headers: {
 						"Content-Type": "application/json",
 						"Accept": "application/json"
@@ -385,12 +385,13 @@ $(document).on('ready', function() {
 					dataType: 'json',
 					success: function(response) {
 						
+						console.log(response);
 						
-						if(response.message == "HECHO") {
+						if(response.status == "SUCCESS" && response.message == "PAGO ADELANTADO CON PROMO") {
 							
 							swal({
 								type: "success",
-								title: "Se Realizo el Pago con exito",
+								title: "Se Realizo el Pago Correctamente",
 								showConfirmButton: true,
 								confirmButtonText: "Cerrar",
 								closeOnConfirm: false
@@ -401,13 +402,35 @@ $(document).on('ready', function() {
 								}
 							});
 						}
-						else if(response.message == "EXCEDIO") {
+						else if(response.status == "SUCCESS" && response.message == "PAGO ADELANTADO SIN PROMO") {
 							
 							swal({
-				                type: 'error',
-				                title: 'Ooops',
-				                text: 'Excedio el monto a Pagar !'
-				            });
+								type: "success",
+								title: "Se Realizo el Pago Correctamente",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+							}).then((result) => {
+
+								if(result.value) {
+									$(location).attr('href', '/pago/listaPagos');
+								}
+							});
+						}
+						else if(response.status == "SUCCESS" && response.message == "PAGO RAPIDO") {
+							
+							swal({
+								type: "success",
+								title: "Se Realizo el Pago Correctamente",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+							}).then((result) => {
+
+								if(result.value) {
+									$(location).attr('href', '/pago/listaPagos');
+								}
+							});
 						}
 					},
 					error: function() {

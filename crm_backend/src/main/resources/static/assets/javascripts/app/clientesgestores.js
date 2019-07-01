@@ -435,7 +435,7 @@ $(document).on('ready', function() {
 					headers: {
 						"Content-Type": "application/json",
 						"Accept": "application/json"
-					}
+					},
 					data: JSON.stringify(formDataAsignarGestores),
 					dataType: 'json',
 					success: function(response) {

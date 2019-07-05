@@ -75,7 +75,7 @@
 						<div class="col-md-12 col-lg-12">
 							<section class="panel panel-featured-left panel-featured-primary">
 								<header class="panel-heading">
-									<h2 class="panel-title">Realizar Pagos Adelantados</h2>
+									<h2 class="panel-title">Realizar Pago</h2>
 								</header>
 								<div class="panel-body">
 									<form role="form" method="post">
@@ -167,6 +167,15 @@
 												<section class="panel panel-featured panel-featured-primary">
 													<div class="panel-body">
 														<div class="row">
+															<div class="col-md-12 col-sm-12 form-group">
+																<label for="datoactualdeuda">Mes Actual Deuda</label>
+																<div class="input-group mb-md">
+																	<span class="input-group-addon">
+																		<i class="fa fa-credit-card"></i>
+																	</span>
+																	<input type="text" class="form-control input-sm" id="datoactualdeuda" disabled="" placeholder="Valor del mes actual de deuda">
+																</div>
+															</div>
 															<div class="col-md-12 col-sm-12 form-group">
 																<label for="codigoComprobante">Comprobante</label>
 																<div class="input-group mb-md">
@@ -383,11 +392,12 @@
 										<table class="table table-hover table-striped table-condensed mb-none" id="tablaPagoClienteDetalle" width="100%">
 											<thead class="text-center">
 												<tr>
-													<th>Pago Total</th>
+													<th>Pago</th>
 													<th>Descuento</th>
 													<th>Cancelo</th>
-													<th>Fecha de Pago</th>
+													<th>Fecha</th>
 													<th>Mes</th>
+													<th>Caja</th>
 												</tr>
 											</thead>
 										</table>

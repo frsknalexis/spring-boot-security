@@ -13,6 +13,8 @@ $(document).on('ready', function() {
 	
 	validarFormGenerarCuenta();
 	
+	cargarComboVendedores();
+	
 	window.setInterval(
 		    function(){
 		    // Sección de código para modificar el DIV
@@ -244,6 +246,34 @@ $(document).on('ready', function() {
 				
 				$('#fechaSolicitudClienteDetalleCuenta').focus();
 				return false;
+			}
+		});
+	}
+	
+	/**
+	 *
+	 * cargar combo vendedores
+	 * 
+	 */
+	function cargarComboVendedores() {
+		
+		var $detalleCuentaVendedor = $('#detalleCuentaVendedor');
+		
+		$.ajax({
+			
+			type: 'GET',
+			url: '/api/v1/vendedor/vendedores',
+			dataType: 'json',
+			success: function(response) {
+				
+				console.log(response);
+				
+				$detalleCuentaVendedor.html('');
+				$detalleCuentaVendedor.append('<option value="">Seleccione un  Vendedor Responsable</option>');
+				
+				for(var i = 0; i < response.length; i++) {
+					$detalleCuentaVendedor.append('<option value="'+ response[i].vendedor +'">'+ response[i].vendedor +'</option>');
+				}
 			}
 		});
 	}

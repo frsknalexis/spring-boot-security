@@ -42,6 +42,7 @@ public class Constantes {
 	public static final String SP_PAGO_SERVICIO = "sp_pago_servicio";
 	public static final String SP_LISTAR_CLIENTE_VENDEDOR = "sp_listar_cliente_vendedor";
 	public static final String SP_BUSCAR_CLIENTE_PAGO = "sp_buscar_cliente_pago";
+	public static final String SP_RECUPERAR_MES_DEUDA = "recuperar_mes_monto_nombreout";
 	public static final String SP_BUSCAR_DATOS_PAGOS_MES = "a";
 	public static final String SP_LISTAR_COMPROBANTE = "sp_listar_comprobante";
 	public static final String SP_MESES_DEUDAS = "sp_meses_deudas";
@@ -101,6 +102,7 @@ public class Constantes {
 	public static final String SP_UPDATE_CLIENTE_GESTOR = "sp_update_cliente_gestor";
 	public static final String SP_LISTA_GESTORES = "sp_lista_gestores";
 	public static final String SP_INSERTAR_MESES_ADELANTADOS = "sp_insertar_meses_adelantados";
+	public static final String SP_LISTAR_VENDEDORES = "sp_listar_vendedores";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

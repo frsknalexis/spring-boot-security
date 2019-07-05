@@ -18,6 +18,7 @@ public class DetallePagoResultViewModelMapper implements RowMapper<DetallePagoRe
 		Dpago.setCantidadpago(rs.getFloat("cant_pago"));
 		Dpago.setFechadepago(rs.getString("fecha_pago_dia"));
 		Dpago.setInformacionpago(rs.getString("mes_valido"));
+		Dpago.setCodigocajapago(rs.getString("numero_caja"));
 		return Dpago;
 	}
 

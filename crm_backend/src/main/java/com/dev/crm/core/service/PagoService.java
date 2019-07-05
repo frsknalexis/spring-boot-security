@@ -8,6 +8,7 @@ import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
+import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
@@ -50,4 +51,6 @@ public interface PagoService {
 	String spGenerarDescuento (DescuentoHistorialRequest codigo);
 	
 	DescuentoPagoResultViewModel spRecuperarMesPago(String gpersona);
+	
+	MesActualDeuda spRecuperarMesMonto(String documentoPersona);
 }

@@ -27,6 +27,7 @@ import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
+import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
@@ -76,6 +77,27 @@ public class PagoRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<DescuentoPagoResultViewModel>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@GetMapping("/recuperarDatoPagoMesMonto/{documentoPersona}")
+	public ResponseEntity<MesActualDeuda> recuperarMesMonto(@PathVariable(value = "documentoPersona") String documentoPersona) {
+		
+		try {
+			
+			if(GenericUtil.isNotEmpty(documentoPersona)) {
+				MesActualDeuda mesActualDeuda = pagoFacade.spRecuperarMesMonto(documentoPersona);
+				if(GenericUtil.isNotNull(mesActualDeuda)) {
+					return new ResponseEntity<MesActualDeuda>(mesActualDeuda, HttpStatus.OK);
+				}
+				else {
+					return new ResponseEntity<MesActualDeuda>(HttpStatus.NO_CONTENT);
+				}
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<MesActualDeuda>(HttpStatus.BAD_REQUEST);
 		}
 		return null;
 	}

@@ -11,6 +11,7 @@
 	<groupId>com.dev.crm</groupId>
 	<artifactId>crm_backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>crm_backend</name>
 	<description>CRM for CC Application using Spring Boot</description>
 

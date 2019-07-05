@@ -18,6 +18,8 @@ public class DetallePagoResultViewModel implements Serializable {
 	private String fechadepago;
 	
 	private String informacionpago;
+	
+	private String codigocajapago;
 
 	public DetallePagoResultViewModel() {
 		
@@ -62,5 +64,12 @@ public class DetallePagoResultViewModel implements Serializable {
 	public void setInformacionpago(String informacionpago) {
 		this.informacionpago = informacionpago;
 	}
-	
+
+	public String getCodigocajapago() {
+		return codigocajapago;
+	}
+
+	public void setCodigocajapago(String codigocajapago) {
+		this.codigocajapago = codigocajapago;
+	}
 }

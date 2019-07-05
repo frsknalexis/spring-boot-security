@@ -13,6 +13,7 @@ import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
+import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
@@ -401,6 +402,29 @@ public class PagoFacadeImpl implements PagoFacade {
 				cDaOnu = pagoService.spRecuperarMesPago(persona);
 				if(GenericUtil.isNotNull(cDaOnu)) {
 					return cDaOnu;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public MesActualDeuda spRecuperarMesMonto(String documentoPersona) {
+		
+		MesActualDeuda mesActualDeuda;
+		
+		try {
+			
+			if(GenericUtil.isNotEmpty(documentoPersona)) {
+				mesActualDeuda = pagoService.spRecuperarMesMonto(documentoPersona);
+				if(GenericUtil.isNotNull(mesActualDeuda)) {
+					return mesActualDeuda;
 				}
 				else {
 					return null;

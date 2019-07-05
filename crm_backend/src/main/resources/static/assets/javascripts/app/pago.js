@@ -196,6 +196,7 @@ $(document).on('ready', function() {
 		$('#codigoComprobante').val('');
 		$('#cantidadPago').val('');
 		$('#documentoPersonaPago').val('');
+		$('#datoactualdeuda').val('');
 	}
 	
 	/**
@@ -245,6 +246,17 @@ $(document).on('ready', function() {
 					$('#myModalLabelPagoCliente').html('Pagos Cliente: ' + response.cliente);
 					$('#myModalLabelDstosClienteDescuento').html('Cliente: ' + response.cliente);
 					$('#documentoPersonaClienteDescuento').val(response.documentoPersonaCliente);
+				}
+			});
+			
+			$.ajax({
+				
+				type: 'GET',
+				url: '/api/v1/pago/recuperarDatoPagoMesMonto/' + documentoPersonaCliente,
+				dataType: 'json',
+				success: function(response) {
+					
+					$('#datoactualdeuda').val("Mes de deuda: "+ response.mesactualdeudanombre + " con un monto S/" + response.valordedeudaactual + " soles");
 				}
 			});
 		});
@@ -501,7 +513,8 @@ $(document).on('ready', function() {
 				{"data": "descuentototal"},
 				{"data": "cantidadpago"},
 				{"data": "fechadepago"},
-				{"data": "informacionpago"}
+				{"data": "informacionpago"},
+				{"data": "codigocajapago"}
 			]
 		}).DataTable();
 	}

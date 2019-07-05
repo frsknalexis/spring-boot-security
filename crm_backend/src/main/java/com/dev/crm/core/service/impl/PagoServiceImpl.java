@@ -14,6 +14,7 @@ import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
+import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
@@ -29,6 +30,7 @@ import com.dev.crm.core.repository.jdbc.ConsecutivoPagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetallePagoResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.HistorialDescuentoResquestdbcRepository;
 import com.dev.crm.core.repository.jdbc.ListaPagosPorCajaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.MesDeudaActualResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.MesDeudaResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoAdelantadoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoDelDiaJdbcRepository;
@@ -106,6 +108,10 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("pagoAdelantadoJdbcRepository")
 	private PagoAdelantadoJdbcRepository pagoAdelantadoJdbcRepository;
+	
+	@Autowired
+	@Qualifier("mesDeudaActualResultJdbcRepository")
+	private MesDeudaActualResultJdbcRepository mesDeudaActualResultJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -432,6 +438,29 @@ public class PagoServiceImpl implements PagoService {
 				clienteDatosAtencion = pagoListOutdbcRepository.spRecuperarDatosPago(gpersona);
 				if(GenericUtil.isNotNull(clienteDatosAtencion)) {
 					return clienteDatosAtencion;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public MesActualDeuda spRecuperarMesMonto(String documentoPersona) {
+		
+		MesActualDeuda mesActualDeuda;
+		
+		try {
+			
+			if(GenericUtil.isNotEmpty(documentoPersona)) {
+				mesActualDeuda = mesDeudaActualResultJdbcRepository.spRecuperarMesMonto(documentoPersona);
+				if(GenericUtil.isNotNull(mesActualDeuda)) {
+					return mesActualDeuda;
 				}
 				else {
 					return null;

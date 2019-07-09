@@ -9,6 +9,10 @@ $(document).on('ready', function() {
 	
 	anularCuenta();
 	
+	 mostrarFormBusquedaCuentasPorDia();
+	 
+	 mostrarFormBusquedaCuentasPorRango();
+	
 	cargarTotalRegistrosPersonita();
 	
 	ocultar_mostrar(50);
@@ -368,6 +372,218 @@ $(document).on('ready', function() {
 			
 		});	
 		
+	}
+		
+	/**
+	 * 
+	 *function para mostrar el form busqueda de cuentas por dia 
+	 * 
+	 **/
+	function mostrarFormBusquedaCuentasPorDia() {
+		
+		$('#btnReporteCuentasPorFecha').on('click', function() {
+			
+			limpiarInputBusquedaCuentaPorDia();
+			$('#modalCuentasPorDia').modal('show');
+			busquedaDeCuentasPorDia();
+		});
+	}
+	
+	/**
+	 * 
+	 * function para mostrar el form busqueda de cuentas por rango
+	 * */
+	function mostrarFormBusquedaCuentasPorRango() {
+		
+		$('#btnReporteCuentasPorRango').on('click', function() {
+			lmpiarInputsBusquedCuentasPorRango();
+			$('#modalCuentasPorRangoFecha').modal('show');
+		});
+		
+		busquedaDeCuentasPorRango();
+	}
+	
+	/**
+	 * 
+	 * function busqueda de cuentasPorRango
+	 * 
+	 * */
+	function busquedaDeCuentasPorRango() {
+		
+		$('#buscarCuentasPorRango').on('click', function(e) {
+			
+			e.preventDefault();
+			
+			if($('#fechaInicio').val() != "" && $('#fechaFin').val() != "") {
+				
+				var formDataCuentasPorRango = {
+						fechaInicio: $('#fechaInicio').val(),
+						fechaFin: $('#fechaFin').val()
+				};
+				console.log(formDataCuentasPorRango);
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/detalleCuenta/reporteCuentasPorRango',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataCuentasPorRango),
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response == null) {
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Cuentas Por Rango Fecha',
+								properties: [
+									{ field: 'codigoDetalleCuenta', displayName: '#'},
+									{ field: 'codigoCuenta', displayName: 'Nº Cuenta'},
+									{ field: 'documentoPersona', displayName: 'Nº Documento'},
+									{ field: 'cliente', displayName: 'Cliente'},
+									{ field: 'observacion', displayName: 'Observacion'}
+								], 
+								type: 'json'})
+						}
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+				});
+			}
+			
+			if($('#fechaInicio').val() == "" && $('#fechaFin').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para estos campos !'
+	            });
+			}
+			else if($('#fechaInicio').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para la Fecha Inicial !'
+	            });
+			}
+			else if($('#fechaFin').val() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para la Fecha Final !'
+	            });
+			}
+		});
+	}
+	
+	/**
+	 *
+	 *function para cancelar accion busqueda cuentas por rango
+	 * 
+	 */
+	function lmpiarInputsBusquedCuentasPorRango() {
+		
+		$('input[type=date]').val('');
+	}
+	
+	/**
+	 * function para cancelar accion busqueda cuenta por dia
+	 * 
+	 * */
+	function limpiarInputBusquedaCuentaPorDia() {
+		
+		$('input[type=date]').val('');
+	}
+	
+	/**
+	 * 
+	 * function busqueda de cuentasPorDia
+	 * 
+	 * */
+	function busquedaDeCuentasPorDia() {
+		
+		$('#buscarCuentasPorFecha').on('click', function(e) {
+			
+			e.preventDefault();
+			
+			if($('#fechaBusqueda').val() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para este campo !'
+	            });
+			}
+			else if($('#fechaBusqueda').val() != "") {
+				
+				var formDataCuentasPorDia = {
+						fechaBusqueda: $('#fechaBusqueda').val()	
+				};
+				console.log(formDataCuentasPorDia);
+				
+				$.ajax({
+					type: 'POST',
+					url: '/api/v1/detalleCuenta/reporteCuentasPorDia',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataCuentasPorDia),
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response == null) {
+							
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+							
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Cuentas Por Dia',
+								properties: [
+									{ field: 'codigoDetalleCuenta', displayName: '#'},
+									{ field: 'codigoCuenta', displayName: 'Nº Cuenta'},
+									{ field: 'documentoPersona', displayName: 'Nº Documento'},
+									{ field: 'cliente', displayName: 'Cliente'},
+									{ field: 'observacion', displayName: 'Observacion'}
+								], 
+								type: 'json'})
+						}
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+				});
+			}
+		});
 	}
 	
 	function anularCuenta() {

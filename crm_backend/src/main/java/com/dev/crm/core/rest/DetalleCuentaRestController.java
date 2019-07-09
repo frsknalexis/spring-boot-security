@@ -6,7 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +19,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
+import com.dev.crm.core.dto.CuentasRangoRequest;
+import com.dev.crm.core.dto.CuentasRangoResultViewModel;
+import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
+import com.dev.crm.core.enums.ExportReportType;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
+import com.dev.crm.core.report.ReportService;
 import com.dev.crm.core.security.UserDetail;
 import com.dev.crm.core.util.GenericUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/v1/detalleCuenta")
@@ -38,6 +48,13 @@ public class DetalleCuentaRestController {
 	@Autowired
 	@Qualifier("userDetail")
 	private UserDetail userDetail;
+	
+	@Autowired
+	@Qualifier("reportService")
+	private ReportService reportService;
+	
+	
+	ObjectMapper objectMapper = new ObjectMapper();
 	
 	@GetMapping("/cuentas")
 	public ResponseEntity<List<CuentasPorInstalarResultViewModel>> listarCuentaPorInstalar() {
@@ -229,6 +246,73 @@ public class DetalleCuentaRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/reporteCuentasPorDia")
+	public ResponseEntity<List<CuentasResultViewModel>> reporteCuentasPorDia(@Valid @RequestBody CuentaRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<CuentasResultViewModel> cuentasPorDia = detalleCuentaFacade.listarCuentasPorDia(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorDia)) {
+					return new ResponseEntity<List<CuentasResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				return new ResponseEntity<List<CuentasResultViewModel>>(cuentasPorDia, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<CuentasResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@PostMapping("/reporteCuentasPorRango")
+	public ResponseEntity<List<CuentasRangoResultViewModel>> reporteCuentasPorRango(@Valid @RequestBody CuentasRangoRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<CuentasRangoResultViewModel> cuentasPorRango = detalleCuentaFacade.listarCuentasPorRango(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorRango)) {
+					return new ResponseEntity<List<CuentasRangoResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				return new ResponseEntity<List<CuentasRangoResultViewModel>>(cuentasPorRango, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<CuentasRangoResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@PostMapping(value = "/reporteCuentas", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ByteArrayResource> generarReporteCuentasPorDia(@Valid @RequestBody CuentaRequest request) {
+		
+		try {
+			
+			List<CuentasResultViewModel> cuentas = detalleCuentaFacade.listarCuentasPorDia(request);
+			if(GenericUtil.isCollectionEmpty(cuentas)) {
+				return new ResponseEntity<ByteArrayResource>(HttpStatus.NO_CONTENT);
+			}
+			else {
+				
+				ByteArrayResource byteArrayResource = reportService.generateReportCuentas(cuentas, ExportReportType.PDF);
+				
+				HttpHeaders headers = new HttpHeaders();
+				headers.add("Content-Disposition", "attachment; filename=reporteCuentas.pdf");
+				
+				return ResponseEntity
+						.ok()
+						.header("Content-Type", "application/pdf; charset=UTF-8")
+						.headers(headers)
+						.contentType(MediaType.APPLICATION_PDF)
+						.body(byteArrayResource);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ByteArrayResource>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

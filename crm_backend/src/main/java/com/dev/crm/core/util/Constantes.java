@@ -103,6 +103,10 @@ public class Constantes {
 	public static final String SP_LISTA_GESTORES = "sp_lista_gestores";
 	public static final String SP_INSERTAR_MESES_ADELANTADOS = "sp_insertar_meses_adelantados";
 	public static final String SP_LISTAR_VENDEDORES = "sp_listar_vendedores";
+	public static final String SP_LISTAR_CUENTAS_DIA_SOLICITADO = "sp_listar_cuentas_dia_solicitado";
+	public static final String SP_LISTAR_CUENTAS_RANGO_SOLICITADO = "sp_listar_cuentas_rango_solicitado";
+	public static final String SP_LISTAR_PAGOS_DIA_SOLICITADO = "sp_listar_pagos_pdf_dia_solicitado";
+	public static final String RECUPERAR_DIAS_DEUDAS = "recuperar_dias_deudas";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;
@@ -132,4 +136,6 @@ public class Constantes {
 	public static final String PAGO_RAPIDO = "PAGO RAPIDO";
 	public static final String PAGO_ADELANTADO_SIN_PROMO = "PAGO ADELANTADO SIN PROMO";
 	public static final String PAGO_ADELANTADO_CON_PROMO = "PAGO ADELANTADO CON PROMO";
+	
+	public static final String REPORTE_CUENTAS = "/reports/reporteCuentas.jrxml";
 }

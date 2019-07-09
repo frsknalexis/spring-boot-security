@@ -12,16 +12,19 @@ import com.dev.crm.core.dto.ConsecutivoPagoRequest;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
+import com.dev.crm.core.dto.DiasDeudasResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
+import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
+import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
 import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
@@ -273,19 +276,19 @@ public class PagoFacadeImpl implements PagoFacade {
 	}
 	
 	@Override
-	public List<PagosPorDiaResultViewModel> spReporteListaPagosPorRangoFecha(
+	public List<PagosPorRangoFechaBusquedaResultViewModel> spReporteListaPagosPorRangoFecha(
 			PagosPorRangoFechaBusquedaRequest request) {
 		
-		List<PagosPorDiaResultViewModel> pagosPorDia = new ArrayList<PagosPorDiaResultViewModel>();
+		List<PagosPorRangoFechaBusquedaResultViewModel> pagosPorRango = new ArrayList<PagosPorRangoFechaBusquedaResultViewModel>();
 		
 		try {
 			
-			pagosPorDia = pagoService.spReporteListaPagosPorRangoFecha(request);
-			if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
+			pagosPorRango = pagoService.spReporteListaPagosPorRangoFecha(request);
+			if(GenericUtil.isCollectionEmpty(pagosPorRango)) {
 				return null;
 			}
 			else {
-				return pagosPorDia;
+				return pagosPorRango;
 			}
 		}
 		catch(Exception e) {
@@ -294,6 +297,50 @@ public class PagoFacadeImpl implements PagoFacade {
 		return null;
 	}
 	
+	@Override
+	public List<PagoPorDiaResultViewModel> listarPagosPorDiaSolicitado(PagosPorDiaRequest request) {
+		
+		List<PagoPorDiaResultViewModel> pagosPorDia = new ArrayList<PagoPorDiaResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				pagosPorDia = pagoService.listarPagosPorDiaSolicitado(request);
+				if(GenericUtil.isCollectionEmpty(pagosPorDia) && pagosPorDia.isEmpty()) {
+					return null;
+				}
+				else {
+					return pagosPorDia;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<DiasDeudasResultViewModel> recuperarDiasDeudas() {
+		
+		List<DiasDeudasResultViewModel> diasDeudas = new ArrayList<DiasDeudasResultViewModel>();
+		
+		try {
+			
+			diasDeudas = pagoService.recuperarDiasDeudas();
+			if(GenericUtil.isCollectionEmpty(diasDeudas) && diasDeudas.isEmpty()) {
+				return null;
+			}
+			else {
+				return diasDeudas;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<DetallePagoResultViewModel> spListarDetallePago(String persona) {
 		

@@ -2,7 +2,11 @@ package com.dev.crm.core.service;
 
 import java.util.List;
 
+import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
+import com.dev.crm.core.dto.CuentasRangoRequest;
+import com.dev.crm.core.dto.CuentasRangoResultViewModel;
+import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
@@ -32,6 +36,10 @@ public interface DetalleCuentaService {
 	String spRevalidandoFechaInternet();
 	
 	List<CuentasPorInstalarResultViewModel> listarCuentaPorInstalar();
+	
+	List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request);
+	
+	List<CuentasRangoResultViewModel> listarCuentasPorRango(CuentasRangoRequest request);
 	
 	void spUpdateDetalleCuenta(Integer codigoDetalleCuenta);
 	

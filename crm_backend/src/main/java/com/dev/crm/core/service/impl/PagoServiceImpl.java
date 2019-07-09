@@ -13,21 +13,25 @@ import com.dev.crm.core.dto.ConsecutivoPagoRequest;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
+import com.dev.crm.core.dto.DiasDeudasResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
+import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
+import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
 import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.repository.jdbc.ClientePagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ConsecutivoPagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetallePagoResultJdbcRepository;
+import com.dev.crm.core.repository.jdbc.DiasDeudasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.HistorialDescuentoResquestdbcRepository;
 import com.dev.crm.core.repository.jdbc.ListaPagosPorCajaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.MesDeudaActualResultJdbcRepository;
@@ -39,6 +43,7 @@ import com.dev.crm.core.repository.jdbc.PagoListOutdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoMoraJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorRangoFechaBusquedaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagosPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PdfPagoDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ReciboJdbcRepository;
 import com.dev.crm.core.service.PagoService;
@@ -112,6 +117,14 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("mesDeudaActualResultJdbcRepository")
 	private MesDeudaActualResultJdbcRepository mesDeudaActualResultJdbcRepository;
+	
+	@Autowired
+	@Qualifier("pagosPorDiaJdbcRepository")
+	private PagosPorDiaJdbcRepository pagosPorDiaJdbcRepository;
+	
+	@Autowired
+	@Qualifier("diasDeudasJdbcRepository")
+	private DiasDeudasJdbcRepository diasDeudasJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -289,15 +302,38 @@ public class PagoServiceImpl implements PagoService {
 	}
 	
 	@Override
-	public List<PagosPorDiaResultViewModel> spReporteListaPagosPorRangoFecha(
+	public List<PagosPorRangoFechaBusquedaResultViewModel> spReporteListaPagosPorRangoFecha(
 			PagosPorRangoFechaBusquedaRequest request) {
 		
-		List<PagosPorDiaResultViewModel> pagosPorDia = new ArrayList<PagosPorDiaResultViewModel>();
+		List<PagosPorRangoFechaBusquedaResultViewModel> pagosPorRango = new ArrayList<PagosPorRangoFechaBusquedaResultViewModel>();
 		
 		try {
 			
 			if(GenericUtil.isNotNull(request)) {
-				pagosPorDia = pagoPorRangoFechaBusquedaJdbcRepository.spReporteListaPagosPorRangoFecha(request);
+				pagosPorRango = pagoPorRangoFechaBusquedaJdbcRepository.spReporteListaPagosPorRangoFecha(request);
+				if(GenericUtil.isCollectionEmpty(pagosPorRango)) {
+					return null;
+				}
+				else {
+					return pagosPorRango;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<PagoPorDiaResultViewModel> listarPagosPorDiaSolicitado(PagosPorDiaRequest request) {
+		
+		List<PagoPorDiaResultViewModel> pagosPorDia = new ArrayList<PagoPorDiaResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				pagosPorDia = pagosPorDiaJdbcRepository.listarPagosPorDiaSolicitado(request);
 				if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
 					return null;
 				}
@@ -312,6 +348,27 @@ public class PagoServiceImpl implements PagoService {
 		return null;
 	}
 	
+	@Override
+	public List<DiasDeudasResultViewModel> recuperarDiasDeudas() {
+		
+		List<DiasDeudasResultViewModel> diasDeudas = new ArrayList<DiasDeudasResultViewModel>();
+		
+		try {
+			
+			diasDeudas = diasDeudasJdbcRepository.recuperarDiasDeudas();
+			if(GenericUtil.isCollectionEmpty(diasDeudas) && diasDeudas.isEmpty()) {
+				return null;
+			}
+			else {
+				return diasDeudas;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<ClientePagoResultViewModel> spListarClientesPago(String usuario) {
 		

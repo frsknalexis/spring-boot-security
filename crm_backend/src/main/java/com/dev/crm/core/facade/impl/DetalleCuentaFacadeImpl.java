@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
+import com.dev.crm.core.dto.CuentasRangoRequest;
+import com.dev.crm.core.dto.CuentasRangoResultViewModel;
+import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
@@ -239,6 +243,52 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 			}
 			else {
 				return cuentasPorInstalar;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request) {
+		
+		List<CuentasResultViewModel> cuentasPorDia = new ArrayList<CuentasResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasPorDia = detalleCuentaService.listarCuentasPorDia(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorDia)) {
+					return null;
+				}
+				else {
+					return cuentasPorDia;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<CuentasRangoResultViewModel> listarCuentasPorRango(CuentasRangoRequest request) {
+		
+		List<CuentasRangoResultViewModel> cuentasPorRango = new ArrayList<CuentasRangoResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasPorRango = detalleCuentaService.listarCuentasPorRango(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorRango)) {
+					return null;
+				}
+				else {
+					return cuentasPorRango;
+				}
 			}
 		}
 		catch(Exception e) {

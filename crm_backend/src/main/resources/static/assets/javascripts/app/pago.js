@@ -52,6 +52,8 @@ $(document).on('ready', function() {
 	
 	mostrarFormReporteRangoDeFechas();
 	
+	mostrarReporteDeudas();
+	
 	/**
 	 * function para listar los clientesPago
 	 * 
@@ -1305,6 +1307,14 @@ $(document).on('ready', function() {
 		});
 		
 		validarFormReportePagosPorDia();
+		cancelarAccionBuscarPagosPorDia();
+	}
+	
+	function cancelarAccionBuscarPagosPorDia() {
+		
+		$('#cancelarAccionBuscarPagosPorDia').on('click', function() {
+			$('#fechaPagoPorDia').val('');
+		});
 	}
 	
 	function validarFormReportePagosPorDia() {
@@ -1329,7 +1339,7 @@ $(document).on('ready', function() {
 						fechaBusqueda: $('#fechaPagoPorDia').val()	
 				};
 				console.log(formDataPagoPorDia);
-						
+				
 				$.ajax({
 					
 					type: 'POST',
@@ -1341,10 +1351,33 @@ $(document).on('ready', function() {
 					data: JSON.stringify(formDataPagoPorDia),
 					dataType: 'json',
 					success: function(response) {
-						console.log(response);
+						
+						if(response == null) {
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Pagos Por Fecha Pago',
+								properties: [
+									{ field: 'numeroInterno', displayName: 'Nº'},
+									{ field: 'codigoPago', displayName: 'Codigo Pago'},
+									{ field: 'fechaPago', displayName: 'Fecha Pago'},
+									{ field: 'mesPago', displayName: 'Mes'},
+									{field: 'cliente', displayName: 'Cliente'},
+									{ field: 'cantidadPago', displayName: 'Monto'}
+								], 
+								type: 'json'})
+						}
 					},
 					error: function() {
-						
+					
 						swal({
 			                type: 'error',
 			                title: 'Ooops',
@@ -1438,7 +1471,67 @@ $(document).on('ready', function() {
 						fechaFinal: $('#fechaFinBusqueda').val()
 				};
 				console.log(formDataBusquedaPorRangoFecha);
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/pago/pagosPorRangoFechaBusqueda',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataBusquedaPorRangoFecha),
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response == null) {
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Pagos Por Rango Fecha',
+								properties: [
+									{ field: 'codigoPago', displayName: 'Codigo Pago'},
+									{ field: 'cliente', displayName: 'Cliente'},
+									{ field: 'mesPago', displayName: 'Mes'},
+									{ field: 'cantidadPago', displayName: 'Monto'},
+									{ field: 'fechaPagoDia', displayName: 'Fecha Pago'}
+								], 
+								type: 'json'})
+						}
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+				});
 			}
 		});
+	}
+	
+	/***
+	 * 
+	 *function para mostrar reporte de deudas 
+	 * 
+	 */
+	function mostrarReporteDeudas() {
+		
+		$('#buttonReporteDeudas').on('click', function() {
+			$(this).attr('href','/api/v1/pago/reporteDeudas');
+			var url = $(this).attr('href');
+			window.open(url, '_blank');
+		     return false;
+			console.log(url);
+		})
 	}
 });

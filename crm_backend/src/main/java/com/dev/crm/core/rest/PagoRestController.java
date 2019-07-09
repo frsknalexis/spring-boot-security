@@ -26,16 +26,19 @@ import com.dev.crm.core.dto.ConsecutivoPagoRequest;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
+import com.dev.crm.core.dto.DiasDeudasResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
+import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
+import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
 import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
@@ -338,8 +341,36 @@ public class PagoRestController {
 		}
 	}
 	
+	@GetMapping(value = "/reporteDeudas", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> reporteDiasDeudas() throws IOException {
+		
+		try {
+			
+			List<DiasDeudasResultViewModel> diasDeudas = pagoFacade.recuperarDiasDeudas();
+			if(GenericUtil.isCollectionEmpty(diasDeudas) && diasDeudas.isEmpty()) {
+				return new ResponseEntity<InputStreamResource>(HttpStatus.NO_CONTENT);
+			}
+			else {
+				
+				ByteArrayInputStream bis = PdfGenerator.reporteDiasDeudas(diasDeudas);
+				
+				HttpHeaders headers = new  HttpHeaders();
+				headers.add("Content-Disposition", "inline; filename=ReporteDeudas.pdf");
+				
+				return ResponseEntity
+						.ok()
+						.headers(headers)
+						.contentType(MediaType.APPLICATION_PDF)
+						.body(new InputStreamResource(bis));
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<InputStreamResource>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@PostMapping("/pagosPorRangoFechaBusqueda")
-	public ResponseEntity<List<PagosPorDiaResultViewModel>> spReporteListaPagosPorRangoFecha(@Valid @RequestBody PagosPorRangoFechaBusquedaRequest request) {
+	public ResponseEntity<List<PagosPorRangoFechaBusquedaResultViewModel>> spReporteListaPagosPorRangoFecha(@Valid @RequestBody PagosPorRangoFechaBusquedaRequest request) {
 		
 		try {
 			
@@ -347,23 +378,23 @@ public class PagoRestController {
 			request.setCodigoUsuario(usuarioLogueado.getUsername());
 			
 			if(GenericUtil.isNotNull(request)) {
-				List<PagosPorDiaResultViewModel> pagosPorDia = pagoFacade.spReporteListaPagosPorRangoFecha(request);
-				if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
-					return new ResponseEntity<List<PagosPorDiaResultViewModel>>(HttpStatus.NO_CONTENT);
+				List<PagosPorRangoFechaBusquedaResultViewModel> pagosPorRango = pagoFacade.spReporteListaPagosPorRangoFecha(request);
+				if(GenericUtil.isCollectionEmpty(pagosPorRango)) {
+					return new ResponseEntity<List<PagosPorRangoFechaBusquedaResultViewModel>>(HttpStatus.NO_CONTENT);
 				}
 				else {
-					return new ResponseEntity<List<PagosPorDiaResultViewModel>>(pagosPorDia, HttpStatus.OK);
+					return new ResponseEntity<List<PagosPorRangoFechaBusquedaResultViewModel>>(pagosPorRango, HttpStatus.OK);
 				}
 			}
 		}
 		catch(Exception e) {
-			return new ResponseEntity<List<PagosPorDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<PagosPorRangoFechaBusquedaResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 		return null;
 	}
 	
 	@PostMapping("/pagosPorDia")
-	public ResponseEntity<List<PagosPorDiaResultViewModel>> spListaPagosPorDia(@Valid @RequestBody PagosPorDiaRequest request) {
+	public ResponseEntity<List<PagoPorDiaResultViewModel>> listarPagosPorDiaSolicitado(@Valid @RequestBody PagosPorDiaRequest request) {
 		
 		try {
 			
@@ -371,17 +402,17 @@ public class PagoRestController {
 			request.setCodigoUsuario(usuarioLogueado.getUsername());
 			
 			if(GenericUtil.isNotNull(request)) {
-				List<PagosPorDiaResultViewModel> pagosPorDia = pagoFacade.spReporteListaPagosPorDia(request);
-				if(GenericUtil.isCollectionEmpty(pagosPorDia)) {
-					return new ResponseEntity<List<PagosPorDiaResultViewModel>>(HttpStatus.NO_CONTENT);
+				List<PagoPorDiaResultViewModel> pagosPorDia = pagoFacade.listarPagosPorDiaSolicitado(request);
+				if(GenericUtil.isCollectionEmpty(pagosPorDia) && pagosPorDia.isEmpty()) {
+					return new ResponseEntity<List<PagoPorDiaResultViewModel>>(HttpStatus.NO_CONTENT);
 				}
 				else {
-					return new ResponseEntity<List<PagosPorDiaResultViewModel>>(pagosPorDia, HttpStatus.OK);
+					return new ResponseEntity<List<PagoPorDiaResultViewModel>>(pagosPorDia, HttpStatus.OK);
 				}
 			}
 		}
 		catch(Exception e) {
-			return new ResponseEntity<List<PagosPorDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<PagoPorDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 		return null;
 	}

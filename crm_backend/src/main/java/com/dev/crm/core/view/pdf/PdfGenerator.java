@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import com.dev.crm.core.dto.DiasDeudasResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
@@ -205,6 +206,89 @@ public class PdfGenerator {
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(cell);
+			}
+			
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			document.add(table);
+			
+			document.close();
+		}
+		catch(DocumentException e) {
+			e.printStackTrace();
+		}
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+	
+	public static ByteArrayInputStream reporteDiasDeudas(List<DiasDeudasResultViewModel> diasDeudas) {
+		
+		Document document = new  Document(PageSize.A4);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			
+			PdfPTable table = new PdfPTable(5);
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {.7f, 1, 1.3f, 1.5f, 1.5f});
+			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+			font.setColor(BaseColor.WHITE);
+			
+			PdfPCell hcell;
+			hcell = new PdfPCell(new Phrase("#", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DNI-RUC", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("MES DEUDA", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+						
+			hcell = new PdfPCell(new Phrase("DIRECCION ACTUAL", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLIENTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			for(DiasDeudasResultViewModel diaDeuda : diasDeudas) {
+				
+				PdfPCell cell;
+				
+				Font f = FontFactory.getFont(FontFactory.HELVETICA, 10);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.integerToString(diaDeuda.getNumeracion()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(diaDeuda.getDocumentoPersonaCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(diaDeuda.getMesPago(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(diaDeuda.getDireccionCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(diaDeuda.getCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);	
 			}
 			
 			PdfWriter.getInstance(document, baos);

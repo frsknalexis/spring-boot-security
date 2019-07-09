@@ -9,13 +9,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dao.DetalleCuentaDAO;
+import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
+import com.dev.crm.core.dto.CuentasRangoRequest;
+import com.dev.crm.core.dto.CuentasRangoResultViewModel;
+import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 import com.dev.crm.core.repository.jdbc.AnularDetalleCuentaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.CuentaPorDiaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.CuentaPorRangoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentasPorInstalarJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosInternetServicioJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosMaterialesJdbcRepository;
@@ -56,6 +62,14 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 	@Autowired
 	@Qualifier("observacionCuentaJdbcRepository")
 	private ObservacionCuentaJdbcRepository observacionCuentaJdbcRepository;
+	
+	@Autowired
+	@Qualifier("cuentaPorDiaJdbcRepository")
+	private CuentaPorDiaJdbcRepository cuentaPorDiaJdbcRepository;
+	
+	@Autowired
+	@Qualifier("cuentaPorRangoJdbcRepository")
+	private CuentaPorRangoJdbcRepository cuentaPorRangoJdbcRepository;
 	
 	@Override
 	public String spInsercionCuentaInternet(DetalleCuentaRequest request) {
@@ -246,6 +260,52 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 			}
 			else {
 				return cuentasPorInstalar;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request) {
+		
+		List<CuentasResultViewModel> cuentasPorDia = new ArrayList<CuentasResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasPorDia = cuentaPorDiaJdbcRepository.listarCuentasPorDia(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorDia)) {
+					return null;
+				}
+				else {
+					return cuentasPorDia;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<CuentasRangoResultViewModel> listarCuentasPorRango(CuentasRangoRequest request) {
+		
+		List<CuentasRangoResultViewModel> cuentasPorRango = new ArrayList<CuentasRangoResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasPorRango = cuentaPorRangoJdbcRepository.listarCuentasPorRango(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorRango)) {
+					return null;
+				}
+				else {
+					return cuentasPorRango;
+				}
 			}
 		}
 		catch(Exception e) {

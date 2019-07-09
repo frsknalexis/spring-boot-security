@@ -26,22 +26,18 @@
 					</div>
 					<!-- start: page -->
 					<div class="row" id="mostrarListadoClientesPago">
-						<div class="col-md-12 col-lg-12">
-							<button type="button" id="buttonListaPagos" class="mb-xs btn btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> Listar Pagos Realizados</button>
-							<div class="btn-group">
-							<button type="button" class="mb-xs mr-xs btn btn-sm btn-primary btn-block dropdown-toggle" data-toggle="dropdown"><i class="fa fa-download"></i> Exportar Planilla <span class="caret"></span></button>
-							<ul class="dropdown-menu" role="menu">
-								<li><a th:href="@{/api/v1/pago/pdfReportDia}" target="_blank"><i class="fa fa-file-pdf-o"></i> Exportar PDF</a></li>
-							</ul>
+						<div class="col-md-3 col-lg-3">
+							<button type="button" id="buttonListaPagos" class="mb-xs btn btn-sm btn-block btn-success"><i class="fa fa-pencil-square-o"></i> Listar Pagos Realizados</button>
 						</div>
-						<div class="btn-group">
-							<button type="button" class="mb-xs mr-xs btn btn-sm btn-primary btn-block dropdown-toggle" data-toggle="dropdown"><i class="fa fa-download"></i> Exportar Pagos Generales <span class="caret"></span></button>
-							<ul class="dropdown-menu" role="menu">
-								<li><a th:href="@{/api/v1/pago/pdfReport}" target="_blank"><i class="fa fa-file-pdf-o"></i> Exportar PDF</a></li>
-							</ul>
+						<div class="col-md-3 col-lg-3">
+							<button type="button" id="buttonReportePagosDia" class="mb-xs btn btn-block btn-sm btn-info"><i class="fa fa-file-pdf-o"></i> Reporte de Pagos Por Dia</button>
 						</div>
+						<div class="col-md-3 col-lg-3">
+							<button type="button" id="buttonReportePagosPorRangoFecha" class="mb-xs btn btn-block btn-sm btn-info"><i class="fa fa-file-pdf-o"></i> Reporte de Pagos Por Rango Fecha</button>
 						</div>
-						
+						<div class="col-md-3 col-lg-3">
+							<button type="button" id="buttonReporteDeudas" class="mb-xs btn btn-block btn-sm btn-info"><i class="fa fa-file-pdf-o"></i> Reporte de Dias Deudas</button>
+						</div>
 						<div class="col-md-12 col-lg-12">
 							<section class="panel panel-featured-left panel-featured-primary">
 								<header class="panel-heading">
@@ -499,7 +495,7 @@
 					<div class="modal fade" tabindex="-1" id="modalPagosPorDia" role="dialog" aria-labelledby="myModalLabelPagosPorDia" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
-								<form role="form" method="post" id="formPagosPorDia" enctype="multipart/form-data">
+								<form role="form" method="post" id="formPagosPorDia">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 										<h4 class="modal-title" id="myModalLabelPagosPorDia">Busqueda de Pagos Por Fecha de Pago</h4>
@@ -518,7 +514,7 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="button" id="cancelarAccion" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="button" id="cancelarAccionBuscarPagosPorDia" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 										<button type="submit" id="buscarPagosPorFecha" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
 									</div>
 								</form>

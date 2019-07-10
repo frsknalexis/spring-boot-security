@@ -227,6 +227,36 @@ public class PdfGenerator {
 		
 		try {
 			
+			String imageUrl = "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-9/61296693_2742619672420355_3895064617646292992_n.jpg?_nc_cat=107&_nc_ht=scontent.flim19-1.fna&oh=275d98534984bba9612bb14e98a96f10&oe=5D900E4A";
+			
+			Image img = Image.getInstance(new URL(imageUrl));
+			img.scaleAbsolute(100f, 45f);
+			img.disableBorderSide(Rectangle.BOX);
+			
+			PdfPTable tables = new PdfPTable(1);
+			tables.setWidthPercentage(35f);
+			tables.setHorizontalAlignment(Element.ALIGN_LEFT);
+			
+			PdfPCell hcells;
+			Paragraph celda = new Paragraph();
+			Paragraph celdas = new Paragraph();
+			hcells = new PdfPCell();
+			hcells.disableBorderSide(Rectangle.BOX);
+			celdas.add(new Phrase(new Chunk(img, 45, 0)));
+			celda.add(new Paragraph(  " "
+					+ "Vip Channel S.A.C.                                    ."));
+			celda.setAlignment(Element.ALIGN_RIGHT);
+			hcells.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcells.setVerticalAlignment(Element.ALIGN_MIDDLE);;
+			hcells.addElement(celdas);
+			hcells.addElement(celda);
+			tables.addCell(hcells);
+			
+			hcells = new PdfPCell(new Phrase(" "));
+			hcells.setHorizontalAlignment(Element.ALIGN_LEFT);
+			hcells.disableBorderSide(Rectangle.BOX);
+			tables.addCell(hcells);
+			
 			PdfPTable table = new PdfPTable(5);
 			table.setWidthPercentage(100);
 			table.setWidths(new float[] {.7f, 1, 1.3f, 1.5f, 1.5f});
@@ -293,11 +323,17 @@ public class PdfGenerator {
 			
 			PdfWriter.getInstance(document, baos);
 			document.open();
+			document.add(tables);
+			document.add(new Phrase("\n"));
 			document.add(table);
 			
 			document.close();
 		}
 		catch(DocumentException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return new ByteArrayInputStream(baos.toByteArray());

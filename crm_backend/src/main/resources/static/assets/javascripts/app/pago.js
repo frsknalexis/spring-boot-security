@@ -1525,13 +1525,93 @@ $(document).on('ready', function() {
 	 * 
 	 */
 	function mostrarReporteDeudas() {
-		
 		$('#buttonReporteDeudas').on('click', function() {
+			
+			$('#modalReporteDiasDeudas').modal('show');
+			/**
 			$(this).attr('href','/api/v1/pago/reporteDeudas');
 			var url = $(this).attr('href');
 			window.open(url, '_blank');
 		     return false;
 			console.log(url);
-		})
+			*/
+		});
+		
+		validarFormReporteDeudas();
+		cancelarAccionBuscarDiasDeudas();
+	}
+	
+	function validarFormReporteDeudas() {
+		
+		$('#buscarDiasDeudas').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#diasDeudas').val().trim() != "") {
+				
+				var formDataDiasDeudas = {
+						 diasDeudas: $('#diasDeudas').val()
+				};
+				console.log(formDataDiasDeudas);
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/pago/reporteDiasDeudas',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataDiasDeudas),
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response == null) {
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Dias Deudas',
+								properties: [
+									{ field: 'numeracion', displayName: '#'},
+									{ field: 'documentoPersonaCliente', displayName: 'Nº Documento'},
+									{ field: 'mesPago', displayName: 'Mes Deuda'},
+									{ field: 'direccionCliente', displayName: 'Direccion Actual'},
+									{ field: 'cliente', displayName: 'Cliente'}
+								], 
+								type: 'json'})
+						}
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+				});
+			}
+			
+			if($('#diasDeudas').val().trim() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para este campo !'
+	            });
+			}
+		});
+	}
+	
+	function cancelarAccionBuscarDiasDeudas() {
+		$('#cancelarAccionBuscarDiasDeudas').on('click', function() {
+			$('#diasDeudas').val('');
+		});
 	}
 });

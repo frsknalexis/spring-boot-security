@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
+import com.dev.crm.core.dto.InstalacionesPorTecnicoResultViewModel;
 import com.dev.crm.core.facade.InstalacionFacade;
 import com.dev.crm.core.service.InstalacionService;
 import com.dev.crm.core.util.GenericUtil;
@@ -56,6 +57,27 @@ public class InstalacionFacadeImpl implements InstalacionFacade {
 			}
 			else {
 				return informesInstalacionDia;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<InstalacionesPorTecnicoResultViewModel> instalacionesPorTecnico() {
+		
+		List<InstalacionesPorTecnicoResultViewModel> instalacionesPorTecnico = new ArrayList<InstalacionesPorTecnicoResultViewModel>();
+		
+		try {
+			
+			instalacionesPorTecnico = instalacionService.instalacionesPorTecnico();
+			if(GenericUtil.isCollectionEmpty(instalacionesPorTecnico)) {
+				return null;
+			}
+			else {
+				return instalacionesPorTecnico;
 			}
 		}
 		catch(Exception e) {

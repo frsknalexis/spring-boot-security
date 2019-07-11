@@ -19,6 +19,7 @@ public class Constantes {
 	public static final String CORTE_VIEW = "modulo-servicios/instalacion/cortes";
 	public static final String INSTALACIONES_VIEW = "modulo-servicios/instalacion/instalaciones";
 	public static final String INFORME_INSTALACION_VIEW = "modulo-servicios/instalacion/informeinstalaciones";
+	public static final String INSTALACIONES_TECNICO_VIEW = "modulo-servicios/instalacion/instalacionesTecnico";
 	public static final String LISTA_PAGOS_VIEW = "modulo-pagos/pagos/listapagos";
 	public static final String CLIENTE_GESTORES_VIEW = "modulo-pagos/gestores/clientegestores";
 	public static final String LOGIN_VIEW = "login";
@@ -107,6 +108,9 @@ public class Constantes {
 	public static final String SP_LISTAR_CUENTAS_RANGO_SOLICITADO = "sp_listar_cuentas_rango_solicitado";
 	public static final String SP_LISTAR_PAGOS_DIA_SOLICITADO = "sp_listar_pagos_pdf_dia_solicitado";
 	public static final String RECUPERAR_DIAS_DEUDAS = "recuperar_dias_deudas";
+	public static final String RECUPERAR_DIAS_DEUDAS_PARAMETRIZADO = "recuperar_dias_deudas_parametrizado";
+	public static final String SP_GENERAR_LIQUIDACION_MATERIAL = "sp_generar_liquidacion_material";
+	public static final String SP_LISTAR_INSTALACIONES_POR_TECNICO = "sp_listar_lista_insta_x_tecnico";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

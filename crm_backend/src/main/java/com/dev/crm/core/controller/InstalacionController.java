@@ -24,4 +24,9 @@ public class InstalacionController {
 	String informeInstalacionesViewController() {
 		return Constantes.INFORME_INSTALACION_VIEW;
 	}
+	
+	@GetMapping("/instalacionesTecnico/view")
+	String instalacionesTecnicoViewController() {
+		return Constantes.INSTALACIONES_TECNICO_VIEW;
+	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
+import com.dev.crm.core.dto.InstalacionesPorTecnicoResultViewModel;
 import com.dev.crm.core.facade.InstalacionFacade;
 import com.dev.crm.core.security.UserDetail;
 import com.dev.crm.core.util.GenericUtil;
@@ -64,6 +65,24 @@ public class InstalacionRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<InformeInstalacionDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/instalacionesPorTecnico")
+	public ResponseEntity<List<InstalacionesPorTecnicoResultViewModel>> instalacionesPorTecnico() {
+		
+		try {
+			
+			List<InstalacionesPorTecnicoResultViewModel> instalacionesPorTecnico = instalacionFacade.instalacionesPorTecnico();
+			if(GenericUtil.isCollectionEmpty(instalacionesPorTecnico)) {
+				return new ResponseEntity<List<InstalacionesPorTecnicoResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			else {
+				return new ResponseEntity<List<InstalacionesPorTecnicoResultViewModel>>(instalacionesPorTecnico, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<InstalacionesPorTecnicoResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

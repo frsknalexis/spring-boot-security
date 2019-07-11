@@ -13,6 +13,7 @@ import com.dev.crm.core.dto.ConsecutivoPagoRequest;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
+import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
@@ -31,6 +32,7 @@ import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.repository.jdbc.ClientePagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ConsecutivoPagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetallePagoResultJdbcRepository;
+import com.dev.crm.core.repository.jdbc.DeudasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DiasDeudasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.HistorialDescuentoResquestdbcRepository;
 import com.dev.crm.core.repository.jdbc.ListaPagosPorCajaJdbcRepository;
@@ -125,6 +127,10 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("diasDeudasJdbcRepository")
 	private DiasDeudasJdbcRepository diasDeudasJdbcRepository;
+	
+	@Autowired
+	@Qualifier("deudasJdbcRepository")
+	private DeudasJdbcRepository deudasJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -361,6 +367,29 @@ public class PagoServiceImpl implements PagoService {
 			}
 			else {
 				return diasDeudas;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<DiasDeudasResultViewModel> recuperarDiasDeudasParametrizado(DiasDeudasRequest request) {
+		
+		List<DiasDeudasResultViewModel> diasDeudas = new ArrayList<DiasDeudasResultViewModel>();
+		
+		try {
+		
+			if(GenericUtil.isNotNull(request)) {
+				diasDeudas = deudasJdbcRepository.recuperarDiasDeudasParametrizado(request);
+				if(GenericUtil.isCollectionEmpty(diasDeudas) && diasDeudas.isEmpty()) {
+					return null;
+				}
+				else {
+					return diasDeudas;
+				}
 			}
 		}
 		catch(Exception e) {

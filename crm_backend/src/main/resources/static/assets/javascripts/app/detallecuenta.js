@@ -288,12 +288,14 @@ $(document).on('ready', function() {
 		$('#generarCuenta').on('click', function(e) {
 			
 			e.preventDefault();
-			if($('#documentoPersonaCliente').val().match(/^[0-9]{7,11}$/) && $('#fechaSolicitudClienteDetalleCuenta').val() != "") {
+			if($('#documentoPersonaCliente').val().match(/^[0-9]{7,11}$/) && $('#fechaSolicitudClienteDetalleCuenta').val() != "" 
+				&& $('#detalleCuentaVendedor').val().trim() != "") {
 				
 				var formDataIC = {
 						documentoPersonaCliente: $('#documentoPersonaCliente').val(),
 						observacionDetalleCuenta: $('#detalleCuentaObservacion').val(),
-						fechaSolicitudClienteDetalleCuenta: $('#fechaSolicitudClienteDetalleCuenta').val()
+						fechaSolicitudClienteDetalleCuenta: $('#fechaSolicitudClienteDetalleCuenta').val(),
+						nombreVendedor: $('#detalleCuentaVendedor').val()
 				};
 				
 				console.log(formDataIC);

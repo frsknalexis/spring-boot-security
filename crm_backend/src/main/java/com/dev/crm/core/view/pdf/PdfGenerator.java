@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.List;
 
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
+import com.dev.crm.core.dto.LiquidacionMaterialResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
@@ -15,6 +16,7 @@ import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.PersonaDTO;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.util.DateUtil;
+import com.dev.crm.core.util.GenericUtil;
 import com.dev.crm.core.util.StringUtil;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -705,6 +707,157 @@ public class PdfGenerator {
 		catch(DocumentException e) {
 			e.printStackTrace();
 		}
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+	
+	public static ByteArrayInputStream generarReciboLiquidacion(LiquidacionMaterialResultViewModel liquidacion) {
+		
+		Document document = new Document(PageSize.A4);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			
+			String imageUrl = "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-9/61296693_2742619672420355_3895064617646292992_n.jpg?_nc_cat=107&_nc_ht=scontent.flim19-1.fna&oh=275d98534984bba9612bb14e98a96f10&oe=5D900E4A";
+			
+			Image img = Image.getInstance(new URL(imageUrl));
+			img.scaleAbsolute(100f, 45f);
+			img.disableBorderSide(Rectangle.BOX);
+			
+			PdfPTable tables = new PdfPTable(1);
+			tables.setWidthPercentage(35f);
+			tables.setHorizontalAlignment(Element.ALIGN_LEFT);
+			
+			PdfPCell hcells;
+			Paragraph celda = new Paragraph();
+			Paragraph celdas = new Paragraph();
+			hcells = new PdfPCell();
+			hcells.disableBorderSide(Rectangle.BOX);
+			celdas.add(new Phrase(new Chunk(img, 45, 0)));
+			celda.add(new Paragraph(  " "
+					+ "Vip Channel S.A.C.                                    ."));
+			celda.setAlignment(Element.ALIGN_RIGHT);
+			hcells.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcells.setVerticalAlignment(Element.ALIGN_MIDDLE);;
+			hcells.addElement(celdas);
+			hcells.addElement(celda);
+			tables.addCell(hcells);
+			
+			hcells = new PdfPCell(new Phrase(" "));
+			hcells.setHorizontalAlignment(Element.ALIGN_LEFT);
+			hcells.disableBorderSide(Rectangle.BOX);
+			tables.addCell(hcells);
+			
+			PdfPTable table = new PdfPTable(8);
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {.7f, 1, 1, 1.3f, 1.5f, 1.5f, 1, 1});
+			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+			font.setColor(BaseColor.WHITE);
+			
+			PdfPCell hcell;
+			hcell = new PdfPCell(new Phrase("CODIGO SERVICIO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("FECHA INICIO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("OBSERVACION", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+						
+			hcell = new PdfPCell(new Phrase("Nº DOCUMENTO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("#", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CANTIDAD", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DESCRIPCION", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLIENTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			if(GenericUtil.isNotNull(liquidacion)) {
+				
+				PdfPCell cell;
+				
+				Font f = FontFactory.getFont(FontFactory.HELVETICA, 10);
+				
+				cell = new PdfPCell(new Phrase(liquidacion.getCodigoServicioInternet(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(liquidacion.getFechaInicio(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(liquidacion.getObservacion(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(liquidacion.getDocumentoCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(liquidacion.getCodigoMaterial(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(liquidacion.getCantidadMaterial(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(liquidacion.getDescripcionMaterial(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(liquidacion.getCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+			}
+			
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			document.add(tables);
+			document.add(new Phrase("\n"));
+			document.add(table);
+			
+			document.close();
+		}
+		catch(DocumentException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		return new ByteArrayInputStream(baos.toByteArray());
 	}
 	

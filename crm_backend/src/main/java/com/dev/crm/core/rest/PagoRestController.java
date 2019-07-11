@@ -26,6 +26,7 @@ import com.dev.crm.core.dto.ConsecutivoPagoRequest;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
+import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
@@ -367,6 +368,27 @@ public class PagoRestController {
 		catch(Exception e) {
 			return new ResponseEntity<InputStreamResource>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PostMapping("/reporteDiasDeudas")
+	public ResponseEntity<List<DiasDeudasResultViewModel>> reporteDiaDeudasParametrizado(@Valid @RequestBody DiasDeudasRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<DiasDeudasResultViewModel> diasDeudas = pagoFacade.recuperarDiasDeudasParametrizado(request);
+				if(GenericUtil.isCollectionEmpty(diasDeudas) && diasDeudas.isEmpty()) {
+					return new ResponseEntity<List<DiasDeudasResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				else {
+					return new ResponseEntity<List<DiasDeudasResultViewModel>>(diasDeudas, HttpStatus.OK);
+				}
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<DiasDeudasResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
 	}
 	
 	@PostMapping("/pagosPorRangoFechaBusqueda")

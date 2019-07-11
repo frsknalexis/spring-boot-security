@@ -21,7 +21,7 @@ $(document).on('ready', function() {
 	setTimeout(function() {
 		mostrarForm(false);
 		mostrarFormCliente(false);
-	}, 200);
+	},100);
 	
 	setTimeout(function() {
 		cargarEstadoCliente();
@@ -208,6 +208,7 @@ $(document).on('ready', function() {
 		
 		mostrarForm(true);
 		$('#documentoPersona').attr('disabled', false);
+		$('#inputDireccionReniec').hide();
 		flag = false;
 	});
 	
@@ -223,7 +224,10 @@ $(document).on('ready', function() {
 		if($('#documentoPersona').val().match(/^[0-9]{7,11}$/) && $('#nombreUbigeo').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
 			&& $('#nombrePersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#apellidoPaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
 			&& $('#apellidoMaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#direccionActualPersona').val() != "" 
-				&& $('#referenciaPersona').val() != "" && $('#telefonoUnoPersona').val().match(/^[0-9]{7,9}$/)) {
+			&& $('#referenciaPersona').val() != "" && $('#telefonoUnoPersona').val().match(/^[0-9]{7,9}$/) 
+			&& $('#correoCliente').val().match(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/)
+			&& $('#facebookCliente').val().match(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\,.-\s]+$/)
+			&& $('#codigoSexo').val().trim() != "" ) {
 		
 			var formData = {
 					
@@ -261,16 +265,64 @@ $(document).on('ready', function() {
 						
 						if(response.status == 'SUCCESS' && response.message == "HECHO") {
 							
-							swal({
-								type: "success",
-								title: "Persona: " + response.data.nombrepersona + " Registrado con exito",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar",
-								closeOnConfirm: false
-							}).then((result) => {
+							var formDataCliente = {	
+									documentoPersonaCliente: $('#documentoPersona').val(),
+									consecutivoCliente: $('#consecutivoCliente').val(),
+									codigoCliente: $('#codigoCliente').val(),
+									nombreComercialCliente: $('#nombreComercialCliente').val(),
+									correoCliente: $('#correoCliente').val(),
+									facebookCliente: $('#facebookCliente').val(),
+									sexo: {
+										codigoSexo: $('#codigoSexo').val()
+									}
+							};
+							
+							$.ajax({
+								
+								type:'POST',
+								url: '/api/v1/cliente/save',
+								headers: {
+									"Content-Type": "application/json",
+									"Accept": "application/json"
+								},
+								data: JSON.stringify(formDataCliente),
+								dataType: 'json',
+								success: function(response) {
+									
+									
+									if(response.status == 'CREATED') {
+										
+										swal({
+											type: "success",
+											title: "Cliente Registrado con exito",
+											showConfirmButton: true,
+											confirmButtonText: "Cerrar",
+											closeOnConfirm: false
+										}).then((result) => {
 
-								if(result.value) {
-									$(location).attr('href', '/persona/view');
+											if(result.value) {
+												$(location).attr('href', '/persona/view');
+											}
+										});
+									}
+									else if(response.status == 'ERROR') {
+										
+										swal({
+							                type: 'error',
+							                title: 'Ooops',
+							                text: 'Ocurrio un Error al Registrar al Cliente, verifique si ya existe !'
+							            });
+										
+										limpiarClientes();
+									}
+								},
+								error: function() {
+									
+									swal({
+						                type: 'error',
+						                title: 'Ooops',
+						                text: 'Error al Registrar Cliente !'
+						            });
 								}
 							});
 						}
@@ -279,7 +331,7 @@ $(document).on('ready', function() {
 							swal({
 				                type: 'error',
 				                title: 'Ooops',
-				                text: 'Ocurrio un Error al Registrar a la Persona: '+ response.data.nombrepersona +', verifique su Numero Documento !'
+				                text: 'Ocurrio un Error al Registrar al Cliente: '+ response.data.nombrepersona +', verifique su Numero Documento !'
 				            });
 							
 							
@@ -290,7 +342,7 @@ $(document).on('ready', function() {
 						swal({
 			                type: 'error',
 			                title: 'Ooops',
-			                text: 'Error al Registrar Persona !'
+			                text: 'Error al Registrar Cliente !'
 			            });
 					}
 				});
@@ -317,7 +369,7 @@ $(document).on('ready', function() {
 							
 							swal({
 								type: "success",
-								title: "Persona: " + response.data.nombrepersona + " Registrado con exito",
+								title: "Persona: " + response.data.nombrepersona + " Actualizada con exito",
 								showConfirmButton: true,
 								confirmButtonText: "Cerrar",
 								closeOnConfirm: false
@@ -333,7 +385,7 @@ $(document).on('ready', function() {
 							swal({
 				                type: 'error',
 				                title: 'Ooops',
-				                text: 'Ocurrio un Error al Registrar a la Persona: '+ response.data.nombrepersona +', verifique su Numero Documento !'
+				                text: 'Ocurrio un Error al Actualizar a la Persona: '+ response.data.nombrepersona +', verifique su Numero Documento !'
 				            });
 							
 							
@@ -344,7 +396,7 @@ $(document).on('ready', function() {
 						swal({
 			                type: 'error',
 			                title: 'Ooops',
-			                text: 'Error al Registrar Persona !'
+			                text: 'Error al Actualizar Persona !'
 			            });
 					}
 				});
@@ -353,7 +405,8 @@ $(document).on('ready', function() {
 		
 		if($('#documentoPersona').val() == "" && $('#nombreUbigeo').val() == "" && $('#nombrePersona').val() == "" 
 				&& $('#apellidoPaternoPersona').val() == "" && $('#apellidoMaternoPersona').val() == "" && $('#direccionActualPersona').val() == ""
-				&& $('#referenciaPersona').val() == "" && $('#telefonoUnoPersona').val() == "")  {
+				&& $('#referenciaPersona').val() == "" && $('#telefonoUnoPersona').val() == "" && $('#correoCliente').val() == "" 
+				&& $('#facebookCliente').val() == "" && $('#codigoSexo').val().trim() == "")  {
 			
 			swal({
                 type: 'error',
@@ -460,6 +513,68 @@ $(document).on('ready', function() {
 		    	return false;
 			}
 			
+			
+			if($('#correoCliente').val() == "" || $('#correoCliente').val() == 0) {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'El campo Correo Electronico no puede estar vacio, ingrese un valor valido'
+	            });
+		    	
+		    	$('#correoCliente').focus();
+		    	return false;
+			}
+			
+			else if(!($('#correoCliente').val().match(/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/))) {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'El campo Correo Electronico no tiene un formato de Correo valido'
+	            });
+				
+				$('#correoCliente').val('');
+				$('#correoCliente').focus();
+		    	return false;
+			}
+			
+			if($('#facebookCliente').val() == "" || $('#facebookCliente').val() == 0) {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'El campo Facebook Cliente no puede estar vacio, ingrese un valor valido'
+	            });
+		    	
+		    	$('#facebookCliente').focus();
+		    	return false;
+			}
+			
+			else if(!($('#facebookCliente').val().match(/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\,.-\s]+$/))) {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Ingrese un valor valido para el Facebook Cliente'
+	            });
+				
+				$('#facebookCliente').val('');
+				$('#facebookCliente').focus();
+		    	return false;
+			}
+			
+			if($('#codigoSexo').val().trim() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe seleccionar un Sexo'
+	            });
+				
+		    	return false;
+			}
+											
 			if(!($('#documentoPersona').val().match(/^[0-9]{7,11}$/))) {
 				
 				swal({

@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
+import com.dev.crm.core.dto.InstalacionesPorTecnicoResultViewModel;
 import com.dev.crm.core.repository.jdbc.InformeInstalacionDiaInternetJdbcRepository;
 import com.dev.crm.core.repository.jdbc.InstalacionDiaInternetJdbcRepository;
+import com.dev.crm.core.repository.jdbc.InstalacionesPorTecnicoJdbcRepository;
 import com.dev.crm.core.service.InstalacionService;
 import com.dev.crm.core.util.GenericUtil;
 
@@ -26,6 +28,10 @@ public class InstalacionServiceImpl implements InstalacionService {
 	@Autowired
 	@Qualifier("informeInstalacionDiaInternetJdbcRepository")
 	private InformeInstalacionDiaInternetJdbcRepository informeInstalacionDiaInternetJdbcRepository;
+	
+	@Autowired
+	@Qualifier("instalacionesPorTecnicoJdbcRepository")
+	private InstalacionesPorTecnicoJdbcRepository instalacionesPorTecnicoJdbcRepository;
 	
 	@Override
 	public List<InstalacionDiaInternetResultViewModel> spListarInstalacionDiaInternet(String usuario) {
@@ -64,6 +70,27 @@ public class InstalacionServiceImpl implements InstalacionService {
 			else {
 				return informesInstalacionDia;
 			}	
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<InstalacionesPorTecnicoResultViewModel> instalacionesPorTecnico() {
+		
+		List<InstalacionesPorTecnicoResultViewModel> instalacionesPorTecnico = new ArrayList<InstalacionesPorTecnicoResultViewModel>();
+		
+		try {
+			
+			instalacionesPorTecnico = instalacionesPorTecnicoJdbcRepository.instalacionesPorTecnico();
+			if(GenericUtil.isCollectionEmpty(instalacionesPorTecnico)) {
+				return null;
+			}
+			else {
+				return instalacionesPorTecnico;
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();

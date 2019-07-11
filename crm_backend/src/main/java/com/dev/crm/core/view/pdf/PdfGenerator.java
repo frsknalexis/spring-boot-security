@@ -712,7 +712,7 @@ public class PdfGenerator {
 	
 	public static ByteArrayInputStream generarReciboLiquidacion(LiquidacionMaterialResultViewModel liquidacion) {
 		
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A4.rotate());
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
@@ -724,130 +724,146 @@ public class PdfGenerator {
 			img.scaleAbsolute(100f, 45f);
 			img.disableBorderSide(Rectangle.BOX);
 			
-			PdfPTable tables = new PdfPTable(1);
+			PdfPTable table  = new PdfPTable(2);
+			PdfPTable tables = new PdfPTable(3);
+			PdfPTable stables = new PdfPTable(1);
+			
+			table.setWidthPercentage(45f);
+			table.setHorizontalAlignment(Element.ALIGN_LEFT);
 			tables.setWidthPercentage(35f);
 			tables.setHorizontalAlignment(Element.ALIGN_LEFT);
+			stables.setWidthPercentage(45f);
+			stables.setHorizontalAlignment(Element.ALIGN_LEFT);
 			
 			PdfPCell hcells;
 			Paragraph celda = new Paragraph();
 			Paragraph celdas = new Paragraph();
+			Font ff = new Font (FontFamily.HELVETICA, 7, Font.NORMAL, GrayColor.BLACK);
+			Font fff = new Font (FontFamily.HELVETICA, 9, Font.NORMAL, GrayColor.BLACK);
+			Font f = new Font (FontFamily.HELVETICA, 10, Font.NORMAL, GrayColor.BLACK);
 			hcells = new PdfPCell();
 			hcells.disableBorderSide(Rectangle.BOX);
 			celdas.add(new Phrase(new Chunk(img, 45, 0)));
 			celda.add(new Paragraph(  " "
-					+ "Vip Channel S.A.C.                                    ."));
+									+ "Vip Channel S.A.C.    .",f));
 			celda.setAlignment(Element.ALIGN_RIGHT);
 			hcells.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcells.setVerticalAlignment(Element.ALIGN_MIDDLE);;
+			hcells.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			hcells.addElement(celdas);
 			hcells.addElement(celda);
-			tables.addCell(hcells);
+			table.addCell(hcells);
 			
-			hcells = new PdfPCell(new Phrase(" "));
-			hcells.setHorizontalAlignment(Element.ALIGN_LEFT);
-			hcells.disableBorderSide(Rectangle.BOX);
-			tables.addCell(hcells);
-			
-			PdfPTable table = new PdfPTable(8);
-			table.setWidthPercentage(100);
-			table.setWidths(new float[] {.7f, 1, 1, 1.3f, 1.5f, 1.5f, 1, 1});
-			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
-			font.setColor(BaseColor.WHITE);
+			PdfPCell hcellss;
+			hcellss = new PdfPCell(new Phrase("LIQ. DE MATERIALES", fff));
+			hcellss.setHorizontalAlignment(Element.ALIGN_LEFT);
+			hcellss.setVerticalAlignment(Element.ALIGN_BOTTOM);
+			hcellss.setColspan (3);
+			hcellss.disableBorderSide(Rectangle.BOX);
+			table.addCell(hcellss);
 			
 			PdfPCell hcell;
-			hcell = new PdfPCell(new Phrase("CODIGO SERVICIO", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			hcell = new PdfPCell(new Paragraph(   "Av. Tupac Amaru #306 - 2do Piso .\n"
+												+ "    Telf: 2326163- 2327395      .\n"
+												+ "            HUACHO              .", ff));
+			hcell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			hcell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			hcell.disableBorderSide(Rectangle.BOX);
 			table.addCell(hcell);
 			
-			hcell = new PdfPCell(new Phrase("FECHA INICIO", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
+			PdfPCell hcelll;
+			hcelll = new PdfPCell(new Phrase("Nª de Instalacion. " +liquidacion.getCodigoServicioInternet(), fff));
+			hcelll.setHorizontalAlignment(Element.ALIGN_LEFT);
+			hcelll.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			hcelll.setColspan (3);
+			hcelll.disableBorderSide(Rectangle.BOX);
+			table.addCell(hcelll);
 			
-			hcell = new PdfPCell(new Phrase("OBSERVACION", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
-						
-			hcell = new PdfPCell(new Phrase("Nº DOCUMENTO", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
+			PdfPCell celldatos; 
+			String cliente = liquidacion.getCliente();
+			String direccion = liquidacion.getDocumentoCliente();
+			String fechainsta =liquidacion.getFechaInicio();
+			Paragraph celdass = new Paragraph();
+			Paragraph celdasdi = new Paragraph();
+			Paragraph celdasin = new Paragraph();
+			celldatos = new PdfPCell();
+			celdass  = new Paragraph(new Chunk ("        Señor: "     + new Chunk(cliente).setUnderline(0.1f, -2f),fff));
+			celdasdi = new Paragraph(new Chunk ("        Nª de documento: " + new Chunk(direccion).setUnderline(0.1f, -2f),fff));
+			celdasin = new Paragraph(new Chunk ("        Fecha de Instalación: " + new Chunk(fechainsta).setUnderline(0.1f, -2f),fff));
+			celldatos.addElement(celdass);
+			celldatos.addElement(celdasdi);
+			celldatos.addElement(celdasin);
+			celldatos.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			celldatos.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			celldatos.setColspan (3);
+			celldatos.disableBorderSide(Rectangle.BOX);
+			table.addCell(celldatos);
 			
-			hcell = new PdfPCell(new Phrase("#", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
+			PdfPCell celldatospag;
+			Paragraph celdaspag = new Paragraph();
+			celldatospag = new PdfPCell();
+			celdaspag  = new Paragraph(new Chunk (" ",ff));
+			celldatospag.addElement(celdaspag);
+			celldatospag.setHorizontalAlignment(Element.ALIGN_TOP);
+			celldatospag.setVerticalAlignment(Element.ALIGN_TOP);
+			celldatospag.setColspan(3);
+			celldatospag.disableBorderSide(Rectangle.BOX);
+			table.addCell(celldatospag);
 			
-			hcell = new PdfPCell(new Phrase("CANTIDAD", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
 			
-			hcell = new PdfPCell(new Phrase("DESCRIPCION", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
+			PdfPCell celldatospago;
+			celldatospago = new PdfPCell(new Phrase("Codigo"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tables.addCell(celldatospago);
 			
-			hcell = new PdfPCell(new Phrase("CLIENTE", font));
-			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
-			table.addCell(hcell);
+			celldatospago = new PdfPCell(new Phrase("Materiales"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tables.addCell(celldatospago);
 			
-			if(GenericUtil.isNotNull(liquidacion)) {
-				
-				PdfPCell cell;
-				
-				Font f = FontFactory.getFont(FontFactory.HELVETICA, 10);
-				
-				cell = new PdfPCell(new Phrase(liquidacion.getCodigoServicioInternet(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-				
-				cell = new PdfPCell(new Phrase(liquidacion.getFechaInicio(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-				
-				cell = new PdfPCell(new Phrase(liquidacion.getObservacion(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-				
-				cell = new PdfPCell(new Phrase(liquidacion.getDocumentoCliente(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-				
-				cell = new PdfPCell(new Phrase(liquidacion.getCodigoMaterial(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-				
-				cell = new PdfPCell(new Phrase(liquidacion.getCantidadMaterial(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-				
-				cell = new PdfPCell(new Phrase(liquidacion.getDescripcionMaterial(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-				
-				cell = new PdfPCell(new Phrase(liquidacion.getCliente(), f));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(cell);
-			}
+			celldatospago = new PdfPCell(new Phrase("Total"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tables.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getCodigoMaterial(),fff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tables.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getDescripcionMaterial(),fff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tables.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getCantidadMaterial(),fff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tables.addCell(celldatospago);
+			
+			PdfPCell pdfcel;			
+			pdfcel = new PdfPCell(new Phrase( "Observacion: \n \n"
+					+ "							" + liquidacion.getObservacion(),f));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_TOP);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stables.addCell(pdfcel);
+			
+			pdfcel = new PdfPCell(new Phrase( "\n\n____________________  \n"
+											+ "p. VipChannel S.A.C.",f));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_CENTER);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stables.addCell(pdfcel);
+			
+			pdfcel = new PdfPCell(new Phrase( " ",f));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_TOP);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stables.addCell(pdfcel);
 			
 			PdfWriter.getInstance(document, baos);
+			
+			
 			document.open();
+			document.add(table);
 			document.add(tables);
 			document.add(new Phrase("\n"));
-			document.add(table);
-			
+			document.add(stables);
 			document.close();
 		}
 		catch(DocumentException e) {

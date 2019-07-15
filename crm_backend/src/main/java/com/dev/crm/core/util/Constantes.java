@@ -5,6 +5,7 @@ public class Constantes {
 	public static final String DASHBOARD_VIEW = "dashboard";
 	public static final String DASHBOARD_VIEW2 = "dashboard2";
 	public static final String USUARIO_VIEW = "modulo-personas/usuario/usuario";
+	public static final String PROFILE_USER_VIEW = "modulo-personas/usuario/perfilusuario";
 	public static final String PERSONA_VIEW = "modulo-personas/persona/persona";
 	public static final String EMPLEADO_VIEW = "modulo-personas/empleado/empleado";
 	public static final String DETALLE_CUENTA_VIEW = "modulo-servicios/detallecuenta/detallecuenta";
@@ -111,6 +112,7 @@ public class Constantes {
 	public static final String RECUPERAR_DIAS_DEUDAS_PARAMETRIZADO = "recuperar_dias_deudas_parametrizado";
 	public static final String SP_GENERAR_LIQUIDACION_MATERIAL = "sp_generar_liquidacion_material";
 	public static final String SP_LISTAR_INSTALACIONES_POR_TECNICO = "sp_listar_lista_insta_x_tecnico";
+	public static final String SP_PERFIL_USUARIO = "sp_mi_perfil";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

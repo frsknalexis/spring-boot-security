@@ -73,6 +73,9 @@
 					<ul class="list-unstyled">
 						<li class="divider"></li>
 						<li>
+							<a role="menuitem" tabindex="-1" th:href="@{/usuario/profileUser}"><i class="fa fa-user"></i> Mi Perfil</a>
+						</li>
+						<li>
 							<a role="menuitem" tabindex="-1" th:href="@{/logout}" 
 							onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i> Cerrar Sesion</a>
 							<form id="logout-form" method="post" th:action="@{/logout}" style="display: none;">

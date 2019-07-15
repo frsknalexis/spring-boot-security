@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dao.UsuarioDAO;
 import com.dev.crm.core.dto.ModuloResultViewModel;
+import com.dev.crm.core.dto.PerfilUsuarioResultViewModel;
 import com.dev.crm.core.model.entity.Usuario;
 import com.dev.crm.core.repository.jdbc.ModuloResultJdbcRepository;
+import com.dev.crm.core.repository.jdbc.PerfilUsuarioJdbcRepository;
 import com.dev.crm.core.security.UserDetail;
 import com.dev.crm.core.service.UsuarioService;
 import com.dev.crm.core.util.Constantes;
@@ -40,6 +42,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	@Qualifier("userDetail")
 	private UserDetail userDetail;
+	
+	@Autowired
+	@Qualifier("perfilUsuarioJdbcRepository")
+	private PerfilUsuarioJdbcRepository perfilUsuarioJdbcRepository;
 	
 	@Override
 	public List<Usuario> findAll() {
@@ -272,6 +278,29 @@ public class UsuarioServiceImpl implements UsuarioService {
 				else {
 					return null;
 				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public PerfilUsuarioResultViewModel perfilUsuario(String usuario) {
+		
+		PerfilUsuarioResultViewModel perfilUsuario = null;
+		
+		try {
+			
+			if(GenericUtil.isNotNull(usuario)) {
+				perfilUsuario = perfilUsuarioJdbcRepository.perfilUsuario(usuario);
+			}
+			if(GenericUtil.isNotNull(perfilUsuario)) {
+				return perfilUsuario;
+			}
+			else {
+				return null;
 			}
 		}
 		catch(Exception e) {

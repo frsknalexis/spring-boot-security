@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.dev.crm.core.dto.ModuloResultViewModel;
+import com.dev.crm.core.dto.PerfilUsuarioResultViewModel;
 import com.dev.crm.core.model.entity.Usuario;
 
 public interface UsuarioService {
@@ -31,4 +32,6 @@ public interface UsuarioService {
 	Long obtenerTotalRegistrosUsuario();
 	
 	ModuloResultViewModel spListarModulo(String usuario,String numero);
+	
+	PerfilUsuarioResultViewModel perfilUsuario(String usuario);
 }

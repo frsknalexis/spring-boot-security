@@ -16,7 +16,6 @@ import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.PersonaDTO;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.util.DateUtil;
-import com.dev.crm.core.util.GenericUtil;
 import com.dev.crm.core.util.StringUtil;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -712,7 +711,7 @@ public class PdfGenerator {
 	
 	public static ByteArrayInputStream generarReciboLiquidacion(LiquidacionMaterialResultViewModel liquidacion) {
 		
-		Document document = new Document(PageSize.A4.rotate());
+		Document document = new Document(PageSize.A4);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
@@ -721,19 +720,28 @@ public class PdfGenerator {
 			String imageUrl = "https://scontent.flim19-1.fna.fbcdn.net/v/t1.0-9/61296693_2742619672420355_3895064617646292992_n.jpg?_nc_cat=107&_nc_ht=scontent.flim19-1.fna&oh=275d98534984bba9612bb14e98a96f10&oe=5D900E4A";
 			
 			Image img = Image.getInstance(new URL(imageUrl));
-			img.scaleAbsolute(100f, 45f);
+			img.scaleAbsolute(120f, 45f);
 			img.disableBorderSide(Rectangle.BOX);
 			
 			PdfPTable table  = new PdfPTable(2);
 			PdfPTable tables = new PdfPTable(3);
+			PdfPTable tablesx = new PdfPTable(3);
+			PdfPTable tablees = new PdfPTable(1);
 			PdfPTable stables = new PdfPTable(1);
+			PdfPTable stabless = new PdfPTable(2);
 			
-			table.setWidthPercentage(45f);
-			table.setHorizontalAlignment(Element.ALIGN_LEFT);
-			tables.setWidthPercentage(35f);
-			tables.setHorizontalAlignment(Element.ALIGN_LEFT);
-			stables.setWidthPercentage(45f);
-			stables.setHorizontalAlignment(Element.ALIGN_LEFT);
+			table.setWidthPercentage(75f);
+			table.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tables.setWidthPercentage(75f);
+			tables.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablesx.setWidthPercentage(75f);
+			tablesx.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablees.setWidthPercentage(75f);
+			tablees.setHorizontalAlignment(Element.ALIGN_CENTER);
+			stables.setWidthPercentage(75f);
+			stables.setHorizontalAlignment(Element.ALIGN_CENTER);
+			stabless.setWidthPercentage(75f);
+			stabless.setHorizontalAlignment(Element.ALIGN_CENTER);
 			
 			PdfPCell hcells;
 			Paragraph celda = new Paragraph();
@@ -743,7 +751,7 @@ public class PdfGenerator {
 			Font f = new Font (FontFamily.HELVETICA, 10, Font.NORMAL, GrayColor.BLACK);
 			hcells = new PdfPCell();
 			hcells.disableBorderSide(Rectangle.BOX);
-			celdas.add(new Phrase(new Chunk(img, 45, 0)));
+			celdas.add(new Phrase(new Chunk(img, 55, 0)));
 			celda.add(new Paragraph(  " "
 									+ "Vip Channel S.A.C.    .",f));
 			celda.setAlignment(Element.ALIGN_RIGHT);
@@ -754,7 +762,7 @@ public class PdfGenerator {
 			table.addCell(hcells);
 			
 			PdfPCell hcellss;
-			hcellss = new PdfPCell(new Phrase("LIQ. DE MATERIALES", fff));
+			hcellss = new PdfPCell(new Phrase("INSTALACIÓN  - ACTIVACIÓN", fff));
 			hcellss.setHorizontalAlignment(Element.ALIGN_LEFT);
 			hcellss.setVerticalAlignment(Element.ALIGN_BOTTOM);
 			hcellss.setColspan (3);
@@ -771,7 +779,7 @@ public class PdfGenerator {
 			table.addCell(hcell);
 			
 			PdfPCell hcelll;
-			hcelll = new PdfPCell(new Phrase("Nª de Instalacion. " +liquidacion.getCodigoServicioInternet(), fff));
+			hcelll = new PdfPCell(new Phrase("Cod. " +liquidacion.getCodigoServicioInternet(), fff));
 			hcelll.setHorizontalAlignment(Element.ALIGN_LEFT);
 			hcelll.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			hcelll.setColspan (3);
@@ -780,18 +788,22 @@ public class PdfGenerator {
 			
 			PdfPCell celldatos; 
 			String cliente = liquidacion.getCliente();
-			String direccion = liquidacion.getDocumentoCliente();
+			String direccion = liquidacion.getDireccionCliente();
 			String fechainsta =liquidacion.getFechaInicio();
+			String documento = liquidacion.getDocumentoCliente();
+			String correoe = liquidacion.getCorreoCliente();
 			Paragraph celdass = new Paragraph();
 			Paragraph celdasdi = new Paragraph();
 			Paragraph celdasin = new Paragraph();
+			Paragraph caldasdo = new Paragraph();
 			celldatos = new PdfPCell();
-			celdass  = new Paragraph(new Chunk ("        Señor: "     + new Chunk(cliente).setUnderline(0.1f, -2f),fff));
-			celdasdi = new Paragraph(new Chunk ("        Nª de documento: " + new Chunk(direccion).setUnderline(0.1f, -2f),fff));
-			celdasin = new Paragraph(new Chunk ("        Fecha de Instalación: " + new Chunk(fechainsta).setUnderline(0.1f, -2f),fff));
+			celdass  = new Paragraph(new Chunk ("Señor: "     + new Chunk(cliente).setUnderline(0.1f, -2f),f));
+			celdasdi = new Paragraph(new Chunk ("N°: " + new Chunk(documento).setUnderline(0.1f, -2f) + "	-	Dirección: " + new Chunk(direccion).setUnderline(0.1f, -2f),f));
+			celdasin = new Paragraph(new Chunk ("Correo E.: " + new Chunk(correoe).setUnderline(0.1f, -2f) + "	-	Fecha de Instalación: " + new Chunk(fechainsta).setUnderline(0.1f, -2f),f));
 			celldatos.addElement(celdass);
 			celldatos.addElement(celdasdi);
 			celldatos.addElement(celdasin);
+			celldatos.addElement(caldasdo);
 			celldatos.setHorizontalAlignment(Element.ALIGN_RIGHT);
 			celldatos.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			celldatos.setColspan (3);
@@ -811,6 +823,7 @@ public class PdfGenerator {
 			
 			
 			PdfPCell celldatospago;
+			PdfPCell celldatospagos;			
 			celldatospago = new PdfPCell(new Phrase("Codigo"));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
 			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -826,28 +839,129 @@ public class PdfGenerator {
 			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
 			tables.addCell(celldatospago);
 			
-			celldatospago = new PdfPCell(new Phrase(liquidacion.getCodigoMaterial(),fff));
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getCodigoMaterial(),ff));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
 			tables.addCell(celldatospago);
 			
-			celldatospago = new PdfPCell(new Phrase(liquidacion.getDescripcionMaterial(),fff));
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getDescripcionMaterial(),ff));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
 			tables.addCell(celldatospago);
 			
-			celldatospago = new PdfPCell(new Phrase(liquidacion.getCantidadMaterial(),fff));
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getCantidadMaterial(),ff));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
 			tables.addCell(celldatospago);
 			
-			PdfPCell pdfcel;			
+			celldatospago = new PdfPCell(new Phrase( " ",f));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_TOP);
+			celldatospago.disableBorderSide(Rectangle.BOX);
+			tables.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase( " ",f));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_TOP);
+			celldatospago.disableBorderSide(Rectangle.BOX);
+			tables.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase( " ",f));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_TOP);
+			celldatospago.disableBorderSide(Rectangle.BOX);
+			tables.addCell(celldatospago);
+			
+			celldatospagos = new PdfPCell(new Phrase("EQUIPO EN CALIDAD DE COMODATO"));
+			celldatospagos.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospagos.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tablees.addCell(celldatospagos);
+			
+			celldatospago = new PdfPCell(new Phrase("Serie"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("Wifi User"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("Wifi Password"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getSerieOnu(),ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getWifiUser(),ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getWifiPassword(),ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("Marca"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("Modelo"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("Tipo de Equipo"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("yyy",ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getTipoOnu(),ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("ONU",ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("Potencia"));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(" "));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			/*celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);*/
+			celldatospago.disableBorderSide(Rectangle.BOX);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(" "));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			/*celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);*/
+			celldatospago.disableBorderSide(Rectangle.BOX);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase("XX",ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(" ",ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.disableBorderSide(Rectangle.BOX);
+			tablesx.addCell(celldatospago);
+			
+			celldatospago = new PdfPCell(new Phrase(" ",ff));
+			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
+			celldatospago.disableBorderSide(Rectangle.BOX);
+			tablesx.addCell(celldatospago);
+			
+			/**/
+			
+			PdfPCell pdfcel;
 			pdfcel = new PdfPCell(new Phrase( "Observacion: \n \n"
 					+ "							" + liquidacion.getObservacion(),f));
 			pdfcel.setHorizontalAlignment(Element.ALIGN_TOP);
-			pdfcel.disableBorderSide(Rectangle.BOX);
-			stables.addCell(pdfcel);
-			
-			pdfcel = new PdfPCell(new Phrase( "\n\n____________________  \n"
-											+ "p. VipChannel S.A.C.",f));
-			pdfcel.setHorizontalAlignment(Element.ALIGN_CENTER);
 			pdfcel.disableBorderSide(Rectangle.BOX);
 			stables.addCell(pdfcel);
 			
@@ -856,14 +970,57 @@ public class PdfGenerator {
 			pdfcel.disableBorderSide(Rectangle.BOX);
 			stables.addCell(pdfcel);
 			
+			pdfcel = new PdfPCell(new Phrase( "El presente documento deja constancia que EL CLIENTE entregará el equipo ONU a "
+											+ "VIP Channel - Internet Color	después de finalizado el servicio de Internet.",f));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_TOP);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stables.addCell(pdfcel);
+			
+			pdfcel = new PdfPCell(new Phrase( " ",f));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_TOP);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stables.addCell(pdfcel);
+			
+			pdfcel = new PdfPCell(new Phrase( " ",f));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_TOP);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stables.addCell(pdfcel);
+			
+			pdfcel = new PdfPCell(new Phrase( " ",f));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_TOP);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stables.addCell(pdfcel);
+			
+			pdfcel = new PdfPCell(new Phrase( " ",f));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_TOP);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stables.addCell(pdfcel);
+			pdfcel = new PdfPCell(new Phrase( "\n\n_________________________________  \n"
+											+ "Firma del Cliente \n"
+											+ liquidacion.getCliente() + "\n"
+											+ "N° de documento: " + liquidacion.getDocumentoCliente(),ff));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_CENTER);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stabless.addCell(pdfcel);
+			
+			pdfcel = new PdfPCell(new Phrase( "\n\n____________________________  \n"
+					+ "p. VipChannel S.A.C. \n"
+					+ "Técnico: " + liquidacion.getTecnicoResponsable(),ff));
+			pdfcel.setHorizontalAlignment(Element.ALIGN_CENTER);
+			pdfcel.disableBorderSide(Rectangle.BOX);
+			stabless.addCell(pdfcel);
+			
 			PdfWriter.getInstance(document, baos);
 			
 			
 			document.open();
 			document.add(table);
 			document.add(tables);
+			document.add(tablees);
+			document.add(tablesx);
 			document.add(new Phrase("\n"));
 			document.add(stables);
+			document.add(stabless);
 			document.close();
 		}
 		catch(DocumentException e) {

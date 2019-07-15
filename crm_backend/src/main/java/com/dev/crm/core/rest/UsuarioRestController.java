@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.ModuloResultViewModel;
+import com.dev.crm.core.dto.PerfilUsuarioResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.dto.UsuarioDTO;
 import com.dev.crm.core.dto.UsuarioRequest;
@@ -262,5 +263,28 @@ public class UsuarioRestController {
 		catch(UsernameNotFoundException e) {
 			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping("/perfilUsuario")
+	public ResponseEntity<PerfilUsuarioResultViewModel> perfilUsuario() {
+		
+		try {
+			
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			String usuario = usuarioLogueado.getUsername();
+			if(GenericUtil.isNotNull(usuario)) {
+				PerfilUsuarioResultViewModel perfilUsuario = usuarioFacade.perfilUsuario(usuario);
+				if(GenericUtil.isNotNull(perfilUsuario)) {
+					return new ResponseEntity<PerfilUsuarioResultViewModel>(perfilUsuario, HttpStatus.OK);
+				}
+				else {
+					return new ResponseEntity<PerfilUsuarioResultViewModel>(HttpStatus.NO_CONTENT);
+				}
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<PerfilUsuarioResultViewModel>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
 	}
 }

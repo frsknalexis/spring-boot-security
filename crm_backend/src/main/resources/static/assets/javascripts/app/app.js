@@ -16,9 +16,8 @@ $(document).on('ready', function() {
 			success: function(response) {
 				console.log(response);
 				$('#nombreUsuarioLogueado').html(response.username);
-				for(var i = 0; i < response.authorities.length; i++) {
-					
-				}
+				var usuarioLogueado = response.username;
+				console.log("usuarioLogueado: " + usuarioLogueado);
 			}
 		});
 	}

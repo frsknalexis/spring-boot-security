@@ -24,7 +24,21 @@ public class LiquidacionMaterialResultViewModel implements Serializable {
 	private String descripcionMaterial;
 	
 	private String cliente;
-
+	
+	private String serieOnu;
+	
+	private String wifiUser;
+	
+	private String wifiPassword;
+	
+	private String tecnicoResponsable;
+	
+	private String direccionCliente;
+	
+	private String correoCliente;
+	
+	private String tipoOnu;
+	
 	public LiquidacionMaterialResultViewModel() {
 		
 	}
@@ -91,5 +105,61 @@ public class LiquidacionMaterialResultViewModel implements Serializable {
 
 	public void setCliente(String cliente) {
 		this.cliente = cliente;
+	}
+
+	public String getSerieOnu() {
+		return serieOnu;
+	}
+
+	public void setSerieOnu(String serieOnu) {
+		this.serieOnu = serieOnu;
+	}
+
+	public String getWifiUser() {
+		return wifiUser;
+	}
+
+	public void setWifiUser(String wifiUser) {
+		this.wifiUser = wifiUser;
+	}
+
+	public String getWifiPassword() {
+		return wifiPassword;
+	}
+
+	public void setWifiPassword(String wifiPassword) {
+		this.wifiPassword = wifiPassword;
+	}
+
+	public String getTecnicoResponsable() {
+		return tecnicoResponsable;
+	}
+
+	public void setTecnicoResponsable(String tecnicoResponsable) {
+		this.tecnicoResponsable = tecnicoResponsable;
+	}
+
+	public String getDireccionCliente() {
+		return direccionCliente;
+	}
+
+	public void setDireccionCliente(String direccionCliente) {
+		this.direccionCliente = direccionCliente;
+	}
+
+	public String getCorreoCliente() {
+		return correoCliente;
+	}
+
+	public void setCorreoCliente(String correoCliente) {
+		this.correoCliente = correoCliente;
+	}
+
+	public String getTipoOnu() {
+		return tipoOnu;
+	}
+
+	public void setTipoOnu(String tipoOnu) {
+		this.tipoOnu = tipoOnu;
 	}
 }

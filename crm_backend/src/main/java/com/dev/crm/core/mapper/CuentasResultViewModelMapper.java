@@ -13,6 +13,7 @@ public class CuentasResultViewModelMapper implements RowMapper<CuentasResultView
 	public CuentasResultViewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		CuentasResultViewModel cuentasPorDia = new CuentasResultViewModel();
+		cuentasPorDia.setNumeracion(rs.getInt("NU"));
 		cuentasPorDia.setCodigoDetalleCuenta(rs.getInt("codi_detcun"));
 		cuentasPorDia.setCodigoCuenta(rs.getInt("codi_cuenta"));
 		cuentasPorDia.setCliente(rs.getString("cliente"));

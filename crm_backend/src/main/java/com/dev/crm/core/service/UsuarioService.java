@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.dev.crm.core.dto.ModuloResultViewModel;
 import com.dev.crm.core.dto.PerfilUsuarioResultViewModel;
+import com.dev.crm.core.dto.UsuarioPerfilRequest;
 import com.dev.crm.core.model.entity.Usuario;
 
 public interface UsuarioService {
@@ -28,6 +29,8 @@ public interface UsuarioService {
 	void saveOrUpdate(Usuario usuario);
 	
 	boolean isUserPresent(String documentoUsuario);
+	
+	void actualizarPerfilPassword(UsuarioPerfilRequest request);
 	
 	Long obtenerTotalRegistrosUsuario();
 	

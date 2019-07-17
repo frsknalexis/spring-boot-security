@@ -14,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dev.crm.core.dao.UsuarioDAO;
 import com.dev.crm.core.dto.ModuloResultViewModel;
 import com.dev.crm.core.dto.PerfilUsuarioResultViewModel;
+import com.dev.crm.core.dto.UsuarioPerfilRequest;
 import com.dev.crm.core.model.entity.Usuario;
 import com.dev.crm.core.repository.jdbc.ModuloResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PerfilUsuarioJdbcRepository;
+import com.dev.crm.core.repository.jdbc.UsuarioPerfilJdbcRepository;
 import com.dev.crm.core.security.UserDetail;
 import com.dev.crm.core.service.UsuarioService;
 import com.dev.crm.core.util.Constantes;
@@ -46,6 +48,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	@Qualifier("perfilUsuarioJdbcRepository")
 	private PerfilUsuarioJdbcRepository perfilUsuarioJdbcRepository;
+	
+	@Autowired
+	@Qualifier("usuarioPerfilJdbcRepository")
+	private UsuarioPerfilJdbcRepository usuarioPerfilJdbcRepository;
 	
 	@Override
 	public List<Usuario> findAll() {
@@ -247,6 +253,21 @@ public class UsuarioServiceImpl implements UsuarioService {
 			return usuarioDAO.isUserPresent(documentoUsuario);
 		}
 		return false;
+	}
+	
+	@Override
+	public void actualizarPerfilPassword(UsuarioPerfilRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				request.setEncryptedPasswordActual(bCryptPasswordEncoder.encode(request.getPasswordActual()));
+				usuarioPerfilJdbcRepository.actualizarPerfilPassword(request);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

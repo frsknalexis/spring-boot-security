@@ -148,6 +148,41 @@ function actualizarUsuarioPerfil() {
 							nuevaPasswordUsuario: $('#nuevoPasswordUsuarioPerfil').val()
 					};
 					console.log(formDataCambioPassword);
+					
+					$.ajax({
+						
+						type: 'POST',
+						url: '/api/v1/usuario/updatePerfil',
+						headers: {
+							"Content-Type": "application/json",
+							"Accept": "application/json"
+						},
+						data: JSON.stringify(formDataCambioPassword),
+						dataType: 'json',
+						success: function(response) {
+							console.log(response);
+							
+							swal({
+								type: "success",
+								title: "Contraseña de Usuario Actualizada con exito",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+							}).then((result) => {
+
+								if(result.value) {
+									$(location).attr('href', '/login');
+								}
+							});
+						},
+						error: function() {
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Error al Actualizar Contraseña de Usuario !'
+				            });
+						}
+					});
 				}
 			}
 		}

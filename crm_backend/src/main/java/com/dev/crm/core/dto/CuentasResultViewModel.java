@@ -9,6 +9,8 @@ public class CuentasResultViewModel implements Serializable {
 	 */
 	private static final long serialVersionUID = -5520507581628040807L;
 	
+	private Integer numeracion;
+	
 	private Integer codigoDetalleCuenta;
 	
 	private Integer codigoCuenta;
@@ -21,6 +23,14 @@ public class CuentasResultViewModel implements Serializable {
 
 	public CuentasResultViewModel() {
 		
+	}
+	
+	public Integer getNumeracion() {
+		return numeracion;
+	}
+
+	public void setNumeracion(Integer numeracion) {
+		this.numeracion = numeracion;
 	}
 
 	public Integer getCodigoDetalleCuenta() {

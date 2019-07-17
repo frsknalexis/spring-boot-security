@@ -113,6 +113,7 @@ public class Constantes {
 	public static final String SP_GENERAR_LIQUIDACION_MATERIAL = "sp_generar_liquidacion_material";
 	public static final String SP_LISTAR_INSTALACIONES_POR_TECNICO = "sp_listar_lista_insta_x_tecnico";
 	public static final String SP_PERFIL_USUARIO = "sp_mi_perfil";
+	public static final String SP_UPDATE_USUARIO_PERFIL = "update_mi_perfil_contrasena";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

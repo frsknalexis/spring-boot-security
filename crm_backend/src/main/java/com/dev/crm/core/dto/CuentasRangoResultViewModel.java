@@ -9,6 +9,8 @@ public class CuentasRangoResultViewModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 3812425783337712770L;
 
+	private Integer numeracion;
+	
 	private Integer codigoDetalleCuenta;
 	
 	private Integer codigoCuenta;
@@ -21,6 +23,14 @@ public class CuentasRangoResultViewModel implements Serializable {
 
 	public CuentasRangoResultViewModel() {
 		
+	}
+	
+	public Integer getNumeracion() {
+		return numeracion;
+	}
+	
+	public void setNumeracion(Integer numeracion) {
+		this.numeracion = numeracion;
 	}
 
 	public Integer getCodigoDetalleCuenta() {

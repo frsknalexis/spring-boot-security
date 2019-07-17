@@ -13,6 +13,7 @@ import com.dev.crm.core.dto.ModuloResultViewModel;
 import com.dev.crm.core.dto.PerfilUsuarioResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.dto.UsuarioDTO;
+import com.dev.crm.core.dto.UsuarioPerfilRequest;
 import com.dev.crm.core.dto.UsuarioRequest;
 import com.dev.crm.core.dto.UsuarioResponse;
 import com.dev.crm.core.facade.UsuarioFacade;
@@ -178,6 +179,22 @@ public class UsuarioFacadeImpl implements UsuarioFacade {
 				}
 				usuarioService.saveOrUpdate(usuario);
 				return new ResponseBaseOperation(Constantes.CREATED_STATUS, Constantes.MESSAGE_CREATED, usuarioDTO);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public ResponseBaseOperation actualizarPerfilPassword(UsuarioPerfilRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				usuarioService.actualizarPerfilPassword(request);
+				return new ResponseBaseOperation(Constantes.UPDATED_STATUS, Constantes.MESSAGE_UPDATED, request);
 			}
 		}
 		catch(Exception e) {

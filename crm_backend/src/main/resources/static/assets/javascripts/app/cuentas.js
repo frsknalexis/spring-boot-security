@@ -448,7 +448,8 @@ $(document).on('ready', function() {
 								showModal: true,
 								documentTitle: 'Reporte de Cuentas Por Rango Fecha',
 								properties: [
-									{ field: 'codigoDetalleCuenta', displayName: '#'},
+									{ field: 'numeracion', displayName: '#'},
+									{ field: 'codigoDetalleCuenta', displayName: 'DC'},
 									{ field: 'codigoCuenta', displayName: 'Nº Cuenta'},
 									{ field: 'documentoPersona', displayName: 'Nº Documento'},
 									{ field: 'cliente', displayName: 'Cliente'},
@@ -565,7 +566,8 @@ $(document).on('ready', function() {
 								showModal: true,
 								documentTitle: 'Reporte de Cuentas Por Dia',
 								properties: [
-									{ field: 'codigoDetalleCuenta', displayName: '#'},
+									{ field: 'numeracion', displayName: '#'},
+									{ field: 'codigoDetalleCuenta', displayName: 'DC'},
 									{ field: 'codigoCuenta', displayName: 'Nº Cuenta'},
 									{ field: 'documentoPersona', displayName: 'Nº Documento'},
 									{ field: 'cliente', displayName: 'Cliente'},

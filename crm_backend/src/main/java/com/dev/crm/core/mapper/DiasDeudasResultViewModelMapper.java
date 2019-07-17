@@ -13,7 +13,8 @@ public class DiasDeudasResultViewModelMapper implements RowMapper<DiasDeudasResu
 	public DiasDeudasResultViewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		DiasDeudasResultViewModel diasDeudas = new DiasDeudasResultViewModel();
-		diasDeudas.setNumeracion(rs.getInt("cod"));
+		diasDeudas.setNumeracion(rs.getInt("NU"));
+		diasDeudas.setCodigoCuenta(rs.getInt("cod"));
 		diasDeudas.setDocumentoPersonaCliente(rs.getString("dniru"));
 		diasDeudas.setMesPago(rs.getString("mesdepago"));
 		diasDeudas.setDireccionCliente(rs.getString("direcciona_persona"));

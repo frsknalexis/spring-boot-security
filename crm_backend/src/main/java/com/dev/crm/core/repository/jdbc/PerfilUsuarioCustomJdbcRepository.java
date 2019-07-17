@@ -41,7 +41,8 @@ public class PerfilUsuarioCustomJdbcRepository implements PerfilUsuarioJdbcRepos
 					new SqlOutParameter("CON", Types.VARCHAR),
 					new SqlOutParameter("DIR", Types.VARCHAR),
 					new SqlOutParameter("TEL", Types.VARCHAR),
-					new SqlOutParameter("DESCA", Types.VARCHAR));
+					new SqlOutParameter("DESCA", Types.VARCHAR),
+					new SqlOutParameter("CONCA", Types.VARCHAR));
 			
 			Map<String, Object> inParams = new HashMap<String, Object>();
 			inParams.put("CODUSU", usuario);
@@ -51,7 +52,7 @@ public class PerfilUsuarioCustomJdbcRepository implements PerfilUsuarioJdbcRepos
 			
 			if(GenericUtil.isNotNull(out.get("AP")) && GenericUtil.isNotNull(out.get("NOM")) && GenericUtil.isNotNull(out.get("NU"))
 				&& GenericUtil.isNotNull(out.get("CON")) && GenericUtil.isNotNull(out.get("DIR")) && GenericUtil.isNotNull(out.get("TEL"))
-				&& GenericUtil.isNotNull(out.get("DESCA"))) {
+				&& GenericUtil.isNotNull(out.get("DESCA")) && GenericUtil.isNotNull(out.get("CONCA"))) {
 				
 				PerfilUsuarioResultViewModel perfilUsuario = new PerfilUsuarioResultViewModel();
 				perfilUsuario.setApellidosUsuario((String) out.get("AP"));
@@ -61,11 +62,12 @@ public class PerfilUsuarioCustomJdbcRepository implements PerfilUsuarioJdbcRepos
 				perfilUsuario.setDireccionUsuario((String) out.get("DIR"));
 				perfilUsuario.setTelefonoUsuario((String) out.get("TEL"));
 				perfilUsuario.setCargoUsuario((String) out.get("DESCA"));
+				perfilUsuario.setDescripcionCargo((String) out.get("CONCA"));
 				return perfilUsuario;
 			}
 			else if(GenericUtil.isNull(out.get("AP")) && GenericUtil.isNull(out.get("NOM")) && GenericUtil.isNull(out.get("NU"))
 					&& GenericUtil.isNull(out.get("CON")) && GenericUtil.isNull(out.get("DIR")) && GenericUtil.isNull(out.get("TEL"))
-					&& GenericUtil.isNull(out.get("DESCA"))) {
+					&& GenericUtil.isNull(out.get("DESCA")) && GenericUtil.isNull(out.get("CONCA"))) {
 				return null;
 			}
 		}

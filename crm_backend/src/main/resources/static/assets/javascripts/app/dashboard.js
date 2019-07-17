@@ -12,7 +12,7 @@ $(document).on('ready', function() {
 		cargarTotalRegistroEmpleados();
 		cargarTotalRegistrosClientes();
 		
-	}, 2000);
+	}, 1000);
 	
 	window.setInterval(
 		    function(){

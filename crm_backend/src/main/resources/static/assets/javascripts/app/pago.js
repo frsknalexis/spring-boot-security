@@ -1498,11 +1498,13 @@ $(document).on('ready', function() {
 								showModal: true,
 								documentTitle: 'Reporte de Pagos Por Rango Fecha',
 								properties: [
+									{ field: 'numeracion', displayName: '#'},
 									{ field: 'codigoPago', displayName: 'Codigo Pago'},
-									{ field: 'cliente', displayName: 'Cliente'},
 									{ field: 'mesPago', displayName: 'Mes'},
-									{ field: 'cantidadPago', displayName: 'Monto'},
-									{ field: 'fechaPagoDia', displayName: 'Fecha Pago'}
+									{ field: 'fechaPagoDia', displayName: 'Fecha Pago'},
+									{ field: 'cliente', displayName: 'Cliente'},
+									{ field: 'cantidadPago', displayName: 'Monto'}
+									
 								], 
 								type: 'json'})
 						}
@@ -1580,6 +1582,7 @@ $(document).on('ready', function() {
 								documentTitle: 'Reporte de Dias Deudas',
 								properties: [
 									{ field: 'numeracion', displayName: '#'},
+									{ field: 'codigoCuenta', displayName: 'Nº Cuenta'},
 									{ field: 'documentoPersonaCliente', displayName: 'Nº Documento'},
 									{ field: 'mesPago', displayName: 'Mes Deuda'},
 									{ field: 'direccionCliente', displayName: 'Direccion Actual'},

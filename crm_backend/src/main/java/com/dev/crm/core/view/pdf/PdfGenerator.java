@@ -930,30 +930,26 @@ public class PdfGenerator {
 			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
 			tablesx.addCell(celldatospago);
 			
-			celldatospago = new PdfPCell(new Phrase(" "));
+			celldatospago = new PdfPCell(new Phrase("Tipo de Servicio"));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
-			/*celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);*/
-			celldatospago.disableBorderSide(Rectangle.BOX);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
 			tablesx.addCell(celldatospago);
 			
-			celldatospago = new PdfPCell(new Phrase(" "));
+			celldatospago = new PdfPCell(new Phrase("Medio Físico"));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
-			/*celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);*/
-			celldatospago.disableBorderSide(Rectangle.BOX);
+			celldatospago.setBackgroundColor(BaseColor.LIGHT_GRAY);
 			tablesx.addCell(celldatospago);
 			
-			celldatospago = new PdfPCell(new Phrase("XX",ff));
+			celldatospago = new PdfPCell(new Phrase(liquidacion.getPotenciaOnu(),ff));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
 			tablesx.addCell(celldatospago);
 			
-			celldatospago = new PdfPCell(new Phrase(" ",ff));
+			celldatospago = new PdfPCell(new Phrase("INTERNET",ff));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
-			celldatospago.disableBorderSide(Rectangle.BOX);
 			tablesx.addCell(celldatospago);
 			
-			celldatospago = new PdfPCell(new Phrase(" ",ff));
+			celldatospago = new PdfPCell(new Phrase("FIBRA ÓPTICA",ff));
 			celldatospago.setHorizontalAlignment(Element.ALIGN_CENTER);
-			celldatospago.disableBorderSide(Rectangle.BOX);
 			tablesx.addCell(celldatospago);
 			
 			/**/
@@ -1053,7 +1049,7 @@ public class PdfGenerator {
 			
 			table.setWidthPercentage(45f);
 			table.setHorizontalAlignment(Element.ALIGN_LEFT);
-			tables.setWidthPercentage(35f);
+			tables.setWidthPercentage(45f);
 			tables.setHorizontalAlignment(Element.ALIGN_LEFT);
 			
 			PdfPCell hcells;

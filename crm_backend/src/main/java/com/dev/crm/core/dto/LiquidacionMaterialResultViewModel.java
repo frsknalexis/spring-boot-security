@@ -39,6 +39,8 @@ public class LiquidacionMaterialResultViewModel implements Serializable {
 	
 	private String tipoOnu;
 	
+	private String potenciaOnu;
+	
 	public LiquidacionMaterialResultViewModel() {
 		
 	}
@@ -161,5 +163,13 @@ public class LiquidacionMaterialResultViewModel implements Serializable {
 
 	public void setTipoOnu(String tipoOnu) {
 		this.tipoOnu = tipoOnu;
+	}
+
+	public String getPotenciaOnu() {
+		return potenciaOnu;
+	}
+
+	public void setPotenciaOnu(String potenciaOnu) {
+		this.potenciaOnu = potenciaOnu;
 	}
 }

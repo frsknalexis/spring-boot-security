@@ -51,7 +51,8 @@ public class LiquidacionMaterialCustomJdbcRepository implements LiquidacionMater
 					new SqlOutParameter("TECN", Types.VARCHAR),
 					new SqlOutParameter("DIAC", Types.VARCHAR),
 					new SqlOutParameter("COEL", Types.VARCHAR),
-					new SqlOutParameter("TION", Types.VARCHAR));
+					new SqlOutParameter("TION", Types.VARCHAR),
+					new SqlOutParameter("POON", Types.VARCHAR));
 			
 			Map<String, Object> inParams = new HashMap<String, Object>();
 			inParams.put("CODSER", codigoServicioInternet);
@@ -63,7 +64,8 @@ public class LiquidacionMaterialCustomJdbcRepository implements LiquidacionMater
 				&& GenericUtil.isNotNull(out.get("DNIRU")) && GenericUtil.isNotNull(out.get("CODIMATEOUT")) && GenericUtil.isNotNull(out.get("CANTIDADMATE"))
 				&& GenericUtil.isNotNull(out.get("DESCR")) && GenericUtil.isNotNull(out.get("CLIE")) && GenericUtil.isNotNull(out.get("SRN"))
 				&& GenericUtil.isNotNull(out.get("WIUS")) && GenericUtil.isNotNull(out.get("WIPA")) && GenericUtil.isNotNull(out.get("TECN"))
-				&& GenericUtil.isNotNull(out.get("DIAC")) && GenericUtil.isNotNull(out.get("COEL")) && GenericUtil.isNotNull(out.get("TION"))) {
+				&& GenericUtil.isNotNull(out.get("DIAC")) && GenericUtil.isNotNull(out.get("COEL")) && GenericUtil.isNotNull(out.get("TION"))
+				&& GenericUtil.isNotNull(out.get("POON"))) {
 				
 				LiquidacionMaterialResultViewModel liquidacion = new LiquidacionMaterialResultViewModel();
 				liquidacion.setCodigoServicioInternet((String) out.get("CODISERIN"));
@@ -81,13 +83,15 @@ public class LiquidacionMaterialCustomJdbcRepository implements LiquidacionMater
 				liquidacion.setDireccionCliente((String) out.get("DIAC"));
 				liquidacion.setCorreoCliente((String) out.get("COEL"));
 				liquidacion.setTipoOnu((String) out.get("TION"));
+				liquidacion.setPotenciaOnu((String) out.get("POON"));
 				return liquidacion;
 			}
 			else if(GenericUtil.isNull(out.get("CODISERIN")) && GenericUtil.isNull(out.get("FECHAINICIO")) && GenericUtil.isNull(out.get("OBS")) 
 					&& GenericUtil.isNull(out.get("DNIRU")) && GenericUtil.isNull(out.get("CODIMATEOUT")) && GenericUtil.isNull(out.get("CANTIDADMATE"))
 					&& GenericUtil.isNull(out.get("DESCR")) && GenericUtil.isNull(out.get("CLIE")) && GenericUtil.isNull(out.get("SRN"))
 					&& GenericUtil.isNull(out.get("WIUS")) && GenericUtil.isNull(out.get("WIPA")) && GenericUtil.isNull(out.get("TECN"))
-					&& GenericUtil.isNull(out.get("DIAC")) && GenericUtil.isNull(out.get("COEL")) && GenericUtil.isNull(out.get("TION"))) {
+					&& GenericUtil.isNull(out.get("DIAC")) && GenericUtil.isNull(out.get("COEL")) && GenericUtil.isNull(out.get("TION"))
+					&& GenericUtil.isNull(out.get("POON"))) {
 				return null;
 			}
 		}

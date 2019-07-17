@@ -11,6 +11,8 @@ public class DiasDeudasResultViewModel implements Serializable {
 
 	private Integer numeracion;
 	
+	private Integer codigoCuenta;
+	
 	private String documentoPersonaCliente;
 	
 	private String mesPago;
@@ -29,6 +31,14 @@ public class DiasDeudasResultViewModel implements Serializable {
 
 	public void setNumeracion(Integer numeracion) {
 		this.numeracion = numeracion;
+	}
+	
+	public Integer getCodigoCuenta() {
+		return codigoCuenta;
+	}
+
+	public void setCodigoCuenta(Integer codigoCuenta) {
+		this.codigoCuenta = codigoCuenta;
 	}
 
 	public String getDocumentoPersonaCliente() {

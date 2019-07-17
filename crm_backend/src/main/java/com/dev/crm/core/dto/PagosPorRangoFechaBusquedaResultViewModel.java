@@ -1,11 +1,6 @@
 package com.dev.crm.core.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import com.dev.crm.core.json.JsonBigDecimalSimpleSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class PagosPorRangoFechaBusquedaResultViewModel implements Serializable {
 
@@ -14,26 +9,35 @@ public class PagosPorRangoFechaBusquedaResultViewModel implements Serializable {
 	 */
 	private static final long serialVersionUID = -5617868180876462592L;
 
-	private Integer codigoPago;
+	private String numeracion;
+	
+	private String codigoPago;
 	
 	private String mesPago;
 	
-	@JsonSerialize(using = JsonBigDecimalSimpleSerializer.class)
-	private BigDecimal cantidadPago;
+	private String cantidadPago;
 	
-	private Date fechaPagoDia;
+	private String fechaPagoDia;
 	
 	private String cliente;
 
 	public PagosPorRangoFechaBusquedaResultViewModel() {
 		
 	}
+	
+	public String getNumeracion() {
+		return numeracion;
+	}
 
-	public Integer getCodigoPago() {
+	public void setNumeracion(String numeracion) {
+		this.numeracion = numeracion;
+	}
+	
+	public String getCodigoPago() {
 		return codigoPago;
 	}
 
-	public void setCodigoPago(Integer codigoPago) {
+	public void setCodigoPago(String codigoPago) {
 		this.codigoPago = codigoPago;
 	}
 
@@ -45,19 +49,19 @@ public class PagosPorRangoFechaBusquedaResultViewModel implements Serializable {
 		this.mesPago = mesPago;
 	}
 
-	public BigDecimal getCantidadPago() {
+	public String getCantidadPago() {
 		return cantidadPago;
 	}
 
-	public void setCantidadPago(BigDecimal cantidadPago) {
+	public void setCantidadPago(String cantidadPago) {
 		this.cantidadPago = cantidadPago;
 	}
 
-	public Date getFechaPagoDia() {
+	public String getFechaPagoDia() {
 		return fechaPagoDia;
 	}
 
-	public void setFechaPagoDia(Date fechaPagoDia) {
+	public void setFechaPagoDia(String fechaPagoDia) {
 		this.fechaPagoDia = fechaPagoDia;
 	}
 

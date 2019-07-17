@@ -13,10 +13,11 @@ public class PagosPorRangoFechaBusquedaResultViewModelMapper implements RowMappe
 	public PagosPorRangoFechaBusquedaResultViewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		PagosPorRangoFechaBusquedaResultViewModel pagosPorRangoFecha = new PagosPorRangoFechaBusquedaResultViewModel();
-		pagosPorRangoFecha.setCodigoPago(rs.getInt("codigo_pago"));
+		pagosPorRangoFecha.setNumeracion(rs.getString("NU"));
+		pagosPorRangoFecha.setCodigoPago(rs.getString("codigo_pago"));
 		pagosPorRangoFecha.setMesPago(rs.getString("mes_pago"));
-		pagosPorRangoFecha.setCantidadPago(rs.getBigDecimal("cant_pago"));
-		pagosPorRangoFecha.setFechaPagoDia(rs.getDate("fecha_pago_dia"));
+		pagosPorRangoFecha.setCantidadPago(rs.getString("cant_pago"));
+		pagosPorRangoFecha.setFechaPagoDia(rs.getString("fecha_pago_dia"));
 		pagosPorRangoFecha.setCliente(rs.getString("cliente"));
 		return pagosPorRangoFecha;
 	}

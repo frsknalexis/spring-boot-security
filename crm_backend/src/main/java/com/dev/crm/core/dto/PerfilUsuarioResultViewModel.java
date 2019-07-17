@@ -22,6 +22,8 @@ public class PerfilUsuarioResultViewModel implements Serializable {
 	private String telefonoUsuario;
 	
 	private String cargoUsuario;
+	
+	private String descripcionCargo;
 
 	public String getApellidosUsuario() {
 		return apellidosUsuario;
@@ -77,5 +79,13 @@ public class PerfilUsuarioResultViewModel implements Serializable {
 
 	public void setCargoUsuario(String cargoUsuario) {
 		this.cargoUsuario = cargoUsuario;
+	}
+
+	public String getDescripcionCargo() {
+		return descripcionCargo;
+	}
+
+	public void setDescripcionCargo(String descripcionCargo) {
+		this.descripcionCargo = descripcionCargo;
 	}
 }

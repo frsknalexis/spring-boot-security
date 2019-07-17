@@ -45,17 +45,12 @@
 											<ul class="simple-todo-list">
 												<li class="completed">Update Profile Picture</li>
 												<li class="completed">Change Personal Information</li>
-												<li>Update Social Media</li>
-												<li>Follow Someone</li>
 											</ul>
 										</div>
 									</div>
 									<hr class="dotted short">
-									<h6 class="text-muted">About</h6>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis vulputate quam. Interdum et malesuada</p>
-									<div class="clearfix">
-										<a class="text-uppercase text-muted pull-right" href="#">(View All)</a>
-									</div>
+									<h6 class="text-muted">Descripcion</h6>
+									<p id="descripcionCargoUsuarioPerfil"></p>
 									<hr class="dotted short">
 									<div class="social-icons-list">
 										<a rel="tooltip" data-placement="bottom" target="_blank" href="http://www.facebook.com" data-original-title="Facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
@@ -92,63 +87,70 @@
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-6 form-group">
-												<label for="nombreComercialPago">Nombre Comercial</label>
+												<label for="cargoUsuarioPerfil">Cargo</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-bookmark"></i>
 													</span>
-													<input type="text" class="form-control input-sm" id="nombreComercialPago" placeholder="Nombre Comercial">
+													<input type="text" class="form-control input-sm" id="cargoUsuarioPerfil" placeholder="Cargo">
 												</div>
 											</div>
 											<div class="col-md-6 col-sm-6 form-group">
-												<label for="direccionClientePago">Direccion</label>
+												<label for="direccionUsuarioPerfil">Direccion</label>
 												<div class="input-group mb-md">
 													<span class="input-group-addon">
 														<i class="fa fa-home"></i>
 													</span>
-													<input type="text" class="form-control input-sm" id="direccionClientePago" placeholder="Direccion">
+													<input type="text" class="form-control input-sm" id="direccionUsuarioPerfil" placeholder="Direccion">
 												</div>
 											</div>
-															<div class="col-md-6 col-sm-6 form-group">
-																<label for="clienteReferenciaDireccionPago">Referencia</label>
-																<div class="input-group mb-md">
-																	<span class="input-group-addon">
-																		<i class="fa fa-home"></i>
-																	</span>
-																	<input type="text" class="form-control input-sm" id="clienteReferenciaDireccionPago" placeholder="Referencia">
-																</div>
-															</div>
-															<div class="col-md-6 col-sm-6 form-group">
-																<label for="clienteFechaInstalacionPago">Fecha Instalacion</label>
-																<div class="input-group mb-md">
-																	<span class="input-group-addon">
-																		<i class="fa fa-calendar"></i>
-																	</span>
-																	<input type="text" class="form-control input-sm" id="clienteFechaInstalacionPago">
-																</div>
-															</div>
-															<div class="col-md-6 col-sm-6 form-group">
-																<label for="clienteGestorResponsablePago">Gestor Responsable</label>
-																<div class="input-group mb-md">
-																	<span class="input-group-addon">
-																		<i class="fa fa-user"></i>
-																	</span>
-																	<input type="text" class="form-control input-sm" id="clienteGestorResponsablePago">
-																</div>
-															</div>
-															<div class="col-md-6 col-sm-6 form-group">
-																<label for="clienteTelefonoGestorPago">Telefono Gestor</label>
-																<div class="input-group mb-md">
-																	<span class="input-group-addon">
-																		<i class="fa fa-phone"></i>
-																	</span>
-																	<input type="text" class="form-control input-sm" id="clienteTelefonoGestorPago">
-																</div>
-															</div>
-							
-				
+											<div class="col-md-6 col-sm-6 form-group">
+												<label for="telefonoUsuarioPerfil">Telefono</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-phone"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="telefonoUsuarioPerfil">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6 form-group">
+												<label for="nombreUsuarioPerfil">Usuario</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-user"></i>
+													</span>
+													<input type="text" class="form-control input-sm" id="nombreUsuarioPerfil" placeholder="Usuario">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6 form-group">
+												<label for="passwordUsuarioPerfil">Contrase&ntilde;a Actual</label> <i class="fa fa-eye" id="showActualPassword"></i>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-lock"></i>
+													</span>
+													<input type="password" class="form-control input-sm" id="passwordUsuarioPerfil">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6 form-group">
+												<label for="nuevoPasswordUsuarioPerfil">Nueva Contrase&ntilde;a</label> <i class="fa fa-eye" id="showNewPassword"></i>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-lock"></i>
+													</span>
+													<input type="password" class="form-control input-sm" id="nuevoPasswordUsuarioPerfil">
+												</div>
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<label for="confirmarPasswordUsuarioPerfil">Confirmar Contrase&ntilde;a</label> <i class="fa fa-eye" id="showPassword"></i>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-lock"></i>
+													</span>
+													<input type="password" class="form-control input-sm" id="confirmarPasswordUsuarioPerfil">
+												</div>
+											</div>
 											<div class="col-md-12 form-group">
-												<button type="submit" id="realizarPagoCliente" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Actualizar Informacion</button>
+												<button type="submit" id="actualizarUsuarioPerfil" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Actualizar Informacion</button>
 											</div>
 										</div>
 									</form>

@@ -10,6 +10,10 @@ $(document).on('ready', function() {
 	
 	listarComboGestores(); 
 	
+	listarComboGestoresResponsablesReporte();
+	
+	mostrarFormBuscarGestorReporte();
+	
 	cargarTotalRegistrosPersonita();
 	
 	ocultar_mostrar(50);
@@ -354,6 +358,7 @@ $(document).on('ready', function() {
 				{"data": "consecutivoCliente"},
 				{"data": "documentoPersonaCliente"},
 				{"data": "cliente"},
+				{"data": "direccionActualCliente"},
 				{"data": "gestor"},
 				{"defaultContent": '<button type="button" class="btn btn-success btn-xs btnAsignarGestor" documentoPersonaCliente><i class="fa fa-user"></i> Asignar Gestor</button>'}
 			]
@@ -399,6 +404,27 @@ $(document).on('ready', function() {
 				$gestorResponsable.append('<option value="">Seleccione un Gestor</option>');
 				for(var i = 0; i < response.length; i++) {
 					$gestorResponsable.append('<option value="' + response[i].gestor + '">' + response[i].gestor + '</option>');
+				}
+			}
+		});
+	}
+	
+	function listarComboGestoresResponsablesReporte() {
+		
+		$gestoresResponsables = $('#gestoresResponsables');
+		
+		$.ajax({
+			
+			type: 'GET',
+			url: '/api/v1/gestor/gestores',
+			dataType: 'json',
+			success: function(response) {
+				
+				console.log(response);
+				$gestoresResponsables.html('');
+				$gestoresResponsables.append('<option value="">Seleccione un Gestor</option>');
+				for(var i = 0; i < response.length; i++) {
+					$gestoresResponsables.append('<option value="' + response[i].gestor + '">' + response[i].gestor + '</option>');
 				}
 			}
 		});
@@ -496,6 +522,95 @@ $(document).on('ready', function() {
 	            });
 			}
 			else if($('#gestorResponsable').val().trim() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe Seleccionar un Gestor Responsable !'
+	            });
+				return false;
+			}
+		});
+	}
+	
+	function mostrarFormBuscarGestorReporte() {
+		
+		$('#buttonReporteGestores').on('click', function() {
+			
+			$('#modalFormBuscarGestor').modal('show');
+			limpiarModalBuscarGestorReporte();
+			buscarGestorReporte();
+		});
+	}
+	
+	function limpiarModalBuscarGestorReporte() {
+		
+		$('#cancelarModalBuscarGestor').on('click', function() {
+			$('#gestoresResponsables').val('');
+		});
+	}
+	
+	function buscarGestorReporte() {
+		
+		$('#buscarGestorReporte').on('click', function(e) {
+			
+			e.preventDefault();
+			
+			if($('#gestoresResponsables').val().trim() != "") {
+				
+				var formDataBuscarReporteGestor = {
+						diasDeudas: $('#gestoresResponsables').val()	
+				};
+				
+				console.log(formDataBuscarReporteGestor);
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/pago/reporteDiasDeudas',
+					headers: {
+						"Content-Type" : "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataBuscarReporteGestor),
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response == null) {
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Clientes por Gestor',
+								properties: [
+									{ field: 'numeracion', displayName: '#'},
+									{ field: 'codigoCuenta', displayName: 'Nº Cuenta'},
+									{ field: 'documentoPersonaCliente', displayName: 'Nº Documento'},
+									{ field: 'mesPago', displayName: 'Mes Deuda'},
+									{ field: 'direccionCliente', displayName: 'Direccion Actual'},
+									{ field: 'cliente', displayName: 'Cliente'}
+								], 
+								type: 'json'})
+						}
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+				});
+			}
+			
+			if($('#gestoresResponsables').val().trim() == "") {
 				
 				swal({
 	                type: 'error',

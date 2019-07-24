@@ -11,6 +11,7 @@ import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
+import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 
@@ -37,6 +38,8 @@ public interface DetalleCuentaFacade {
 	ResponseBaseOperation spRevalidandoFechaInternet();
 	
 	List<CuentasPorInstalarResultViewModel> listarCuentaPorInstalar();
+	
+	List<EstadoCuentasResultViewModel> listarEstadoCuentas(); 
 	
 	List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request);
 	

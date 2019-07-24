@@ -17,6 +17,7 @@ import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
+import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
@@ -243,6 +244,27 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 			}
 			else {
 				return cuentasPorInstalar;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<EstadoCuentasResultViewModel> listarEstadoCuentas() {
+		
+		List<EstadoCuentasResultViewModel> estadoCuentas = new ArrayList<EstadoCuentasResultViewModel>();
+		
+		try {
+			
+			estadoCuentas = detalleCuentaService.listarEstadoCuentas();
+			if(GenericUtil.isCollectionEmpty(estadoCuentas)) {
+				return null;
+			}
+			else {
+				return estadoCuentas;
 			}
 		}
 		catch(Exception e) {

@@ -15,6 +15,8 @@ $(document).on('ready', function() {
 	
 	cargarComboVendedores();
 	
+	listarCuentasGeneradas();
+	
 	window.setInterval(
 		    function(){
 		    // Sección de código para modificar el DIV
@@ -28,6 +30,20 @@ $(document).on('ready', function() {
 		,5000);
 	
 	comboServicio(); 
+	
+	
+	/**
+	 * 
+	 *function para listar las cuentas generadas 
+	 * 
+	 */
+	function listarCuentasGeneradas() {
+		
+		$('#listaCuentasGeneradas').on('click', function() {
+			
+			$(location).attr('href', '/detalleCuenta/cuentas/view');
+		});
+	}
 	
 	/**
 	 * 

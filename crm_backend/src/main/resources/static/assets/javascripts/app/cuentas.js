@@ -15,6 +15,8 @@ $(document).on('ready', function() {
 	
 	cargarTotalRegistrosPersonita();
 	
+	redireccionarListadoEstadoCuentas();
+	
 	ocultar_mostrar(50);
 	
 	window.setInterval(
@@ -636,6 +638,18 @@ $(document).on('ready', function() {
 		            });
 		        }
 		    });
+		});
+	}
+	
+	/**
+	 * 
+	 * function para redireccionar listado estado cuentas
+	 * 
+	 * */
+	function redireccionarListadoEstadoCuentas() {
+		
+		$('#btnListarEstadoCuentas').on('click', function() {
+			$(location).attr('href', '/detalleCuenta/estadoCuentas/view');
 		});
 	}
 });

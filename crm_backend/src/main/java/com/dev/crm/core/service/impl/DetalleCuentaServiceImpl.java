@@ -17,6 +17,7 @@ import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
+import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 import com.dev.crm.core.repository.jdbc.AnularDetalleCuentaJdbcRepository;
@@ -26,6 +27,7 @@ import com.dev.crm.core.repository.jdbc.CuentasPorInstalarJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosInternetServicioJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosMaterialesJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetalleCuentaInternetJdbcRepository;
+import com.dev.crm.core.repository.jdbc.EstadoCuentasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ObservacionCuentaJdbcRepository;
 import com.dev.crm.core.service.DetalleCuentaService;
 import com.dev.crm.core.util.GenericUtil;
@@ -70,6 +72,10 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 	@Autowired
 	@Qualifier("cuentaPorRangoJdbcRepository")
 	private CuentaPorRangoJdbcRepository cuentaPorRangoJdbcRepository;
+	
+	@Autowired
+	@Qualifier("estadoCuentasJdbcRepository")
+	private EstadoCuentasJdbcRepository estadoCuentasJdbcRepository;
 	
 	@Override
 	public String spInsercionCuentaInternet(DetalleCuentaRequest request) {
@@ -268,6 +274,27 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 		return null;
 	}
 	
+	@Override
+	public List<EstadoCuentasResultViewModel> listarEstadoCuentas() {
+		
+		List<EstadoCuentasResultViewModel> estadoCuentas = new ArrayList<EstadoCuentasResultViewModel>();
+		
+		try {
+			
+			estadoCuentas = estadoCuentasJdbcRepository.listarEstadoCuentas();
+			if(GenericUtil.isCollectionEmpty(estadoCuentas)) {
+				return null;
+			}
+			else {
+				return estadoCuentas;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request) {
 		

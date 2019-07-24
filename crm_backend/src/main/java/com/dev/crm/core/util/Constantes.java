@@ -10,6 +10,7 @@ public class Constantes {
 	public static final String EMPLEADO_VIEW = "modulo-personas/empleado/empleado";
 	public static final String DETALLE_CUENTA_VIEW = "modulo-servicios/detallecuenta/detallecuenta";
 	public static final String CUENTAS_VIEW = "modulo-servicios/detallecuenta/cuentas";
+	public static final String ESTADO_CUENTAS_VIEW = "modulo-servicios/detallecuenta/estadocuentas";
 	public static final String REPROGRAMACION_VIEW = "modulo-servicios/detallecuenta/reprogramacion";
 	public static final String PAGOS_VIEW = "modulo-pagos/pagos/pago";
 	public static final String ATENCION_VIEW = "modulo-atencion/herramienta/herramienta";
@@ -114,6 +115,7 @@ public class Constantes {
 	public static final String SP_LISTAR_INSTALACIONES_POR_TECNICO = "sp_listar_lista_insta_x_tecnico";
 	public static final String SP_PERFIL_USUARIO = "sp_mi_perfil";
 	public static final String SP_UPDATE_USUARIO_PERFIL = "update_mi_perfil_contrasena";
+	public static final String SP_LISTAR_ESTADO_CUENTA = "sp_listar_estado_cuenta";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

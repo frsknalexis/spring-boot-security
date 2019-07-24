@@ -28,6 +28,7 @@ import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
+import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.enums.ExportReportType;
@@ -71,6 +72,24 @@ public class DetalleCuentaRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<CuentasPorInstalarResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/estadoCuentas")
+	public ResponseEntity<List<EstadoCuentasResultViewModel>> listarEstadoCuentas() {
+		
+		try {
+			
+			List<EstadoCuentasResultViewModel> estadoCuentas = detalleCuentaFacade.listarEstadoCuentas();
+			if(GenericUtil.isCollectionEmpty(estadoCuentas)) {
+				return new ResponseEntity<List<EstadoCuentasResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			else {
+				return new ResponseEntity<List<EstadoCuentasResultViewModel>>(estadoCuentas, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<EstadoCuentasResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

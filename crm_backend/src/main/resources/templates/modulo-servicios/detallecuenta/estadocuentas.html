@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" class="fixed sidebar-left-collapsed" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/headinc :: head"></head>
+<body>
+	<section class="body">
+		<!-- start: header -->
+		<header th:replace="fragments/header :: header"></header>
+		<!-- end: header -->
+		<div class="inner-wrapper">
+			<!-- start: sidebar -->
+			<aside th:replace="fragments/sidebar :: sidebar"></aside>
+			<!-- end: sidebar -->
+			<section role="main" class="content-body">
+				<div>
+					<div class="page-header">
+						<h2>
+							<a th:href="@{/dashboard}">
+								<i class="fa fa-home"></i>
+							</a>
+						</h2>
+						<ol class="breadcrumbs">
+							<li class="active">
+								<span>Cuentas</span>
+							</li>
+						</ol>
+					</div>
+					<!-- start: page -->
+					<div class="row" id="listadoPersonaRegistro">
+						<div class="col-md-4 col-lg-4 mb-xs">
+							<button type="button" id="btnRegresarListaCuentas" class="btn btn-block btn-sm btn-primary"><i class="fa fa-arrow-circle-o-left"></i> Volver</button>
+						</div>
+						<div class="col-md-12 col-lg-12">
+							<section class="panel panel-featured panel-featured-primary panel-primary">
+								<header class="panel-heading">
+									<h2 class="panel-title">Listado de Estado de Cuentas Internet</h2>
+								</header>
+								<div class="panel-body">
+									<table class="table table-hover table-striped table-condensed mb-none" id="tablaEstadoCuentasInternet" width="100%">
+										<thead class="text-center">
+											<tr>
+												<th style="width: 100px;">#</th>
+												<th style="width: 160px;">Codigo Cuenta</th>
+												<th style="width: 260px;">Cliente</th>
+												<th style="width: 140px;">DNI - RUC</th>
+												<th>Direccion Cliente</th>
+												<th style="width: 160px;">Estado Cuenta</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</section>
+						</div>
+					</div>
+					<!-- end: page -->
+					<input style="display:none" id="canje" name="canje" value="0"></input>
+					<input style="display:none" id="canjes" name="canjes" value="0"></input>
+					<input style="display:none" id="canjess" name="canjess" value="0"></input>
+					</div>
+				</section>
+			</div>
+		</section>
+		<th:block th:replace="fragments/script :: script"></th:block>
+		<script type="text/javascript" th:src="@{/assets/javascripts/app/estadocuentas.js}"></script>
+</body>
+</html>

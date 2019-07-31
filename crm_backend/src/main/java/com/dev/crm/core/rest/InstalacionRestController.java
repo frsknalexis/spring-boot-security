@@ -2,18 +2,24 @@ package com.dev.crm.core.rest;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.crm.core.dto.ActivacionRequest;
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
 import com.dev.crm.core.dto.InstalacionesPorTecnicoResultViewModel;
+import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.InstalacionFacade;
 import com.dev.crm.core.security.UserDetail;
 import com.dev.crm.core.util.GenericUtil;
@@ -83,6 +89,19 @@ public class InstalacionRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<InstalacionesPorTecnicoResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/insrtact")
+	public ResponseEntity<ResponseBaseOperation> spInsertarActivacion(@Valid @RequestBody ActivacionRequest codigo) {
+		
+		try {
+			
+			ResponseBaseOperation response = instalacionFacade.spInsertarActivacion(codigo);
+			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

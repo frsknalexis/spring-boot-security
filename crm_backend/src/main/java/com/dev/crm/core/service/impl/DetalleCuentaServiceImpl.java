@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dao.DetalleCuentaDAO;
+import com.dev.crm.core.dto.CuentaPorEstadoRequest;
+import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
@@ -18,16 +20,19 @@ import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
+import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 import com.dev.crm.core.repository.jdbc.AnularDetalleCuentaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorDiaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.CuentaPorEstadoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorRangoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentasPorInstalarJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosInternetServicioJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosMaterialesJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetalleCuentaInternetJdbcRepository;
 import com.dev.crm.core.repository.jdbc.EstadoCuentasJdbcRepository;
+import com.dev.crm.core.repository.jdbc.EstadosCuentaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ObservacionCuentaJdbcRepository;
 import com.dev.crm.core.service.DetalleCuentaService;
 import com.dev.crm.core.util.GenericUtil;
@@ -76,6 +81,14 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 	@Autowired
 	@Qualifier("estadoCuentasJdbcRepository")
 	private EstadoCuentasJdbcRepository estadoCuentasJdbcRepository;
+	
+	@Autowired
+	@Qualifier("cuentaPorEstadoJdbcRepository")
+	private CuentaPorEstadoJdbcRepository cuentaPorEstadoJdbcRepository;
+	
+	@Autowired
+	@Qualifier("estadosCuentaJdbcRepository")
+	private EstadosCuentaJdbcRepository estadosCuentaJdbcRepository;
 	
 	@Override
 	public String spInsercionCuentaInternet(DetalleCuentaRequest request) {
@@ -294,6 +307,27 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<EstadosCuentaResultViewModel> listarEstadosCuentas() {
+		
+		List<EstadosCuentaResultViewModel> estadosCuenta = new ArrayList<EstadosCuentaResultViewModel>();
+		
+		try {
+			
+			estadosCuenta = estadosCuentaJdbcRepository.listarEstadosCuentas();
+			if(GenericUtil.isCollectionEmpty(estadosCuenta) && estadosCuenta.isEmpty()) {
+				return null;
+			}
+			else {
+				return estadosCuenta;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request) {
@@ -318,6 +352,29 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 		return null;
 	}
 	
+	@Override
+	public List<CuentaPorEstadoResultViewModel> listarCuentasPorEstado(CuentaPorEstadoRequest request) {
+	
+		List<CuentaPorEstadoResultViewModel> cuentasPorEstado = new ArrayList<CuentaPorEstadoResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasPorEstado = cuentaPorEstadoJdbcRepository.listarCuentasPorEstado(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorEstado) && cuentasPorEstado.isEmpty()) {
+					return null;
+				}
+				else {
+					return cuentasPorEstado;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<CuentasRangoResultViewModel> listarCuentasPorRango(CuentasRangoRequest request) {
 		

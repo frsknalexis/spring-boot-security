@@ -38,6 +38,7 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
 import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
@@ -221,12 +222,17 @@ public class PagoRestController {
 		
 		try {
 			
-			ResponseBaseOperation response = pagoFacade.spGenerarDescuento(codigo);
-			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			codigo.setCodigoUsuario(usuarioLogueado.getUsername());
+			if(GenericUtil.isNotNull(codigo)) {
+				ResponseBaseOperation response = pagoFacade.spGenerarDescuento(codigo);
+				return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+			}
 		}
 		catch(Exception e) {
 			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
 		}
+		return null;
 	}
 	
 	@GetMapping("/pagosDelDia")
@@ -437,6 +443,22 @@ public class PagoRestController {
 			return new ResponseEntity<List<PagoPorDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 		return null;
+	}
+	
+	@GetMapping("/pagosPorMes")
+	public ResponseEntity<List<PagosPorMesResultViewModel>> pagosPorMes() {
+		
+		try {
+			
+			List<PagosPorMesResultViewModel> pagosPorMes = pagoFacade.pagosPorMes();
+			if(GenericUtil.isCollectionEmpty(pagosPorMes) && pagosPorMes.isEmpty()) {
+				return new ResponseEntity<List<PagosPorMesResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<PagosPorMesResultViewModel>>(pagosPorMes, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<PagosPorMesResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PostMapping(value = "/pagosPorDiaReport", produces = MediaType.APPLICATION_PDF_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

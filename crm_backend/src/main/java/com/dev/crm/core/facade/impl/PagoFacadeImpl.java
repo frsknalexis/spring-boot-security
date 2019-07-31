@@ -24,6 +24,7 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
 import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
@@ -342,6 +343,27 @@ public class PagoFacadeImpl implements PagoFacade {
 		return null;
 	}
 	
+	@Override
+	public List<PagosPorMesResultViewModel> pagosPorMes() {
+		
+		List<PagosPorMesResultViewModel> pagosPorMes = new ArrayList<PagosPorMesResultViewModel>();
+		
+		try {
+			
+			pagosPorMes = pagoService.pagosPorMes();
+			if(GenericUtil.isCollectionEmpty(pagosPorMes) && pagosPorMes.isEmpty()) {
+				return null;
+			}
+			else {
+				return pagosPorMes;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<DiasDeudasResultViewModel> recuperarDiasDeudasParametrizado(DiasDeudasRequest request) {
 		

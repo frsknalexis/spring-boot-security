@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.DeudasGestoresResultViewModel;
+import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.GestoresResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.GestorFacade;
@@ -63,6 +65,28 @@ public class GestorRestController {
 		catch(Exception e) {
 			return new ResponseEntity<List<GestoresResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PostMapping("/reporteDeudasGestores")
+	public ResponseEntity<List<DeudasGestoresResultViewModel>> recuperarDiasDeudasGestoresParametrizado(@Valid @RequestBody 
+			DiasDeudasRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<DeudasGestoresResultViewModel> deudasGestores = gestorFacade.recuperarDiasDeudasGestoresParametrizado(request);
+				if(GenericUtil.isCollectionEmpty(deudasGestores) && deudasGestores.isEmpty()) {
+					return new ResponseEntity<List<DeudasGestoresResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				else {
+					return new ResponseEntity<List<DeudasGestoresResultViewModel>>(deudasGestores, HttpStatus.OK);
+				}
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<DeudasGestoresResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
 	}
 	
 	@PostMapping("/updateClienteGestor")

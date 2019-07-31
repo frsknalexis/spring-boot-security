@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.crm.core.dto.CuentaPorEstadoRequest;
+import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
@@ -26,9 +28,9 @@ import com.dev.crm.core.dto.CuentasRangoResultViewModel;
 import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
-import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
+import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.enums.ExportReportType;
@@ -283,6 +285,41 @@ public class DetalleCuentaRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<CuentasResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@GetMapping("/estados")
+	public ResponseEntity<List<EstadosCuentaResultViewModel>> listarEstadosCuentas() {
+		
+		try {
+			
+			List<EstadosCuentaResultViewModel> estadosCuentas = detalleCuentaFacade.listarEstadosCuentas();
+			if(GenericUtil.isCollectionEmpty(estadosCuentas) && estadosCuentas.isEmpty()) {
+				return new ResponseEntity<List<EstadosCuentaResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<EstadosCuentaResultViewModel>>(estadosCuentas, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<EstadosCuentaResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/cuentasPorEstado")
+	public ResponseEntity<List<CuentaPorEstadoResultViewModel>> listarCuentasPorEstado(@Valid @RequestBody CuentaPorEstadoRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<CuentaPorEstadoResultViewModel> cuentasPorEstado = detalleCuentaFacade.listarCuentasPorEstado(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorEstado)) {
+					return new ResponseEntity<List<CuentaPorEstadoResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				return new ResponseEntity<List<CuentaPorEstadoResultViewModel>>(cuentasPorEstado, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<CuentaPorEstadoResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 		return null;
 	}

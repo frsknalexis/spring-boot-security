@@ -25,6 +25,7 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
 import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
@@ -46,6 +47,7 @@ import com.dev.crm.core.repository.jdbc.PagoMoraJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorRangoFechaBusquedaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagosPorDiaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagosPorMesJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PdfPagoDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ReciboJdbcRepository;
 import com.dev.crm.core.service.PagoService;
@@ -131,6 +133,10 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("deudasJdbcRepository")
 	private DeudasJdbcRepository deudasJdbcRepository;
+	
+	@Autowired
+	@Qualifier("pagosPorMesJdbcRepository")
+	private PagosPorMesJdbcRepository pagosPorMesJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -375,6 +381,27 @@ public class PagoServiceImpl implements PagoService {
 		return null;
 	}
 	
+	@Override
+	public List<PagosPorMesResultViewModel> pagosPorMes() {
+		
+		List<PagosPorMesResultViewModel> pagosPorMes = new ArrayList<PagosPorMesResultViewModel>();
+		
+		try {
+			
+			pagosPorMes = pagosPorMesJdbcRepository.pagosPorMes();
+			if(GenericUtil.isCollectionEmpty(pagosPorMes) && pagosPorMes.isEmpty()) {
+				return null;
+			}
+			else {
+				return pagosPorMes;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<DiasDeudasResultViewModel> recuperarDiasDeudasParametrizado(DiasDeudasRequest request) {
 		

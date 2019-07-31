@@ -20,11 +20,14 @@ public class Constantes {
 	public static final String TAREA_VIEW= "modulo-notificacion/tarea/view";
 	public static final String CORTE_VIEW = "modulo-servicios/instalacion/cortes";
 	public static final String INSTALACIONES_VIEW = "modulo-servicios/instalacion/instalaciones";
+	public static final String ACTIVACIONES_VIEW = "modulo-servicios/instalacion/activaciones";
 	public static final String INFORME_INSTALACION_VIEW = "modulo-servicios/instalacion/informeinstalaciones";
 	public static final String INSTALACIONES_TECNICO_VIEW = "modulo-servicios/instalacion/instalacionesTecnico";
 	public static final String LISTA_PAGOS_VIEW = "modulo-pagos/pagos/listapagos";
 	public static final String CLIENTE_GESTORES_VIEW = "modulo-pagos/gestores/clientegestores";
 	public static final String LOGIN_VIEW = "login";
+	public static final String ADMINISTRACION_PAGOS_VIEW = "modulo-administracion/pagos";
+	public static final String ADMINISTRACION_REPORTES_VIEW = "modulo-administracion/reportes";
 	
 	public static final String SP_ACTIVAR_DESACTIVAR_CLIENTE = "sp_activar_desactivar";
 	public static final String SP_LISTA_PERSONA_NO_EMPLEADO = "sp_lista_persona_no_empleado";
@@ -45,6 +48,7 @@ public class Constantes {
 	public static final String SP_PAGO_SERVICIO = "sp_pago_servicio";
 	public static final String SP_LISTAR_CLIENTE_VENDEDOR = "sp_listar_cliente_vendedor";
 	public static final String SP_BUSCAR_CLIENTE_PAGO = "sp_buscar_cliente_pago";
+	public static final String SP_BUSCAR_DATOS_ONU_INSTALACION = "sp_recuperar_datos_ins_onu";
 	public static final String SP_RECUPERAR_MES_DEUDA = "recuperar_mes_monto_nombreout";
 	public static final String SP_BUSCAR_DATOS_PAGOS_MES = "a";
 	public static final String SP_LISTAR_COMPROBANTE = "sp_listar_comprobante";
@@ -56,6 +60,7 @@ public class Constantes {
 	public static final String SP_LISTAR_CLIENTES_ATENCION_DETALLE = "sp_listar_clientes_atencion_detalle";
 	public static final String SP_LISTAR_HERRAMIENTA_GENERAL = "sp_listar_herramienta_general";
 	public static final String SP_INSERCCION_HERRAMIENTA = "sp_inserccion_herramienta";
+	public static final String SP_INSERCCION_ACTIVACION = "sp_ins_act_cuenta";
 	public static final String SP_GUARDAR_DESCUENTO_MES= "sp_inserccion_historial_descuento";
 	public static final String SP_INSERCCION_DETALLE_HERRAMIENTA = "sp_inserccion_detalle_herramienta";
 	public static final String SP_BUSQUEDA_HERRAMIENTA = "sp_envio_herramienta";
@@ -116,6 +121,9 @@ public class Constantes {
 	public static final String SP_PERFIL_USUARIO = "sp_mi_perfil";
 	public static final String SP_UPDATE_USUARIO_PERFIL = "update_mi_perfil_contrasena";
 	public static final String SP_LISTAR_ESTADO_CUENTA = "sp_listar_estado_cuenta";
+	public static final String SP_LISTA_PAGO_POR_MES = "sp_lista_pago_x_mes";
+	public static final String SP_LISTAR_ESTADO_CUENTA_POR_ESTADO = "sp_listar_estado_cuenta_x_estado";
+	public static final String SP_LISTAR_ESTADO = "sp_listar_estado";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

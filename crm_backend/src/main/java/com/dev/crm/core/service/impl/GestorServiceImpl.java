@@ -10,9 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.DeudasGestoresResultViewModel;
+import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.GestoresResultViewModel;
 import com.dev.crm.core.repository.jdbc.AsignarClienteGestorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClienteGestorJdbcRepository;
+import com.dev.crm.core.repository.jdbc.DeudasGestoresJdbcRepository;
 import com.dev.crm.core.repository.jdbc.GestoresJdbcRepository;
 import com.dev.crm.core.service.GestorService;
 import com.dev.crm.core.util.GenericUtil;
@@ -33,6 +36,10 @@ public class GestorServiceImpl implements GestorService {
 	@Autowired
 	@Qualifier("gestoresJdbcRepository")
 	private GestoresJdbcRepository gestoresJdbcRepository;
+	
+	@Autowired
+	@Qualifier("deudasGestoresJdbcRepository")
+	private DeudasGestoresJdbcRepository deudasGestoresJdbcRepository;
 	
 	@Override
 	public List<ClienteGestorResultViewModel> listarClienteGestor() {
@@ -67,6 +74,29 @@ public class GestorServiceImpl implements GestorService {
 				}
 				else {
 					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<DeudasGestoresResultViewModel> recuperarDiasDeudasGestoresParametrizado(DiasDeudasRequest request) {
+		
+		List<DeudasGestoresResultViewModel> deudasGestores = new ArrayList<DeudasGestoresResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				deudasGestores = deudasGestoresJdbcRepository.recuperarDiasDeudasGestoresParametrizado(request);
+				if(GenericUtil.isCollectionEmpty(deudasGestores) && deudasGestores.isEmpty()) {
+					return null;
+				}
+				else  {
+					return deudasGestores;
 				}
 			}
 		}

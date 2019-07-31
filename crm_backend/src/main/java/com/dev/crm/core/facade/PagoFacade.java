@@ -19,6 +19,7 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
 import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
@@ -42,6 +43,8 @@ public interface PagoFacade {
 	List<PagoPorDiaResultViewModel> listarPagosPorDiaSolicitado(PagosPorDiaRequest request);
 	
 	List<DiasDeudasResultViewModel> recuperarDiasDeudas();
+	
+	List<PagosPorMesResultViewModel> pagosPorMes();
 	
 	List<DiasDeudasResultViewModel> recuperarDiasDeudasParametrizado(DiasDeudasRequest request);
 	

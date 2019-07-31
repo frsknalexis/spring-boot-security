@@ -2,6 +2,8 @@ package com.dev.crm.core.facade;
 
 import java.util.List;
 
+import com.dev.crm.core.dto.CuentaPorEstadoRequest;
+import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
@@ -12,6 +14,7 @@ import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
+import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 
@@ -41,7 +44,11 @@ public interface DetalleCuentaFacade {
 	
 	List<EstadoCuentasResultViewModel> listarEstadoCuentas(); 
 	
+	List<EstadosCuentaResultViewModel> listarEstadosCuentas();
+	
 	List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request);
+	
+	 List<CuentaPorEstadoResultViewModel> listarCuentasPorEstado(CuentaPorEstadoRequest request);
 	
 	List<CuentasRangoResultViewModel> listarCuentasPorRango(CuentasRangoRequest request);
 	

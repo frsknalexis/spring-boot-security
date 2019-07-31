@@ -8,14 +8,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dev.crm.core.dto.ActivacionRequest;
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
 import com.dev.crm.core.dto.InstalacionesPorTecnicoResultViewModel;
+import com.dev.crm.core.repository.jdbc.ActivacionRequestJdbcRepository;
 import com.dev.crm.core.repository.jdbc.InformeInstalacionDiaInternetJdbcRepository;
 import com.dev.crm.core.repository.jdbc.InstalacionDiaInternetJdbcRepository;
 import com.dev.crm.core.repository.jdbc.InstalacionesPorTecnicoJdbcRepository;
 import com.dev.crm.core.service.InstalacionService;
 import com.dev.crm.core.util.GenericUtil;
+import com.dev.crm.core.util.StringUtil;
 
 @Service("instalacionService")
 @Transactional("hibernateTransactionManager")
@@ -32,6 +35,10 @@ public class InstalacionServiceImpl implements InstalacionService {
 	@Autowired
 	@Qualifier("instalacionesPorTecnicoJdbcRepository")
 	private InstalacionesPorTecnicoJdbcRepository instalacionesPorTecnicoJdbcRepository;
+	
+	@Autowired
+	@Qualifier("ActivacionRequestJdbcRepository")
+	private ActivacionRequestJdbcRepository activacionRequestJdbcRepository;
 	
 	@Override
 	public List<InstalacionDiaInternetResultViewModel> spListarInstalacionDiaInternet(String usuario) {
@@ -90,6 +97,27 @@ public class InstalacionServiceImpl implements InstalacionService {
 			}
 			else {
 				return instalacionesPorTecnico;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String spInsertActivacion(ActivacionRequest codigo) {
+
+		try {
+			
+			if(GenericUtil.isNotNull(codigo)) {
+				String result = activacionRequestJdbcRepository.spInsertActivacion(codigo);
+				if(StringUtil.hasText(result)) {
+					return result;
+				}
+				else {
+					return null;
+				}
 			}
 		}
 		catch(Exception e) {

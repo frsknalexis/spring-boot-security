@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.dev.crm.core.dto.CuentaPorEstadoRequest;
+import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
@@ -18,6 +20,7 @@ import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
+import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
@@ -272,6 +275,27 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<EstadosCuentaResultViewModel> listarEstadosCuentas() {
+	
+		List<EstadosCuentaResultViewModel> estadosCuentas = new ArrayList<EstadosCuentaResultViewModel>();
+		
+		try {
+			
+			estadosCuentas = detalleCuentaService.listarEstadosCuentas();
+			if(GenericUtil.isCollectionEmpty(estadosCuentas) && estadosCuentas.isEmpty()) {
+				return null;
+			}
+			else {
+				return estadosCuentas;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request) {
@@ -296,6 +320,29 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 		return null;
 	}
 	
+	@Override
+	public List<CuentaPorEstadoResultViewModel> listarCuentasPorEstado(CuentaPorEstadoRequest request) {
+		
+		List<CuentaPorEstadoResultViewModel> cuentasPorEstado = new ArrayList<CuentaPorEstadoResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasPorEstado = detalleCuentaService.listarCuentasPorEstado(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorEstado) && cuentasPorEstado.isEmpty()) {
+					return null;
+				}
+				else {
+					return cuentasPorEstado;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<CuentasRangoResultViewModel> listarCuentasPorRango(CuentasRangoRequest request) {
 		

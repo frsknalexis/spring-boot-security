@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.DeudasGestoresResultViewModel;
+import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.GestoresResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.GestorFacade;
@@ -58,6 +60,29 @@ public class GestorFacadeImpl implements GestorFacade {
 			}
 			else {
 				return gestores;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<DeudasGestoresResultViewModel> recuperarDiasDeudasGestoresParametrizado(DiasDeudasRequest request) {
+		
+		List<DeudasGestoresResultViewModel> deudasGestores = new ArrayList<DeudasGestoresResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				deudasGestores = gestorService.recuperarDiasDeudasGestoresParametrizado(request);
+				if(GenericUtil.isCollectionEmpty(deudasGestores) && deudasGestores.isEmpty()) {
+					return null;
+				}
+				else {
+					return deudasGestores;
+				}
 			}
 		}
 		catch(Exception e) {

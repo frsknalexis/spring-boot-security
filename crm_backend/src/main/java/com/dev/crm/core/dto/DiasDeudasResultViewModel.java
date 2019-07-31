@@ -20,7 +20,7 @@ public class DiasDeudasResultViewModel implements Serializable {
 	private String direccionCliente;
 	
 	private String cliente;
-
+		
 	public DiasDeudasResultViewModel() {
 		
 	}

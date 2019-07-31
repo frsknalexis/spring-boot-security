@@ -7,6 +7,10 @@ $(document).on('ready', function() {
 	
 	listarTablaEstadoCuentasInternet();
 	
+	listarComboEstadoCuentas();
+	
+	mostrarFormReporteCuentasPorEstado();
+	
 	regresarListadoCuentas();
 });
 
@@ -52,6 +56,107 @@ function listarTablaEstadoCuentasInternet() {
 			{"data": "estado"}
 		]
 	}).DataTable();
+}
+
+function mostrarFormReporteCuentasPorEstado() {
+	
+	$('#btnReporteCuentasPorEstado').on('click', function() {
+		
+		$('#modalCuentasPorEstado').modal('show');
+	});
+	
+	validarFormReporteCuentasPorEstado();
+}
+
+function validarFormReporteCuentasPorEstado() {
+	
+	$('#buscarCuentasPorEstado').on('click', function(e) {
+		e.preventDefault();
+		
+		if($('#estadoCuenta').val().trim() != "") {
+			
+			var formDataBuscarReporteCuentasPorEstado = {
+					codigoEstado: $('#estadoCuenta').val()
+			};
+			console.log(formDataBuscarReporteCuentasPorEstado);
+			
+			$.ajax({
+				
+				type: 'POST',
+				url: '/api/v1/detalleCuenta/cuentasPorEstado',
+				headers: {
+					"Content-Type": "application/json",
+					"Accept": "application/json"
+				},
+				data: JSON.stringify(formDataBuscarReporteCuentasPorEstado),
+				dataType: 'json',
+				success: function(response) {
+					
+					if(response == null) {
+						swal({
+			                type: 'warning',
+			                title: 'Ooops',
+			                text: 'No se Encontraron Resultados de Busqueda !'
+			            });
+					}
+					else if(response != null) {
+						console.log(response);
+						printJS({
+							printable: response,
+							showModal: true,
+							documentTitle: 'Reporte de Cuentas Por Estado',
+							properties: [
+								{ field: 'codigoDetalleCuenta', displayName: 'Nº Cuenta'},
+								{ field: 'cliente', displayName: 'Cliente'},
+								{ field: 'documentoPersonaCliente', displayName: 'Nº Documento'},								
+								{ field: 'estado', displayName: 'Estado'},
+								{ field: 'referencia', displayName: 'Referencia'},
+								{ field: 'vendedorResponsable', displayName: 'Vendedor'}
+								
+							], 
+							type: 'json'})
+					}
+				},
+				error: function() {
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'Ocurrio un Error !'
+		            });
+				}
+			});
+		}
+		
+		if($('#estadoCuenta').val().trim() == "") {
+			
+			swal({
+                type: 'error',
+                title: 'Ooops',
+                text: 'Debe Seleccionar un Estado Cuenta !'
+            });
+			return false;
+		}
+	});
+}
+
+function listarComboEstadoCuentas() {
+	
+	$estadoCuenta = $('#estadoCuenta');
+	
+	$.ajax({
+		
+		type: 'GET',
+		url: '/api/v1/detalleCuenta/estados',
+		dataType: 'json',
+		success: function(response) {
+			console.log(response);
+			$estadoCuenta.html('');
+			$estadoCuenta.append('<option value="">Seleccione un Estado Cuenta</option>');
+			for(var i = 0; i < response.length; i++) {
+				$estadoCuenta.append('<option value="' + response[i].codigoEstado + '">' + response[i].estado + '</option>');
+			}
+		}
+	});
 }
 
 function regresarListadoCuentas() {

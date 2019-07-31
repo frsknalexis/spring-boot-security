@@ -811,7 +811,7 @@ $(document).on('ready', function() {
 			var formData = {
 					documentopersoma: $('#documentoPersonaClienteDescuento').val(),
 					numerodemes: $('#ClienteDescuentoMesPago').val(),
-					anioalido: $('#ClienteDescuentoMesPago').val(),
+					aniovalido: $('#ClienteDescuentoMesPago').val(),
 					descuentodelmes: $('#ClienteDescuento').val(),
 					motivodeldescuento: $('#ClienteDescuentoMotivo').val()
 			};

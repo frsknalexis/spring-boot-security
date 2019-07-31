@@ -29,6 +29,9 @@
 						<div class="col-md-4 col-lg-4 mb-xs">
 							<button type="button" id="btnRegresarListaCuentas" class="btn btn-block btn-sm btn-primary"><i class="fa fa-arrow-circle-o-left"></i> Volver</button>
 						</div>
+						<div class="col-md-4 col-lg-4 mb-xs">
+							<button type="button" id="btnReporteCuentasPorEstado" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Reporte de Cuentas Por Estado</button>
+						</div>
 						<div class="col-md-12 col-lg-12">
 							<section class="panel panel-featured panel-featured-primary panel-primary">
 								<header class="panel-heading">
@@ -49,6 +52,35 @@
 									</table>
 								</div>
 							</section>
+						</div>
+					</div>
+					<div class="modal fade" tabindex="-1" id="modalCuentasPorEstado" role="dialog" aria-labelledby="myModalLabelCuentasPorEstado" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form role="form" method="post" id="formCuentasPorDia">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelCuentasPorEstado">Busqueda de Cuentas Por Estado</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12 form-group">
+												<label for="estadoCuenta">Estado Cuenta</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-book"></i>
+													</span>
+													<select id="estadoCuenta" class="form-control populate"></select>
+												</div>
+											</div>											
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" id="cancelarAccionBusquedaCuentasPorEstado" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="buscarCuentasPorEstado" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
 					<!-- end: page -->

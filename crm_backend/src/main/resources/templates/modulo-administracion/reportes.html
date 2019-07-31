@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" class="fixed sidebar-left-collapsed" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/headinc :: head"></head>
+<body>
+	<section class="body">
+		<!-- start: header -->
+		<header th:replace="fragments/header :: header"></header>
+		<!-- end: header -->
+		<div class="inner-wrapper">
+			<!-- start: sidebar -->
+			<aside th:replace="fragments/sidebar :: sidebar"></aside>
+			<!-- end: sidebar -->
+			<section role="main" class="content-body">
+				<div>
+					<div class="page-header">
+						<h2>
+							<a th:href="@{/dashboard}">
+								<i class="fa fa-home"></i>
+							</a>
+						</h2>
+						<ol class="breadcrumbs">
+							<li class="active">
+								<span>Administracion</span>
+							</li>
+						</ol>
+					</div>
+					<!-- start: page -->
+					<div class="row">
+						
+					</div>
+					
+					<!-- end: page -->
+					<input style="display:none" id="canje" name="canje" value="0"></input>
+					<input style="display:none" id="canjes" name="canjes" value="0"></input>
+					<input style="display:none" id="canjess" name="canjess" value="0"></input>
+				</div>
+			</section>
+		</div>
+	</section>
+	<th:block th:replace="fragments/script :: script"></th:block>
+	<script type="text/javascript" th:src="@{/assets/javascripts/app/notifications.js}"></script>
+</body>
+</html>

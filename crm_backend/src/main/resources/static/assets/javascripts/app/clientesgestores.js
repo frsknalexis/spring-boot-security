@@ -34,7 +34,6 @@ $(document).on('ready', function() {
 		
 		if(id !== 0){
 			
-			
 			for( var i = 1;i < id ; i++ ){
 			if(i < id){
 				
@@ -66,11 +65,8 @@ $(document).on('ready', function() {
 		var closeOnClick = true;
 		var displayClose =true;
 		
-		
-		
 		if(valor !== 0)
-		{
-			
+		{	
 			for(var i = 0;id > i;i++)
 			{			
 				if(id > i){
@@ -84,9 +80,7 @@ $(document).on('ready', function() {
 									
 									var mensaje = response.descripcionmensaje;
 									var message = mensaje;
-							
-									
-									
+														
 									window.createNotification({
 										closeOnClick: closeOnClick,
 										displayCloseButton: displayClose,
@@ -102,13 +96,10 @@ $(document).on('ready', function() {
 					});
 				}
 			}
-			
 		}
 	}
 
 	function cargarmensajespopus(id){
-		
-		
 		
 		var title = "Tareas Pendientes!!!";
 		
@@ -127,8 +118,7 @@ $(document).on('ready', function() {
 			{			
 				if(i <= id){
 					$.ajax(
-							{
-						
+							{				
 								type: 'GET',
 								url: '/api/v1/atencion/searchMensaje/' + i,
 								dataType: 'json',
@@ -136,7 +126,6 @@ $(document).on('ready', function() {
 									
 									var mensaje = response.descripcionmensaje;
 									var message = mensaje;
-							
 									
 									window.createNotification({
 										closeOnClick: closeOnClick,
@@ -148,21 +137,17 @@ $(document).on('ready', function() {
 								title: title,
 								message: message
 							});
-							
 						}
 					});
 				}
 			}
-			
 		}
 	}
 	
 	function estado(id){
 		
-		
 		if(id !== 0){
-			
-			
+				
 			for(var i=1;i<=id;i++){
 			if(i <= id){
 				
@@ -172,8 +157,7 @@ $(document).on('ready', function() {
 					url: '/api/v1/atencion/searchMensaje/' + i,
 					dataType: 'json',
 					success: function(response) {
-						
-						
+									
 						var tag = document.createElement("li");
 						tag.innerHTML = '<span class="toggle">Jan</span>';
 						
@@ -194,7 +178,6 @@ $(document).on('ready', function() {
 	
 	function estadonuevo(valor){
 		
-		
 		if(valor !== 0){
 			
 			document.getElementById("agregarmensajesnoti").innerHTML="";
@@ -207,8 +190,7 @@ $(document).on('ready', function() {
 					url: '/api/v1/atencion/searchMensaje/' + (parseInt(valor) - parseInt(i)),
 					dataType: 'json',
 					success: function(response) {
-						
-						
+										
 						var tag = document.createElement("li");
 						tag.innerHTML = '<span class="toggle">Jan</span>';
 						
@@ -237,7 +219,6 @@ $(document).on('ready', function() {
 		dinamico = document.getElementsByName("canjes")[0].value;
 		valuee = document.getElementsByName("canjess")[0].value;
 		
-		
 		var verificando = valuee - dinamico;
 		
 		if(estatico === valuee && valuee === dinamico){
@@ -265,7 +246,6 @@ $(document).on('ready', function() {
 	
 	function cargarTotalRegistrosPersona() {
 		
-		
 		var formData = {
 				
 		};
@@ -285,14 +265,11 @@ $(document).on('ready', function() {
 				$('#total').html(response.message);
 				$('#totalidad').html(response.message);
 				$('#canjess').val(response.message);
-			}
-			
+			}	
 		});	
-		
 	}
 	
 	function cargarTotalRegistrosPersonita() {
-		
 		
 		var formData = {
 				
@@ -316,9 +293,7 @@ $(document).on('ready', function() {
 				$('#canjes').val(response.message);
 				$('#canjess').val(response.message);
 			}
-			
 		});	
-		
 	}
 	
 	function listarTablaClientesGestores() {
@@ -370,7 +345,6 @@ $(document).on('ready', function() {
 		});
 		mostrarFormAsignarGestor();
 	}
-	
 	
 	function mostrarFormAsignarGestor() {
 		
@@ -567,7 +541,7 @@ $(document).on('ready', function() {
 				$.ajax({
 					
 					type: 'POST',
-					url: '/api/v1/pago/reporteDiasDeudas',
+					url: '/api/v1/gestor/reporteDeudasGestores',
 					headers: {
 						"Content-Type" : "application/json",
 						"Accept": "application/json"
@@ -595,6 +569,7 @@ $(document).on('ready', function() {
 									{ field: 'documentoPersonaCliente', displayName: 'Nº Documento'},
 									{ field: 'mesPago', displayName: 'Mes Deuda'},
 									{ field: 'direccionCliente', displayName: 'Direccion Actual'},
+									{ field: 'referencia', displayName: 'Referencia'},
 									{ field: 'cliente', displayName: 'Cliente'}
 								], 
 								type: 'json'})

@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dev.crm.core.dao.DetalleCuentaDAO;
 import com.dev.crm.core.dto.CuentaPorEstadoRequest;
 import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
+import com.dev.crm.core.dto.CuentaPorVendedorRequest;
+import com.dev.crm.core.dto.CuentaPorVendedorResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
@@ -27,6 +29,7 @@ import com.dev.crm.core.repository.jdbc.AnularDetalleCuentaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorEstadoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorRangoJdbcRepository;
+import com.dev.crm.core.repository.jdbc.CuentaPorVendedorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentasPorInstalarJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosInternetServicioJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosMaterialesJdbcRepository;
@@ -89,6 +92,10 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 	@Autowired
 	@Qualifier("estadosCuentaJdbcRepository")
 	private EstadosCuentaJdbcRepository estadosCuentaJdbcRepository;
+	
+	@Autowired
+	@Qualifier("cuentaPorVendedorJdbcRepository")
+	private CuentaPorVendedorJdbcRepository cuentaPorVendedorJdbcRepository;
 	
 	@Override
 	public String spInsercionCuentaInternet(DetalleCuentaRequest request) {
@@ -389,6 +396,29 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 				}
 				else {
 					return cuentasPorRango;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<CuentaPorVendedorResultViewModel> cuentasPorVendedor(CuentaPorVendedorRequest request) {
+		
+		List<CuentaPorVendedorResultViewModel> cuentasPorVendedor = new ArrayList<CuentaPorVendedorResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasPorVendedor = cuentaPorVendedorJdbcRepository.cuentasPorVendedor(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorVendedor) && cuentasPorVendedor.isEmpty()) {
+					return null;
+				}
+				else {
+					return cuentasPorVendedor;
 				}
 			}
 		}

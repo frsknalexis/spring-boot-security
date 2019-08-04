@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.CuentaPorEstadoRequest;
 import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
+import com.dev.crm.core.dto.CuentaPorVendedorRequest;
+import com.dev.crm.core.dto.CuentaPorVendedorResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
@@ -320,6 +322,25 @@ public class DetalleCuentaRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<CuentaPorEstadoResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@PostMapping("/cuentasPorVendedor")
+	public ResponseEntity<List<CuentaPorVendedorResultViewModel>> cuentasPorVendedor(@Valid @RequestBody CuentaPorVendedorRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<CuentaPorVendedorResultViewModel> cuentasPorVendedor = detalleCuentaFacade.cuentasPorVendedor(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorVendedor)) {
+					return new ResponseEntity<List<CuentaPorVendedorResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				return new ResponseEntity<List<CuentaPorVendedorResultViewModel>>(cuentasPorVendedor, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<CuentaPorVendedorResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 		return null;
 	}

@@ -124,6 +124,7 @@ public class Constantes {
 	public static final String SP_LISTA_PAGO_POR_MES = "sp_lista_pago_x_mes";
 	public static final String SP_LISTAR_ESTADO_CUENTA_POR_ESTADO = "sp_listar_estado_cuenta_x_estado";
 	public static final String SP_LISTAR_ESTADO = "sp_listar_estado";
+	public static final String SP_CUENTAS_POR_VENDEDOR = "sp_pdf_lista_x_vendedor";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

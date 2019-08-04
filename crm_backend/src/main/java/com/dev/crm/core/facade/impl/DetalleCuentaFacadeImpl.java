@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.CuentaPorEstadoRequest;
 import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
+import com.dev.crm.core.dto.CuentaPorVendedorRequest;
+import com.dev.crm.core.dto.CuentaPorVendedorResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
@@ -334,6 +336,29 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 				}
 				else {
 					return cuentasPorEstado;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<CuentaPorVendedorResultViewModel> cuentasPorVendedor(CuentaPorVendedorRequest request) {
+		
+		List<CuentaPorVendedorResultViewModel> cuentasPorVendedor = new ArrayList<CuentaPorVendedorResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasPorVendedor = detalleCuentaService.cuentasPorVendedor(request);
+				if(GenericUtil.isCollectionEmpty(cuentasPorVendedor)) {
+					return null;
+				}
+				else {
+					return cuentasPorVendedor;
 				}
 			}
 		}

@@ -13,7 +13,7 @@ public class PagosPorMesResultViewModelMapper implements RowMapper<PagosPorMesRe
 	public PagosPorMesResultViewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		PagosPorMesResultViewModel pagosPorMes = new PagosPorMesResultViewModel();
-		pagosPorMes.setDiaFechaPago(rs.getDate("fecha_pago_dia"));
+		pagosPorMes.setDiaFechaPago(rs.getString("fecha_pago_dia"));
 		pagosPorMes.setCantidadPago(rs.getBigDecimal("cant_pago"));
 		return pagosPorMes;
 	}	

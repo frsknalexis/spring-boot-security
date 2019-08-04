@@ -9,6 +9,8 @@ public class CuentaPorEstadoResultViewModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 1086016269356764094L;
 
+	private Integer numeracion;
+	
 	private Integer codigoDetalleCuenta;
 	
 	private String documentoPersonaCliente;
@@ -22,9 +24,19 @@ public class CuentaPorEstadoResultViewModel implements Serializable {
 	private String referencia;
 	
 	private String vendedorResponsable;
+	
+	private String direccionCliente;
 
 	public CuentaPorEstadoResultViewModel() {
 		
+	}
+	
+	public Integer getNumeracion() {
+		return numeracion;
+	}
+	
+	public void setNumeracion(Integer numeracion) {
+		this.numeracion = numeracion;
 	}
 
 	public Integer getCodigoDetalleCuenta() {
@@ -81,5 +93,13 @@ public class CuentaPorEstadoResultViewModel implements Serializable {
 
 	public void setVendedorResponsable(String vendedorResponsable) {
 		this.vendedorResponsable = vendedorResponsable;
+	}
+
+	public String getDireccionCliente() {
+		return direccionCliente;
+	}
+
+	public void setDireccionCliente(String direccionCliente) {
+		this.direccionCliente = direccionCliente;
 	}
 }

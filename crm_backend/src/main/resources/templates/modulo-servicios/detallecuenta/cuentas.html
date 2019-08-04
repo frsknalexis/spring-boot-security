@@ -26,13 +26,16 @@
 					</div>
 					<!-- start: page -->
 					<div class="row" id="listadoPersonaRegistro">
-						<div class="col-md-4 col-lg-4 mb-xs">
+						<div class="col-md-3 col-lg-3 mb-xs">
 							<button type="button" id="btnReporteCuentasPorFecha" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Reporte de Cuentas Por Dia</button>
 						</div>
-						<div class="col-md-4 col-lg-4 mb-xs">
+						<div class="col-md-3 col-lg-3 mb-xs">
 							<button type="button" id="btnReporteCuentasPorRango" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Reporte de Cuentas Por Rango Fecha</button>
 						</div>
-						<div class="col-md-4 col-lg-4 mb-xs">
+						<div class="col-md-3 col-lg-3 mb-xs">
+							<button type="button" id="btnReporteCuentasPorVendedor" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Reporte de Cuentas Por Vendedor</button>
+						</div>
+						<div class="col-md-3 col-lg-3 mb-xs">
 							<button type="button" id="btnListarEstadoCuentas" class="btn btn-block btn-sm btn-success"><i class="fa fa-pencil-square-o"></i> Estado Cuentas</button>
 						</div>
 						<div class="col-md-12 col-lg-12">
@@ -158,6 +161,35 @@
 									<div class="modal-footer">
 										<button type="button" id="cancelarAccionBusquedaCuentasPorDia" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 										<button type="submit" id="buscarCuentasPorFecha" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" tabindex="-1" id="modalCuentasPorVendedor" role="dialog" aria-labelledby="myModalLabelCuentasPorVendedor" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form role="form" method="post" id="formCuentasPorDia">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelCuentasPorVendedor">Busqueda de Cuentas Por Vendedor</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12 form-group">
+												<label for="vendedorResponsable">Vendedor Responsable</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-users"></i>
+													</span>
+													<select class="form-control populate" id="vendedorResponsable"></select>
+												</div>
+											</div>											
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" id="cancelarAccionBusquedaCuentasPorVendedor" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="buscarCuentasPorVendedor" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
 									</div>
 								</form>
 							</div>

@@ -13,6 +13,7 @@ public class CuentaPorEstadoResultViewModelMapper implements RowMapper<CuentaPor
 	public CuentaPorEstadoResultViewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		CuentaPorEstadoResultViewModel cuentasPorEstado = new CuentaPorEstadoResultViewModel();
+		cuentasPorEstado.setNumeracion(rs.getInt("NU"));
 		cuentasPorEstado.setCodigoDetalleCuenta(rs.getInt("codi_detcun"));
 		cuentasPorEstado.setDocumentoPersonaCliente(rs.getString("documento_personac"));
 		cuentasPorEstado.setCliente(rs.getString("cliente"));
@@ -20,6 +21,7 @@ public class CuentaPorEstadoResultViewModelMapper implements RowMapper<CuentaPor
 		cuentasPorEstado.setFechaInicio(rs.getString("fechainicio"));
 		cuentasPorEstado.setReferencia(rs.getString("referencia_persona"));
 		cuentasPorEstado.setVendedorResponsable(rs.getString("nombrevendedorurgencia"));
+		cuentasPorEstado.setDireccionCliente(rs.getString("direccióna_persona"));
 		return cuentasPorEstado;
 	}
 }

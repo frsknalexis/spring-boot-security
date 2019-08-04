@@ -17,6 +17,10 @@ $(document).on('ready', function() {
 	
 	redireccionarListadoEstadoCuentas();
 	
+	mostrarModalCuentasPorVendedor();
+	
+	cargarComboListarVendedores();
+	
 	ocultar_mostrar(50);
 	
 	window.setInterval(
@@ -650,6 +654,132 @@ $(document).on('ready', function() {
 		
 		$('#btnListarEstadoCuentas').on('click', function() {
 			$(location).attr('href', '/detalleCuenta/estadoCuentas/view');
+		});
+	}
+	
+	/**
+	 * 
+	 * function para mostrar el modal cuentas por vendedor
+	 * 
+	 * */
+	function mostrarModalCuentasPorVendedor() {
+		
+		$('#btnReporteCuentasPorVendedor').on('click', function() {
+			$('#modalCuentasPorVendedor').modal('show');
+		});
+		
+		cancelarAccionBuscarCuentasPorVendedor();
+		buscarCuentasPorVendedor();
+	}
+	
+	/**
+	 * 
+	 * function para cargar el combo lista de vendedores
+	 * 
+	 * */
+	function cargarComboListarVendedores() {
+		
+		var $vendedorResponsable = $('#vendedorResponsable');
+		
+		$.ajax({
+			
+			type: 'GET',
+			url: '/api/v1/vendedor/vendedores',
+			dataType: 'json',
+			success: function(response) {
+				console.log(response);
+				$vendedorResponsable.html('');
+				$vendedorResponsable.append('<option value="">Seleccione un Vendedor Responsable</option>');
+				for(var i = 0; i < response.length; i++) {
+					$vendedorResponsable.append('<option value="' + response[i].vendedor + '">' + response[i].vendedor + '</option>');
+				}
+			}
+		});
+	}
+	
+	
+	/**
+	 * 
+	 * function para buscar cuentasPorVendedor
+	 * 
+	 * */
+	function buscarCuentasPorVendedor() {
+		
+		$('#buscarCuentasPorVendedor').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#vendedorResponsable').val().trim() != "") {
+				
+				var formDataBuscarCuentasPorVendedor = {
+						vendedorResponsable: $('#vendedorResponsable').val()
+				};
+				
+				console.log(formDataBuscarCuentasPorVendedor);
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/detalleCuenta/cuentasPorVendedor',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataBuscarCuentasPorVendedor),
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response == null) {
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Cuentas Por Vendedor',
+								properties: [
+									{ field: 'numeracion', displayName: '#'},
+									{ field: 'cliente', displayName: 'Cliente'},
+									{ field: 'direccionCliente', displayName: 'Direccion'},
+									{ field: 'fechaInicio', displayName: 'Fecha Inicio'},
+									{ field: 'estado', displayName: 'Estado'}
+									
+								], 
+								type: 'json'})
+						}
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+				});
+			}
+			
+			if($('#vendedorResponsable').val().trim() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe Seleccionar un Vendedor Responsable !'
+	            });
+				return false;
+			}
+		});
+	}
+	
+	/**
+	 * function para cancelar buscar cuentas por vendedor
+	 * 
+	 * */
+	function cancelarAccionBuscarCuentasPorVendedor() {
+		$('#cancelarAccionBusquedaCuentasPorVendedor').on('click', function() {
+			$('#vendedorResponsable').val('');
 		});
 	}
 });

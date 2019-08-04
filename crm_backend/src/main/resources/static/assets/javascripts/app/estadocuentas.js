@@ -106,10 +106,12 @@ function validarFormReporteCuentasPorEstado() {
 							showModal: true,
 							documentTitle: 'Reporte de Cuentas Por Estado',
 							properties: [
+								{ field: 'numeracion', displayName: '#'},
 								{ field: 'codigoDetalleCuenta', displayName: 'Nº Cuenta'},
 								{ field: 'cliente', displayName: 'Cliente'},
 								{ field: 'documentoPersonaCliente', displayName: 'Nº Documento'},								
 								{ field: 'estado', displayName: 'Estado'},
+								{ field: 'direccionCliente', displayName: 'Direccion'},
 								{ field: 'referencia', displayName: 'Referencia'},
 								{ field: 'vendedorResponsable', displayName: 'Vendedor'}
 								

@@ -19,4 +19,9 @@ public class AdministracionController {
 	public String administracionReportesViewController() {
 		return Constantes.ADMINISTRACION_REPORTES_VIEW;
 	}
+	
+	@GetMapping("/reportesVentas")
+	public String administracionReportesVentasViewController() {
+		return Constantes.ADMINISTRACION_REPORTES_VENTAS_VIEW;
+	}
 }

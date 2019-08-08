@@ -19,6 +19,7 @@ import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
+import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
 
 public interface DetalleCuentaFacade {
 
@@ -47,6 +48,8 @@ public interface DetalleCuentaFacade {
 	List<EstadoCuentasResultViewModel> listarEstadoCuentas(); 
 	
 	List<EstadosCuentaResultViewModel> listarEstadosCuentas();
+	
+	List<VentasPorDiaResultViewModel> cantidadVentasPorDia();
 	
 	List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request);
 	

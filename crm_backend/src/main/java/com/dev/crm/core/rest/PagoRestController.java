@@ -28,6 +28,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
+import com.dev.crm.core.dto.GananciaPorMesCajaResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
@@ -38,6 +39,9 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja1ResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja2ResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja3ResultViewModel;
 import com.dev.crm.core.dto.PagosPorMesResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
@@ -458,6 +462,70 @@ public class PagoRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<PagosPorMesResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/pagosPorMesCajaUno")
+	public ResponseEntity<List<PagosPorMesCaja1ResultViewModel>> pagosPorMesCaja1() {
+		
+		try {
+			
+			List<PagosPorMesCaja1ResultViewModel> pagosPorMesCaja = pagoFacade.pagosPorMesCaja1();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja) && pagosPorMesCaja.isEmpty()) {
+				return new ResponseEntity<List<PagosPorMesCaja1ResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<PagosPorMesCaja1ResultViewModel>>(pagosPorMesCaja, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<PagosPorMesCaja1ResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/pagosPorMesCajaDos")
+	public ResponseEntity<List<PagosPorMesCaja2ResultViewModel>> pagosPorMesCaja2() {
+		
+		try {
+			
+			List<PagosPorMesCaja2ResultViewModel> pagosPorMesCaja = pagoFacade.pagosPorMesCaja2();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja)) {
+				return new ResponseEntity<List<PagosPorMesCaja2ResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<PagosPorMesCaja2ResultViewModel>>(pagosPorMesCaja, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<PagosPorMesCaja2ResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/pagosPorMesCajaTres")
+	public ResponseEntity<List<PagosPorMesCaja3ResultViewModel>> pagosPorMesCaja3() {
+		
+		try {
+			
+			List<PagosPorMesCaja3ResultViewModel> pagosPorMesCaja = pagoFacade.pagosPorMesCaja3();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja) && pagosPorMesCaja.isEmpty()) {
+				return new ResponseEntity<List<PagosPorMesCaja3ResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<PagosPorMesCaja3ResultViewModel>>(pagosPorMesCaja, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<PagosPorMesCaja3ResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/gananciaPorMesCaja")
+	public ResponseEntity<List<GananciaPorMesCajaResultViewModel>> ganaciaPorMesCaja() {
+		
+		try {
+			
+			List<GananciaPorMesCajaResultViewModel> ganaciaPorMesCaja = pagoFacade.ganaciaPorMesCaja();
+			if(GenericUtil.isCollectionEmpty(ganaciaPorMesCaja) && ganaciaPorMesCaja.isEmpty()) {
+				return new ResponseEntity<List<GananciaPorMesCajaResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<GananciaPorMesCajaResultViewModel>>(ganaciaPorMesCaja, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<GananciaPorMesCajaResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

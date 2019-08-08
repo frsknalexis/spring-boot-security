@@ -14,6 +14,8 @@ $(document).on('ready', function() {
 	 
 	 guardarCambioDireccion();
 	 
+	 cargarComboListaVendedoresCambio();
+	 
 	var flag;
 	
 	var accion;
@@ -1200,6 +1202,29 @@ $(document).on('ready', function() {
 		});
 	}
 	
+	/**
+	 * function para cargar combo lista vendedores
+	 * 
+	 * */
+	function cargarComboListaVendedoresCambio() {
+		
+		$vendedorResponsableCambio = $('#vendedorResponsableCambio');
+		
+		$.ajax({
+			
+			type: 'GET',
+			url: '/api/v1/vendedor/vendedores',
+			dataType: 'json',
+			success: function(response) {
+				console.log(response);
+				$vendedorResponsableCambio.html('');
+				$vendedorResponsableCambio.append('<option value="">Seleccione un  Vendedor Responsable</option>');
+				for(var i = 0; i < response.length; i++) {
+					$vendedorResponsableCambio.append('<option value="' + response[i].vendedor + '">' + response[i].vendedor + '</option>');
+				}
+			}
+		});
+	}
 	
 	/**
 	 * 
@@ -1211,12 +1236,13 @@ $(document).on('ready', function() {
 		$('#guardarDatosCambiarDireccion').on('click', function(e) {
 			e.preventDefault();
 			
-			if($('#nuevaDireccionCliente').val() != "") {
+			if($('#nuevaDireccionCliente').val() != "" && $('#fechaSugerenciaCambiarDireccion').val() != "" && $('#vendedorResponsableCambio').val().trim() != "") {
 				
 				var formDataCambiarDireccion = {
 						documentoPersonaCliente: $('#documentoPersonaClienteCambiarDireccion').val(),
 						nuevaDireccion: $('#nuevaDireccionCliente').val(),
 						observacionCuenta: $('#observacionCambiarDireccion').val(),
+						vendedorResponsable: $('#vendedorResponsableCambio').val(),
 						fechaElegida: $('#fechaSugerenciaCambiarDireccion').val()
 				};
 				console.log(formDataCambiarDireccion);
@@ -1257,9 +1283,53 @@ $(document).on('ready', function() {
 					}
 				});
 			}
+			
+			if($('#nuevaDireccionCliente').val() == "" && $('#fechaSugerenciaCambiarDireccion').val() == "" && $('#vendedorResponsableCambio').val().trim() == "") {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe llenar todos los Campos !'
+	            });
+			
+				return false;
+				
+			}
+			else {
+				if($('#nuevaDireccionCliente').val() == "") {
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'El campo Nueva Direccion no puede estar vacio, ingrese un valor valido'
+		            });
+			    	
+			    	$('#nuevaDireccionCliente').focus();
+			    	return false;
+				}
+				
+				if($('#fechaSugerenciaCambiarDireccion').val() == "") {
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'El campo Fecha Sugerencia no puede estar vacio, ingrese un valor valido'
+		            });
+			    	
+			    	$('#fechaSugerenciaCambiarDireccion').focus();
+			    	return false;
+				}
+				
+				if($('#vendedorResponsableCambio').val().trim() == "") {
+					
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'Debe Seleccionar un Vendedor Responsable !'
+		            });
+					return false;
+				}
+			}
 		});
 	}
-	
 	
 	/**
 	 * 

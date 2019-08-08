@@ -24,6 +24,7 @@ import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
+import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 import com.dev.crm.core.repository.jdbc.AnularDetalleCuentaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorDiaJdbcRepository;
@@ -37,6 +38,7 @@ import com.dev.crm.core.repository.jdbc.DetalleCuentaInternetJdbcRepository;
 import com.dev.crm.core.repository.jdbc.EstadoCuentasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.EstadosCuentaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ObservacionCuentaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.VentasPorDiaJdbcRepository;
 import com.dev.crm.core.service.DetalleCuentaService;
 import com.dev.crm.core.util.GenericUtil;
 import com.dev.crm.core.util.StringUtil;
@@ -96,6 +98,10 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 	@Autowired
 	@Qualifier("cuentaPorVendedorJdbcRepository")
 	private CuentaPorVendedorJdbcRepository cuentaPorVendedorJdbcRepository;
+	
+	@Autowired
+	@Qualifier("ventasPorDiaJdbcRepository")
+	private VentasPorDiaJdbcRepository ventasPorDiaJdbcRepository;
 	
 	@Override
 	public String spInsercionCuentaInternet(DetalleCuentaRequest request) {
@@ -328,6 +334,27 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 			}
 			else {
 				return estadosCuenta;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<VentasPorDiaResultViewModel> cantidadVentasPorDia() {
+		
+		List<VentasPorDiaResultViewModel> ventasPorDia = new ArrayList<VentasPorDiaResultViewModel>();
+		
+		try {
+			
+			ventasPorDia = ventasPorDiaJdbcRepository.cantidadVentasPorDia();
+			if(GenericUtil.isCollectionEmpty(ventasPorDia)) {
+				return null;
+			}
+			else {
+				return ventasPorDia;
 			}
 		}
 		catch(Exception e) {

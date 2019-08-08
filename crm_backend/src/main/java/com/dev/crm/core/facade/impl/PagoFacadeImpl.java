@@ -14,6 +14,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
+import com.dev.crm.core.dto.GananciaPorMesCajaResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
@@ -24,6 +25,9 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja1ResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja2ResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja3ResultViewModel;
 import com.dev.crm.core.dto.PagosPorMesResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
@@ -356,6 +360,90 @@ public class PagoFacadeImpl implements PagoFacade {
 			}
 			else {
 				return pagosPorMes;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<PagosPorMesCaja1ResultViewModel> pagosPorMesCaja1() {
+		
+		List<PagosPorMesCaja1ResultViewModel> pagosPorMesCaja = new ArrayList<PagosPorMesCaja1ResultViewModel>();
+		
+		try {
+			
+			pagosPorMesCaja = pagoService.pagosPorMesCaja1();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja) && pagosPorMesCaja.isEmpty()) {
+				return null;
+			}
+			else {
+				return pagosPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<PagosPorMesCaja2ResultViewModel> pagosPorMesCaja2() {
+		
+		List<PagosPorMesCaja2ResultViewModel> pagosPorMesCaja = new ArrayList<PagosPorMesCaja2ResultViewModel>();
+		
+		try {
+			
+			pagosPorMesCaja = pagoService.pagosPorMesCaja2();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja)) {
+				return null;
+			}
+			else {
+				return pagosPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<PagosPorMesCaja3ResultViewModel> pagosPorMesCaja3() {
+		
+		List<PagosPorMesCaja3ResultViewModel> pagosPorMesCaja = new ArrayList<PagosPorMesCaja3ResultViewModel>();
+		
+		try {
+			
+			pagosPorMesCaja = pagoService.pagosPorMesCaja3();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja) && pagosPorMesCaja.isEmpty()) {
+				return null;
+			}
+			else {
+				return pagosPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<GananciaPorMesCajaResultViewModel> ganaciaPorMesCaja() {
+		
+		List<GananciaPorMesCajaResultViewModel> gananciaPorMesCaja = new ArrayList<GananciaPorMesCajaResultViewModel>();
+		
+		try {
+			
+			gananciaPorMesCaja = pagoService.ganaciaPorMesCaja();
+			if(GenericUtil.isCollectionEmpty(gananciaPorMesCaja) && gananciaPorMesCaja.isEmpty()) {
+				return null;
+			}
+			else {
+				return gananciaPorMesCaja;
 			}
 		}
 		catch(Exception e) {

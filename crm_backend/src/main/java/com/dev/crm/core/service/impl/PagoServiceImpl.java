@@ -15,6 +15,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
+import com.dev.crm.core.dto.GananciaPorMesCajaResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
@@ -25,6 +26,9 @@ import com.dev.crm.core.dto.PagoRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja1ResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja2ResultViewModel;
+import com.dev.crm.core.dto.PagosPorMesCaja3ResultViewModel;
 import com.dev.crm.core.dto.PagosPorMesResultViewModel;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaRequest;
 import com.dev.crm.core.dto.PagosPorRangoFechaBusquedaResultViewModel;
@@ -35,6 +39,7 @@ import com.dev.crm.core.repository.jdbc.ConsecutivoPagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetallePagoResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DeudasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DiasDeudasJdbcRepository;
+import com.dev.crm.core.repository.jdbc.GananciaPorMesCajaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.HistorialDescuentoResquestdbcRepository;
 import com.dev.crm.core.repository.jdbc.ListaPagosPorCajaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.MesDeudaActualResultJdbcRepository;
@@ -47,6 +52,9 @@ import com.dev.crm.core.repository.jdbc.PagoMoraJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorRangoFechaBusquedaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagosPorDiaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagosPorMesCaja1JdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagosPorMesCaja2JdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagosPorMesCaja3JdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagosPorMesJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PdfPagoDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ReciboJdbcRepository;
@@ -137,6 +145,22 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("pagosPorMesJdbcRepository")
 	private PagosPorMesJdbcRepository pagosPorMesJdbcRepository;
+	
+	@Autowired
+	@Qualifier("pagosPorMesCaja1JdbcRepository")
+	private PagosPorMesCaja1JdbcRepository pagosPorMesCaja1JdbcRepository;
+	
+	@Autowired
+	@Qualifier("pagosPorMesCaja2JdbcRepository")
+	private PagosPorMesCaja2JdbcRepository pagosPorMesCaja2JdbcRepository;
+	
+	@Autowired
+	@Qualifier("pagosPorMesCaja3JdbcRepository")
+	private PagosPorMesCaja3JdbcRepository pagosPorMesCaja3JdbcRepository;
+	
+	@Autowired
+	@Qualifier("gananciaPorMesCajaJdbcRepository")
+	private GananciaPorMesCajaJdbcRepository gananciaPorMesCajaJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -394,6 +418,90 @@ public class PagoServiceImpl implements PagoService {
 			}
 			else {
 				return pagosPorMes;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<PagosPorMesCaja1ResultViewModel> pagosPorMesCaja1() {
+		
+		List<PagosPorMesCaja1ResultViewModel> pagosPorMesCaja = new ArrayList<PagosPorMesCaja1ResultViewModel>();
+		
+		try {
+		
+			pagosPorMesCaja = pagosPorMesCaja1JdbcRepository.pagosPorMesCaja1();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja) && pagosPorMesCaja.isEmpty()) {
+				return null;
+			}
+			else {
+				return pagosPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<PagosPorMesCaja2ResultViewModel> pagosPorMesCaja2() {
+		
+		List<PagosPorMesCaja2ResultViewModel> pagosPorMesCaja = new ArrayList<PagosPorMesCaja2ResultViewModel>();
+		
+		try {
+			
+			pagosPorMesCaja = pagosPorMesCaja2JdbcRepository.pagosPorMesCaja2();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja)) {
+				return null;
+			}
+			else {
+				return pagosPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<PagosPorMesCaja3ResultViewModel> pagosPorMesCaja3() {
+		
+		List<PagosPorMesCaja3ResultViewModel> pagosPorMesCaja = new ArrayList<PagosPorMesCaja3ResultViewModel>();
+		
+		try {
+			
+			pagosPorMesCaja = pagosPorMesCaja3JdbcRepository.pagosPorMesCaja3();
+			if(GenericUtil.isCollectionEmpty(pagosPorMesCaja) && pagosPorMesCaja.isEmpty()) {
+				return null;
+			}
+			else {
+				return pagosPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<GananciaPorMesCajaResultViewModel> ganaciaPorMesCaja() {
+		
+		List<GananciaPorMesCajaResultViewModel> gananciasPorMesCaja = new ArrayList<GananciaPorMesCajaResultViewModel>();
+		
+		try {
+			
+			gananciasPorMesCaja = gananciaPorMesCajaJdbcRepository.ganaciaPorMesCaja();
+			if(GenericUtil.isCollectionEmpty(gananciasPorMesCaja) && gananciasPorMesCaja.isEmpty()) {
+				return null;
+			}
+			else {
+				return gananciasPorMesCaja;
 			}
 		}
 		catch(Exception e) {

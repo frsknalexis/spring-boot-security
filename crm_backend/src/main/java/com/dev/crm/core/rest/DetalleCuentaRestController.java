@@ -35,6 +35,7 @@ import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
+import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
 import com.dev.crm.core.enums.ExportReportType;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
 import com.dev.crm.core.report.ReportService;
@@ -324,6 +325,22 @@ public class DetalleCuentaRestController {
 			return new ResponseEntity<List<CuentaPorEstadoResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 		return null;
+	}
+	
+	@GetMapping("/ventasPorDia")
+	public ResponseEntity<List<VentasPorDiaResultViewModel>> cantidadVentasPorDia() {
+		
+		try {
+			
+			List<VentasPorDiaResultViewModel> ventasPorDia = detalleCuentaFacade.cantidadVentasPorDia();
+			if(GenericUtil.isCollectionEmpty(ventasPorDia)) {
+				return new ResponseEntity<List<VentasPorDiaResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<VentasPorDiaResultViewModel>>(ventasPorDia, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<VentasPorDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PostMapping("/cuentasPorVendedor")

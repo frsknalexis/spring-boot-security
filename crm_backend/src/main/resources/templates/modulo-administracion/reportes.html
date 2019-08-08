@@ -25,7 +25,7 @@
 						</ol>
 					</div>
 					<!-- start: page -->
-					<div class="row">							
+					<div class="row">												
 						<div class="col-md-6">
 							<section class="panel">
 								<header class="panel-heading">
@@ -33,487 +33,79 @@
 										<a href="#" class="fa fa-caret-down"></a>
 										<a href="#" class="fa fa-times"></a>
 									</div>
-									<h2 class="panel-title">Bars Chart</h2>
-									<p class="panel-subtitle">With the categories plugin you can plot categories/textual data easily.</p>
+									<h2 class="panel-title">Grafica de Lineas de Cobranzas</h2>
+									<p class="panel-subtitle">Reporte Grafico de Cobranzas por Dia</p>
 								</header>
 								<div class="panel-body">
-									<!-- Flot: Bars -->
-									<div class="chart chart-md" id="flotBars"></div>
-									<script type="text/javascript">
-						
-											var flotBarsData = [
-												["Jan", 28],
-												["Feb", 42],
-												["Mar", 25],
-												["Apr", 23],
-												["May", 37],
-												["Jun", 33],
-												["Jul", 18],
-												["Aug", 14],
-												["Sep", 18],
-												["Oct", 15],
-												["Nov", 4],
-												["Dec", 7]
-											];
-						
-											// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-										</script>
+									<!-- Morris: Line -->
+									<div class="chart chart-md" id="morrisLine"></div>
+								</div>
+							</section>
+						</div>
+						<div class="col-md-6">
+							<section class="panel">
+								<header class="panel-heading">
+									<div class="panel-actions">
+										<a href="#" class="fa fa-caret-down"></a>
+										<a href="#" class="fa fa-times"></a>
+									</div>					
+									<h2 class="panel-title">Grafica Circular de Cobranza de Cajas</h2>
+									<p class="panel-subtitle">Reporte Grafico de Cobranzas Totales por Caja</p>
+								</header>
+								<div class="panel-body">
+									<!-- Morris: Donut -->
+									<div class="chart chart-md" id="morrisDonutGananciaPorCaja"></div>
+								</div>
+							</section>
+						</div>
+						<div class="col-md-4">
+							<section class="panel">
+								<header class="panel-heading">
+									<div class="panel-actions">
+										<a href="#" class="fa fa-caret-down"></a>
+										<a href="#" class="fa fa-times"></a>
 									</div>
-								</section>
-							</div>
-											
-							<div class="col-md-6">
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-											<a href="#" class="fa fa-caret-down"></a>
-											<a href="#" class="fa fa-times"></a>
-										</div>
-						
-										<h2 class="panel-title">Line Chart</h2>
-										<p class="panel-subtitle">A style of chart that is created by connecting a series of data points together with a line.</p>
-									</header>
-									<div class="panel-body">
-										<!-- Morris: Line -->
-										<div class="chart chart-md" id="morrisLine"></div>
+									<h2 class="panel-title">Grafica de Cobranza Caja Uno</h2>
+									<p class="panel-subtitle">Reporte Grafico de Cobranzas por Dia Realizados en Caja Uno</p>
+								</header>
+								<div class="panel-body">
+									<!-- Morris: Area -->
+									<div class="chart chart-md" id="morrisAreaGraficaCobranzaCajaUno"></div>
+								</div>
+							</section>
+						</div>
+						<div class="col-md-4">
+							<section class="panel">
+								<header class="panel-heading">
+									<div class="panel-actions">
+										<a href="#" class="fa fa-caret-down"></a>
+										<a href="#" class="fa fa-times"></a>
 									</div>
-								</section>
-							</div>
-							
-							<div class="col-md-6">
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-											<a href="#" class="fa fa-caret-down"></a>
-											<a href="#" class="fa fa-times"></a>
-										</div>
-						
-										<h2 class="panel-title">Donut Chart</h2>
-										<p class="panel-subtitle">Donut Chart are functionally identical to pie charts.</p>
-									</header>
-									<div class="panel-body">
-						
-										<!-- Morris: Donut -->
-										<div class="chart chart-md" id="morrisDonut"></div>
-										<script type="text/javascript">
-						
-											var morrisDonutData = [{
-												label: "Porto Template",
-												value: 32
-											}, {
-												label: "Tucson Template",
-												value: 18
-											}, {
-												label: "Porto Admin",
-												value: 20
-											}];
-						
-											// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-						
-										</script>
-						
+									<h2 class="panel-title">Grafica de Cobranza Caja Dos</h2>
+									<p class="panel-subtitle">Reporte Grafico de Cobranzas por Dia Realizados en Caja Dos</p>
+								</header>
+								<div class="panel-body">
+									<!-- Morris: Area -->
+									<div class="chart chart-md" id="morrisAreaGraficaCobranzaCajaDos"></div>
+								</div>
+							</section>
+						</div>
+						<div class="col-md-4">
+							<section class="panel">
+								<header class="panel-heading">
+									<div class="panel-actions">
+										<a href="#" class="fa fa-caret-down"></a>
+										<a href="#" class="fa fa-times"></a>
 									</div>
-								</section>
-							</div>
-							
-							<div class="col-md-12">
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-											<a href="#" class="fa fa-caret-down"></a>
-											<a href="#" class="fa fa-times"></a>
-										</div>
-						
-										<h2 class="panel-title">Bar Chart</h2>
-										<p class="panel-subtitle">A bar chart is a way of summarizing a set of categorical data.</p>
-									</header>
-									<div class="panel-body">
-						
-										<!-- Morris: Bar -->
-										<div class="chart chart-md" id="morrisBar"></div>
-										<script type="text/javascript">
-						
-											var morrisBarData = [{
-												y: '2004',
-												a: 10,
-												b: 30
-											}, {
-												y: '2005',
-												a: 100,
-												b: 25
-											}, {
-												y: '2006',
-												a: 60,
-												b: 25
-											}, {
-												y: '2007',
-												a: 75,
-												b: 35
-											}, {
-												y: '2008',
-												a: 90,
-												b: 20
-											}, {
-												y: '2009',
-												a: 75,
-												b: 15
-											}, {
-												y: '2010',
-												a: 50,
-												b: 10
-											}, {
-												y: '2011',
-												a: 75,
-												b: 25
-											}, {
-												y: '2012',
-												a: 30,
-												b: 10
-											}, {
-												y: '2013',
-												a: 75,
-												b: 5
-											}, {
-												y: '2014',
-												a: 60,
-												b: 8
-											}];
-						
-											// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-						
-										</script>
-						
-									</div>
-								</section>
-							</div>
-							
-							<div class="col-md-6">
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-											<a href="#" class="fa fa-caret-down"></a>
-											<a href="#" class="fa fa-times"></a>
-										</div>
-						
-										<h2 class="panel-title">Stacked Chart</h2>
-										<p class="panel-subtitle">Stacked Bar Chart.</p>
-									</header>
-									<div class="panel-body">
-						
-										<!-- Morris: Area -->
-										<div class="chart chart-md" id="morrisStacked"></div>
-										<script type="text/javascript">
-						
-											var morrisStackedData = [{
-												y: '2004',
-												a: 10,
-												b: 30
-											}, {
-												y: '2005',
-												a: 100,
-												b: 25
-											}, {
-												y: '2006',
-												a: 60,
-												b: 25
-											}, {
-												y: '2007',
-												a: 75,
-												b: 35
-											}, {
-												y: '2008',
-												a: 90,
-												b: 20
-											}, {
-												y: '2009',
-												a: 75,
-												b: 15
-											}, {
-												y: '2010',
-												a: 50,
-												b: 10
-											}, {
-												y: '2011',
-												a: 75,
-												b: 25
-											}, {
-												y: '2012',
-												a: 30,
-												b: 10
-											}, {
-												y: '2013',
-												a: 75,
-												b: 5
-											}, {
-												y: '2014',
-												a: 60,
-												b: 8
-											}];
-						
-											// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-						
-										</script>
-						
-									</div>
-								</section>
-							</div>
-							
-							<div class="col-md-6">
-								<section class="panel">
-									<header class="panel-heading">
-										<div class="panel-actions">
-											<a href="#" class="fa fa-caret-down"></a>
-											<a href="#" class="fa fa-times"></a>
-										</div>
-						
-										<h2 class="panel-title">Area Chart</h2>
-										<p class="panel-subtitle">An area chart or area graph displays graphically quantitive data.</p>
-									</header>
-									<div class="panel-body">
-						
-										<!-- Morris: Area -->
-										<div class="chart chart-md" id="morrisArea"></div>
-										<script type="text/javascript">
-						
-											var morrisAreaData = [{
-												y: '2004',
-												a: 10,
-												b: 30
-											}, {
-												y: '2005',
-												a: 100,
-												b: 25
-											}, {
-												y: '2006',
-												a: 60,
-												b: 25
-											}, {
-												y: '2007',
-												a: 75,
-												b: 35
-											}, {
-												y: '2008',
-												a: 90,
-												b: 20
-											}, {
-												y: '2009',
-												a: 75,
-												b: 15
-											}, {
-												y: '2010',
-												a: 50,
-												b: 10
-											}, {
-												y: '2011',
-												a: 75,
-												b: 25
-											}, {
-												y: '2012',
-												a: 30,
-												b: 10
-											}, {
-												y: '2013',
-												a: 75,
-												b: 5
-											}, {
-												y: '2014',
-												a: 60,
-												b: 8
-											}];
-						
-											// See: assets/javascripts/ui-elements/examples.charts.js for more settings.
-						
-										</script>
-						
-									</div>
-								</section>
-							</div>
-							
-							<div class="col-md-12">
-										<section class="panel">
-											<header class="panel-heading">
-												<div class="panel-actions">
-													<a href="#" class="fa fa-caret-down"></a>
-													<a href="#" class="fa fa-times"></a>
-												</div>
-						
-												<h2 class="panel-title">Easy Pie Chart</h2>
-												<p class="panel-subtitle">Lightweight jQuery plugin to render and animate nice pie charts with the HTML5 canvas element.</p>
-											</header>
-											<div class="panel-body">
-												<div class="row text-center">
-													<div class="col-md-6">
-														<div class="circular-bar">
-															<div class="circular-bar-chart" data-percent="85" data-plugin-options='{ "barColor": "#0088CC", "delay": 300 }'>
-																<strong>Design</strong>
-																<label><span class="percent">85</span>%</label>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="circular-bar">
-															<div class="circular-bar-chart" data-percent="60" data-plugin-options='{ "barColor": "#2BAAB1", "delay": 600 }'>
-																<strong>HTML</strong>
-																<label><span class="percent">60</span>%</label>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</section>
-									</div>
-									<div class="col-md-12">
-										<section class="panel">
-											<header class="panel-heading">
-												<div class="panel-actions">
-													<a href="#" class="fa fa-caret-down"></a>
-													<a href="#" class="fa fa-times"></a>
-												</div>
-						
-												<h2 class="panel-title">Gauge</h2>
-												<p class="panel-subtitle">100% native and cool looking animated JavaScript/CoffeScript gauge.</p>
-											</header>
-											<div class="panel-body">
-												<div class="row text-center">
-													<div class="col-md-6">
-														<div class="gauge-chart">
-															<canvas id="gaugeBasic" width="180" height="110" data-plugin-options='{ "value": 2150, "maxValue": 3000 }'></canvas>
-															<strong>Design</strong>
-															<label id="gaugeBasicTextfield"></label>
-														</div>
-													</div>
-													<div class="col-md-6">
-														<div class="gauge-chart">
-															<canvas id="gaugeAlternative" width="180" height="110" data-plugin-options='{ "value": 1350, "maxValue": 3000 }'></canvas>
-															<strong>HTML</strong>
-															<label id="gaugeAlternativeTextfield"></label>
-														</div>
-													</div>
-												</div>
-											</div>
-										</section>
-									</div>
-									
-									<div class="col-md-12">
-										<section class="panel">
-											<header class="panel-heading">
-												<div class="panel-actions">
-													<a href="#" class="fa fa-caret-down"></a>
-													<a href="#" class="fa fa-times"></a>
-												</div>
-						
-												<h2 class="panel-title">Liquid Meter</h2>
-												<p class="panel-subtitle">Exclusive Plug-in by Okler Themes</p>
-											</header>
-											<div class="panel-body">
-												<div class="row">
-													<div class="col-md-6">
-														<meter min="0" max="100" value="35" id="meter"></meter>
-													</div>
-													<div class="col-md-6">
-														<meter min="0" max="100" value="85" id="meterDark"></meter>
-													</div>
-												</div>
-											</div>
-										</section>
-									</div>
-									
-									<div class="col-md-12">
-										<section class="panel">
-											<header class="panel-heading">
-												<div class="panel-actions">
-													<a href="#" class="fa fa-caret-down"></a>
-													<a href="#" class="fa fa-times"></a>
-												</div>
-						
-												<h2 class="panel-title">Sparklines</h2>
-												<p class="panel-subtitle">This jQuery plugin generates sparklines (small inline charts).</p>
-											</header>
-											<div class="panel-body">
-												<div class="row">
-													<div class="col-xs-6 col-lg-4">
-														<div class="small-chart-wrapper">
-															<div class="small-chart" id="sparklineLine"></div>
-															<div class="small-chart-info">
-																<label>Average</label>
-																<strong>1567.89</strong>
-															</div>
-															<script type="text/javascript">
-																var sparklineLineData = [15, 16, 17, 19, 10, 15, 13, 12, 12, 14, 16, 17];
-															</script>
-														</div>
-													</div>
-						
-													<div class="col-xs-6 col-lg-4">
-														<div class="small-chart-wrapper">
-															<div class="small-chart" id="sparklineBar"></div>
-															<div class="small-chart-info">
-																<label>Average</label>
-																<strong>5000</strong>
-															</div>
-															<script type="text/javascript">
-																var sparklineBarData = [5, 6, 7, 2, 0, 4 , 2, 4, 2, 0, 4 , 2, 4, 2, 0, 4];
-															</script>
-														</div>
-													</div>
-						
-													<div class="col-xs-6 col-lg-4">
-														<div class="small-chart-wrapper">
-															<div class="small-chart" id="sparklineTristate"></div>
-															<div class="small-chart-info">
-																<label>Average</label>
-																<strong>1567.89</strong>
-															</div>
-															<script type="text/javascript">
-																var sparklineTristateData = [1, 1, 0, 1, -1, -1, 1, -1, 0, 0, 1, 1];
-															</script>
-														</div>
-													</div>
-						
-													<div class="col-xs-6 col-lg-4">
-														<div class="small-chart-wrapper">
-															<div class="small-chart" id="sparklineDiscrete"></div>
-															<div class="small-chart-info">
-																<label>Average</label>
-																<strong>1567.89</strong>
-															</div>
-															<script type="text/javascript">
-																var sparklineDiscreteData = [5, 6, 7, 9, 10, 5, 3, 2, 2, 4, 6, 7];
-															</script>
-														</div>
-													</div>
-						
-													<div class="col-xs-6 col-lg-4">
-														<div class="small-chart-wrapper">
-															<div class="small-chart" id="sparklineBullet"></div>
-															<div class="small-chart-info">
-																<label>Average</label>
-																<strong>1567.89</strong>
-															</div>
-															<script type="text/javascript">
-																var sparklineBulletData = [10, 12, 12, 9, 7];
-															</script>
-														</div>
-													</div>
-						
-													<div class="col-xs-6 col-lg-4">
-														<div class="small-chart-wrapper">
-															<div class="small-chart text-center" id="sparklinePie"></div>
-															<div class="small-chart-info">
-																<label>Average</label>
-																<strong>1567.89</strong>
-															</div>
-															<script type="text/javascript">
-																var sparklinePieData = [1, 1, 2];
-															</script>
-														</div>
-													</div>
-												</div>
-											</div>
-										</section>
-									</div>
-						
-						
+									<h2 class="panel-title">Grafica de Cobranza Caja Tres</h2>
+									<p class="panel-subtitle">Reporte Grafico de Cobranzas por Dia Realizados en Caja Tres</p>
+								</header>
+								<div class="panel-body">
+									<!-- Morris: Area -->
+									<div class="chart chart-md" id="morrisAreaGraficaCobranzaCajaTres"></div>
+								</div>
+							</section>
+						</div>															
 					</div>
 					<!-- end: page -->
 					<input style="display:none" id="canje" name="canje" value="0"></input>

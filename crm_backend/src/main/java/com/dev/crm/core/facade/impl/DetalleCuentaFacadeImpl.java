@@ -25,6 +25,7 @@ import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
+import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 import com.dev.crm.core.service.DetalleCuentaService;
@@ -291,6 +292,27 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 			}
 			else {
 				return estadosCuentas;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<VentasPorDiaResultViewModel> cantidadVentasPorDia() {
+		
+		List<VentasPorDiaResultViewModel> ventasPorDia = new ArrayList<VentasPorDiaResultViewModel>();
+		
+		try {
+			
+			ventasPorDia = detalleCuentaService.cantidadVentasPorDia();
+			if(GenericUtil.isCollectionEmpty(ventasPorDia)) {
+				return null;
+			}
+			else {
+				return ventasPorDia;
 			}
 		}
 		catch(Exception e) {

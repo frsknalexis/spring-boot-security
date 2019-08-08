@@ -17,6 +17,7 @@ import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
+import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 
 public interface DetalleCuentaService {
@@ -46,6 +47,8 @@ public interface DetalleCuentaService {
 	List<EstadoCuentasResultViewModel> listarEstadoCuentas();
 	
 	List<EstadosCuentaResultViewModel> listarEstadosCuentas();
+	
+	List<VentasPorDiaResultViewModel> cantidadVentasPorDia();
 	
 	List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request);
 	

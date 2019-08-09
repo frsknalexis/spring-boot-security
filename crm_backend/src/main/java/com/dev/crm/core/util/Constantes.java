@@ -131,6 +131,10 @@ public class Constantes {
 	public static final String SP_LISTA_PAGOS_POR_MES_CAJA3 = "sp_lista_pago_x_mes_c3";
 	public static final String SP_CONTADOR_GANANCIA_POR_MES_CAJA = "sp_contador_ganancia_mes";
 	public static final String SP_CONTADOR_CANTIDAD_VENTAS_POR_DIA = "sp_contador_ventas";
+	public static final String SP_CONTADOR_VENTAS_POR_VENDEDOR = "sp_contador_ventasx_vendedor";
+	public static final String SP_CONTADOR_INSTALACIONES_REALIZADAS = "sp_contador_instalacion";
+	public static final String SP_LISTAR_REPORTE_ACTIVACIONES = "sp_listar_reporte_ac_ins";
+	public static final String SP_LISTAR_CUENTAS_INSTALADAS_RANGO_FECHA = "sp_listar_cuentas_rango_solicitado_instalado";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

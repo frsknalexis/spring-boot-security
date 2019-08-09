@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.ActivacionRequest;
+import com.dev.crm.core.dto.ActivacionesResultViewModel;
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
 import com.dev.crm.core.dto.InstalacionesPorTecnicoResultViewModel;
+import com.dev.crm.core.dto.InstalacionesResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.facade.InstalacionFacade;
 import com.dev.crm.core.service.InstalacionService;
@@ -81,6 +83,48 @@ public class InstalacionFacadeImpl implements InstalacionFacade {
 			}
 			else {
 				return instalacionesPorTecnico;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<InstalacionesResultViewModel> contadorInstalacionesRealizadas() {
+		
+		List<InstalacionesResultViewModel> instalacionesRealizadas = new ArrayList<InstalacionesResultViewModel>();
+		
+		try {
+			
+			instalacionesRealizadas = instalacionService.contadorInstalacionesRealizadas();
+			if(GenericUtil.isCollectionEmpty(instalacionesRealizadas)) {
+				return null;
+			}
+			else {
+				return instalacionesRealizadas;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<ActivacionesResultViewModel> listarActivacionesInstalacion() {
+		
+		List<ActivacionesResultViewModel> activacionesInstalacion = new ArrayList<ActivacionesResultViewModel>();
+		
+		try {
+			
+			activacionesInstalacion = instalacionService.listarActivacionesInstalacion();
+			if(GenericUtil.isCollectionEmpty(activacionesInstalacion)) {
+				return null;
+			}
+			else {
+				return activacionesInstalacion;
 			}
 		}
 		catch(Exception e) {

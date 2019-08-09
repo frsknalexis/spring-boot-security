@@ -11,6 +11,8 @@ $(document).on('ready', function() {
 	
 	mostrarFormReporteCuentasPorEstado();
 	
+	mostrarFormReporteCuentasInstaladasPorFecha();
+	
 	regresarListadoCuentas();
 });
 
@@ -56,6 +58,111 @@ function listarTablaEstadoCuentasInternet() {
 			{"data": "estado"}
 		]
 	}).DataTable();
+}
+
+function mostrarFormReporteCuentasInstaladasPorFecha() {
+	
+	$('#btnReporteCuentasInstaladasPorFecha').on('click', function() {
+		
+		$('#modalCuentasInstaladasPorFecha').modal('show');
+	});
+	
+	validarFormReporteCuentasInstaladasPorFecha();
+	cancelarAccionBuscarCuentasInstaladasPorFecha();
+}
+
+function cancelarAccionBuscarCuentasInstaladasPorFecha() {
+	
+	$('#cancelarAccionBusquedaCuentasInstaladasPorFecha').on('click', function() {
+		$('#fechaInicio').val('');  
+		$('#fechaFin').val('');
+	});
+}
+
+function validarFormReporteCuentasInstaladasPorFecha() {
+	
+	$('#buscarCuentasInstaladasPorFecha').on('click', function(e) {
+		
+		e.preventDefault();
+		
+		if($('#fechaInicio').val() != "" && $('#fechaFin').val() != "") {
+			
+			var formDataCuentasInstaladasPorFecha = {
+					fechaInicial: $('#fechaInicio').val(),
+					fechaFinal: $('#fechaFin').val()
+			}
+			console.log(formDataCuentasInstaladasPorFecha);
+			
+			$.ajax({
+				
+				type: 'POST',
+				url: '/api/v1/detalleCuenta/cuentasInstaladas',
+				headers: {
+					"Content-Type": "application/json",
+					"Accept": "application/json"
+				},
+				data: JSON.stringify(formDataCuentasInstaladasPorFecha),
+				dataType: 'json',
+				success: function(response) {
+					
+					if(response == null) {
+						swal({
+			                type: 'warning',
+			                title: 'Ooops',
+			                text: 'No se Encontraron Resultados de Busqueda !'
+			            });
+					}
+					else if(response != null) {
+						printJS({
+							printable: response,
+							showModal: true,
+							documentTitle: 'Reporte de Cuentas Instaladas Por Rango Fecha',
+							properties: [
+								{ field: 'numeracion', displayName: '#'},
+								{ field: 'codigoCuenta', displayName: 'Nº Cuenta'},
+								{ field: 'cliente', displayName: 'Cliente'},
+								{ field: 'documentoCliente', displayName: 'Nº Documento'},
+								{ field: 'observacion', displayName: 'Observacion'}
+							], 
+							type: 'json'})
+					}
+				},
+				error: function() {
+					swal({
+		                type: 'error',
+		                title: 'Ooops',
+		                text: 'Ocurrio un Error !'
+		            });
+				}
+			});
+		}
+		
+		if($('#fechaInicio').val() == "" && $('#fechaFin').val() == "") {
+			
+			swal({
+                type: 'error',
+                title: 'Ooops',
+                text: 'Debe ingresar un valor valido para estos campos !'
+            });
+		}
+		
+		else if($('#fechaInicio').val() == "") {
+			
+			swal({
+                type: 'error',
+                title: 'Ooops',
+                text: 'Debe ingresar un valor valido para la Fecha Inicial !'
+            });
+		}
+		else if($('#fechaFin').val() == "") {
+			
+			swal({
+                type: 'error',
+                title: 'Ooops',
+                text: 'Debe ingresar un valor valido para la Fecha Final !'
+            });
+		}
+	});
 }
 
 function mostrarFormReporteCuentasPorEstado() {

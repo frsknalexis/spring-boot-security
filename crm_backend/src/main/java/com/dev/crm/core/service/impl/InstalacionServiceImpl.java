@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dto.ActivacionRequest;
+import com.dev.crm.core.dto.ActivacionesResultViewModel;
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
 import com.dev.crm.core.dto.InstalacionesPorTecnicoResultViewModel;
+import com.dev.crm.core.dto.InstalacionesResultViewModel;
 import com.dev.crm.core.repository.jdbc.ActivacionRequestJdbcRepository;
+import com.dev.crm.core.repository.jdbc.ActivacionesJdbcRepository;
 import com.dev.crm.core.repository.jdbc.InformeInstalacionDiaInternetJdbcRepository;
 import com.dev.crm.core.repository.jdbc.InstalacionDiaInternetJdbcRepository;
+import com.dev.crm.core.repository.jdbc.InstalacionesJdbcRepository;
 import com.dev.crm.core.repository.jdbc.InstalacionesPorTecnicoJdbcRepository;
 import com.dev.crm.core.service.InstalacionService;
 import com.dev.crm.core.util.GenericUtil;
@@ -39,6 +43,14 @@ public class InstalacionServiceImpl implements InstalacionService {
 	@Autowired
 	@Qualifier("ActivacionRequestJdbcRepository")
 	private ActivacionRequestJdbcRepository activacionRequestJdbcRepository;
+	
+	@Autowired
+	@Qualifier("instalacionesJdbcRepository")
+	private InstalacionesJdbcRepository instalacionesJdbcRepository;
+	
+	@Autowired
+	@Qualifier("activacionesJdbcRepository")
+	private ActivacionesJdbcRepository activacionesJdbcRepository;
 	
 	@Override
 	public List<InstalacionDiaInternetResultViewModel> spListarInstalacionDiaInternet(String usuario) {
@@ -83,6 +95,27 @@ public class InstalacionServiceImpl implements InstalacionService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<InstalacionesResultViewModel> contadorInstalacionesRealizadas() {
+		
+		List<InstalacionesResultViewModel> instalacionesRealizadas = new ArrayList<InstalacionesResultViewModel>();
+		
+		try {
+			
+			instalacionesRealizadas = instalacionesJdbcRepository.contadorInstalacionesRealizadas();
+			if(GenericUtil.isCollectionEmpty(instalacionesRealizadas)) {
+				return null;
+			}
+			else {
+				return instalacionesRealizadas;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public List<InstalacionesPorTecnicoResultViewModel> instalacionesPorTecnico() {
@@ -97,6 +130,27 @@ public class InstalacionServiceImpl implements InstalacionService {
 			}
 			else {
 				return instalacionesPorTecnico;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<ActivacionesResultViewModel> listarActivacionesInstalacion() {
+		
+		List<ActivacionesResultViewModel> activacionesInstalacion = new ArrayList<ActivacionesResultViewModel>();
+		
+		try {
+			
+			activacionesInstalacion = activacionesJdbcRepository.listarActivacionesInstalacion();
+			if(GenericUtil.isCollectionEmpty(activacionesInstalacion)) {
+				return null;
+			}
+			else {
+				return activacionesInstalacion;
 			}
 		}
 		catch(Exception e) {

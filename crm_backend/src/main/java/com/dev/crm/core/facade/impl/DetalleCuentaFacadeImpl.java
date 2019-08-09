@@ -13,6 +13,8 @@ import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
 import com.dev.crm.core.dto.CuentaPorVendedorRequest;
 import com.dev.crm.core.dto.CuentaPorVendedorResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
+import com.dev.crm.core.dto.CuentasInstaladasRequest;
+import com.dev.crm.core.dto.CuentasInstaladasResultViewModel;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
 import com.dev.crm.core.dto.CuentasRangoResultViewModel;
@@ -26,6 +28,7 @@ import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
+import com.dev.crm.core.dto.VentasPorVendedorResultViewModel;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 import com.dev.crm.core.service.DetalleCuentaService;
@@ -320,6 +323,27 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<VentasPorVendedorResultViewModel> cantidadVentasPorVendedor() {
+		
+		List<VentasPorVendedorResultViewModel> ventasPorVendedor = new ArrayList<VentasPorVendedorResultViewModel>();
+		
+		try {
+			
+			ventasPorVendedor = detalleCuentaService.cantidadVentasPorVendedor();
+			if(GenericUtil.isCollectionEmpty(ventasPorVendedor)) {
+				return null;
+			}
+			else {
+				return ventasPorVendedor;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request) {
@@ -404,6 +428,29 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 				}
 				else {
 					return cuentasPorRango;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<CuentasInstaladasResultViewModel> listarCuentasInstaladasPorFecha(CuentasInstaladasRequest request) {
+		
+		List<CuentasInstaladasResultViewModel> cuentasInstaladas = new ArrayList<CuentasInstaladasResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasInstaladas = detalleCuentaService.listarCuentasInstaladasPorFecha(request);
+				if(GenericUtil.isCollectionEmpty(cuentasInstaladas)) {
+					return null;
+				}
+				else {
+					return cuentasInstaladas;
 				}
 			}
 		}

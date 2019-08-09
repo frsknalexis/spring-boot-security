@@ -7,6 +7,8 @@ import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
 import com.dev.crm.core.dto.CuentaPorVendedorRequest;
 import com.dev.crm.core.dto.CuentaPorVendedorResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
+import com.dev.crm.core.dto.CuentasInstaladasRequest;
+import com.dev.crm.core.dto.CuentasInstaladasResultViewModel;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
 import com.dev.crm.core.dto.CuentasRangoResultViewModel;
@@ -18,6 +20,7 @@ import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
+import com.dev.crm.core.dto.VentasPorVendedorResultViewModel;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 
 public interface DetalleCuentaService {
@@ -50,9 +53,13 @@ public interface DetalleCuentaService {
 	
 	List<VentasPorDiaResultViewModel> cantidadVentasPorDia();
 	
+	List<VentasPorVendedorResultViewModel> cantidadVentasPorVendedor();
+	
 	List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request);
 	
 	List<CuentasRangoResultViewModel> listarCuentasPorRango(CuentasRangoRequest request);
+	
+	List<CuentasInstaladasResultViewModel> listarCuentasInstaladasPorFecha(CuentasInstaladasRequest request);
 	
 	List<CuentaPorEstadoResultViewModel> listarCuentasPorEstado(CuentaPorEstadoRequest request);
 	

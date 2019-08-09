@@ -8,6 +8,8 @@ $(document).on('ready', function() {
 	
 	registraractivacion();
 	
+	generarReporteActivacionesInstalacion();
+	
 	window.setInterval(
 		    function(){
 		    // Sección de código para modificar el DIV
@@ -127,7 +129,7 @@ $(document).on('ready', function() {
 			url: '/api/v1/onu/recuperdardatos/' + id,
 			dataType: 'json',
 			success: function(response) {
-				
+				console.log(response);
 				$('#numerodeserie').val(response.snDescripcion);
 				$('#numerodeserie').attr('disabled', true);
 				$('#maconu').val(response.macDescripcion);
@@ -212,6 +214,17 @@ $(document).on('ready', function() {
 			recuperardatosonusxserv(codigogenerado);
 			$('#modalFormActivacion').modal('show');
 			console.log('codigogenerado: ' + codigogenerado);
+		});
+	}
+	
+	function generarReporteActivacionesInstalacion() {
+		
+		$('#btnReporteActivaciones').on('click', function() {
+			$(this).attr('href', '/api/v1/instalacion/reporteActivaciones');
+			var url = $(this).attr('href');
+			window.open(url, '_blank');
+		    return false;
+			console.log(url);
 		});
 	}
 	

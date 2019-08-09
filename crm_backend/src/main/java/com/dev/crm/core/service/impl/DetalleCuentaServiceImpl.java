@@ -14,6 +14,8 @@ import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
 import com.dev.crm.core.dto.CuentaPorVendedorRequest;
 import com.dev.crm.core.dto.CuentaPorVendedorResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
+import com.dev.crm.core.dto.CuentasInstaladasRequest;
+import com.dev.crm.core.dto.CuentasInstaladasResultViewModel;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
 import com.dev.crm.core.dto.CuentasRangoResultViewModel;
@@ -25,12 +27,14 @@ import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
+import com.dev.crm.core.dto.VentasPorVendedorResultViewModel;
 import com.dev.crm.core.model.entity.DetalleCuenta;
 import com.dev.crm.core.repository.jdbc.AnularDetalleCuentaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorEstadoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorRangoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentaPorVendedorJdbcRepository;
+import com.dev.crm.core.repository.jdbc.CuentasInstaladasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.CuentasPorInstalarJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosInternetServicioJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosMaterialesJdbcRepository;
@@ -39,6 +43,7 @@ import com.dev.crm.core.repository.jdbc.EstadoCuentasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.EstadosCuentaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ObservacionCuentaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.VentasPorDiaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.VentasPorVendedorJdbcRepository;
 import com.dev.crm.core.service.DetalleCuentaService;
 import com.dev.crm.core.util.GenericUtil;
 import com.dev.crm.core.util.StringUtil;
@@ -102,6 +107,14 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 	@Autowired
 	@Qualifier("ventasPorDiaJdbcRepository")
 	private VentasPorDiaJdbcRepository ventasPorDiaJdbcRepository;
+	
+	@Autowired
+	@Qualifier("ventasPorVendedorJdbcRepository")
+	private VentasPorVendedorJdbcRepository ventasPorVendedorJdbcRepository;
+	
+	@Autowired
+	@Qualifier("cuentasInstaladasJdbcRepository")
+	private CuentasInstaladasJdbcRepository cuentasInstaladasJdbcRepository;
 	
 	@Override
 	public String spInsercionCuentaInternet(DetalleCuentaRequest request) {
@@ -362,6 +375,27 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<VentasPorVendedorResultViewModel> cantidadVentasPorVendedor() {
+		
+		List<VentasPorVendedorResultViewModel> ventasPorVendedor = new ArrayList<VentasPorVendedorResultViewModel>();
+		
+		try {
+			
+			ventasPorVendedor = ventasPorVendedorJdbcRepository.cantidadVentasPorVendedor();
+			if(GenericUtil.isCollectionEmpty(ventasPorVendedor)) {
+				return null;
+			}
+			else {
+				return ventasPorVendedor;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public List<CuentasResultViewModel> listarCuentasPorDia(CuentaRequest request) {
@@ -432,6 +466,29 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 		return null;
 	}
 	
+	@Override
+	public List<CuentasInstaladasResultViewModel> listarCuentasInstaladasPorFecha(CuentasInstaladasRequest request) {
+		
+		List<CuentasInstaladasResultViewModel> cuentasInstaladas = new ArrayList<CuentasInstaladasResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				cuentasInstaladas = cuentasInstaladasJdbcRepository.listarCuentasInstaladasPorFecha(request);
+				if(GenericUtil.isCollectionEmpty(cuentasInstaladas)) {
+					return null;
+				}
+				else {
+					return cuentasInstaladas;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<CuentaPorVendedorResultViewModel> cuentasPorVendedor(CuentaPorVendedorRequest request) {
 		

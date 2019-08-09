@@ -32,6 +32,9 @@
 						<div class="col-md-4 col-lg-4 mb-xs">
 							<button type="button" id="btnReporteCuentasPorEstado" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Reporte de Cuentas Por Estado</button>
 						</div>
+						<div class="col-md-4 col-lg-4 mb-xs">
+							<button type="button" id="btnReporteCuentasInstaladasPorFecha" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Reporte de Cuentas Instaladas por Fecha</button>
+						</div>
 						<div class="col-md-12 col-lg-12">
 							<section class="panel panel-featured panel-featured-primary panel-primary">
 								<header class="panel-heading">
@@ -52,6 +55,44 @@
 									</table>
 								</div>
 							</section>
+						</div>
+					</div>
+					<div class="modal fade" tabindex="-1" id="modalCuentasInstaladasPorFecha" role="dialog" aria-labelledby="myModalLabelCuentasInstaladasPorFecha" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form role="form" method="post" id="formCuentasPorRango">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelCuentasInstaladasPorFecha">Busqueda de Cuentas Instaladas Por Rango de Fecha</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-6 form-group">
+												<label for="fechaInicio">Fecha Inicio</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</span>
+													<input type="date" class="form-control input-sm" id="fechaInicio">
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<label for="fechaFin">Fecha Final</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</span>
+													<input type="date" class="form-control input-sm" id="fechaFin">
+												</div>
+											</div>												
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" id="cancelarAccionBusquedaCuentasInstaladasPorFecha" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="buscarCuentasInstaladasPorFecha" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
 					<div class="modal fade" tabindex="-1" id="modalCuentasPorEstado" role="dialog" aria-labelledby="myModalLabelCuentasPorEstado" aria-hidden="true">

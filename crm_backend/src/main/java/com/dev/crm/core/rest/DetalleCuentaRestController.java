@@ -24,6 +24,8 @@ import com.dev.crm.core.dto.CuentaPorEstadoResultViewModel;
 import com.dev.crm.core.dto.CuentaPorVendedorRequest;
 import com.dev.crm.core.dto.CuentaPorVendedorResultViewModel;
 import com.dev.crm.core.dto.CuentaRequest;
+import com.dev.crm.core.dto.CuentasInstaladasRequest;
+import com.dev.crm.core.dto.CuentasInstaladasResultViewModel;
 import com.dev.crm.core.dto.CuentasPorInstalarResultViewModel;
 import com.dev.crm.core.dto.CuentasRangoRequest;
 import com.dev.crm.core.dto.CuentasRangoResultViewModel;
@@ -36,6 +38,7 @@ import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
 import com.dev.crm.core.dto.ObservacionResultViewModel;
 import com.dev.crm.core.dto.ResponseBaseOperation;
 import com.dev.crm.core.dto.VentasPorDiaResultViewModel;
+import com.dev.crm.core.dto.VentasPorVendedorResultViewModel;
 import com.dev.crm.core.enums.ExportReportType;
 import com.dev.crm.core.facade.DetalleCuentaFacade;
 import com.dev.crm.core.report.ReportService;
@@ -343,6 +346,22 @@ public class DetalleCuentaRestController {
 		}
 	}
 	
+	@GetMapping("/ventasPorVendedor")
+	public ResponseEntity<List<VentasPorVendedorResultViewModel>> cantidadVentasPorVendedor() {
+		
+		try {
+			
+			List<VentasPorVendedorResultViewModel> ventasPorVendedor = detalleCuentaFacade.cantidadVentasPorVendedor();
+			if(GenericUtil.isCollectionEmpty(ventasPorVendedor)) {
+				return new ResponseEntity<List<VentasPorVendedorResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<VentasPorVendedorResultViewModel>>(ventasPorVendedor, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<VentasPorVendedorResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@PostMapping("/cuentasPorVendedor")
 	public ResponseEntity<List<CuentaPorVendedorResultViewModel>> cuentasPorVendedor(@Valid @RequestBody CuentaPorVendedorRequest request) {
 		
@@ -358,6 +377,25 @@ public class DetalleCuentaRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<CuentaPorVendedorResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@PostMapping("/cuentasInstaladas")
+	public ResponseEntity<List<CuentasInstaladasResultViewModel>> listarCuentasInstaladasPorFecha(@Valid @RequestBody CuentasInstaladasRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<CuentasInstaladasResultViewModel> cuentasInstaladas = detalleCuentaFacade.listarCuentasInstaladasPorFecha(request);
+				if(GenericUtil.isCollectionEmpty(cuentasInstaladas)) {
+					return new ResponseEntity<List<CuentasInstaladasResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				return new ResponseEntity<List<CuentasInstaladasResultViewModel>>(cuentasInstaladas, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<CuentasInstaladasResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 		return null;
 	}

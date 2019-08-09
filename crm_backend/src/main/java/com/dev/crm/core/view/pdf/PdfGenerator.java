@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import com.dev.crm.core.dto.ActivacionesResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
 import com.dev.crm.core.dto.LiquidacionMaterialResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
@@ -608,6 +609,120 @@ public class PdfGenerator {
 				table.addCell(cell);
 				
 				cell = new PdfPCell(new Phrase(pdfCliente.getEstadoCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+			}
+			
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			document.add(table);
+			
+			document.close();
+		}
+		catch(DocumentException e) {
+			e.printStackTrace();
+		}
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+	
+	public static ByteArrayInputStream activacionesInstalacionReportToPDF(List<ActivacionesResultViewModel> activacionesInstalacion) {
+		
+		Document document = new Document(PageSize.A4);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			
+			PdfPTable table = new PdfPTable(8);
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {1, 1.2f, 1, 1.3f, 1, 1, 1.1f, 1.4f});
+			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+			font.setColor(BaseColor.WHITE);
+			
+			PdfPCell hcell;
+			hcell = new PdfPCell(new Phrase("#", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CLIENTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DNI-RUC", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DIRECCION", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("FECHA INICIO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("INTERNET", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("UBICACION", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("OBSERVACION", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			for(ActivacionesResultViewModel activacion : activacionesInstalacion) {
+				
+				PdfPCell cell;
+				
+				Font f = FontFactory.getFont(FontFactory.HELVETICA, 10);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.integerToString(activacion.getNumeracion()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(activacion.getCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(activacion.getDocumentoPersonaCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(activacion.getDireccionCliente(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(DateUtil.getDateFromStringReport(activacion.getFechaInicioServicio(), "yyyy-MM-dd"), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(activacion.getInternet(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(activacion.getUbicacion(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(activacion.getObservacion(), f));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(cell);

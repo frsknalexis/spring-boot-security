@@ -135,6 +135,8 @@ public class Constantes {
 	public static final String SP_CONTADOR_INSTALACIONES_REALIZADAS = "sp_contador_instalacion";
 	public static final String SP_LISTAR_REPORTE_ACTIVACIONES = "sp_listar_reporte_ac_ins";
 	public static final String SP_LISTAR_CUENTAS_INSTALADAS_RANGO_FECHA = "sp_listar_cuentas_rango_solicitado_instalado";
+	public static final String SP_RECUPERAR_DEUDAS_POR_GESTOR = "recuperar_dias_deudas_gestor";
+	public static final String RECUPERAR_CODIGO_CONSECUTIVO_CLIENTE = "recuperar_codigo_consecutivo";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;
@@ -150,6 +152,7 @@ public class Constantes {
 	public static final String MESSAGE_ERROR = "Ocurrio un Error";
 	public static final String MESSAGE_SUCCESS_DISABLED = "Se Deshabilito Correctamente este Registro";
 	public static final String MESSAGE_SUCCESS_ENABLED = "Se Habilito Correctamente este Registro";
+	public static final String MESSAGE_GENERATED = "GENERADO";
 	public static final String MESSAGE_TOTAL_REGISTROS = "Total Registros";
 	public static final String MESSAGE_TOTAL_REGISTROS_CON = "";
 	public static final String ESTADO = "SERVICIO OPERANDO";

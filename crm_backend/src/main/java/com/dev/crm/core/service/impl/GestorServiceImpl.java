@@ -11,11 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
 import com.dev.crm.core.dto.DeudasGestoresResultViewModel;
+import com.dev.crm.core.dto.DeudasPorGestorRequest;
+import com.dev.crm.core.dto.DeudasPorGestorResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.GestoresResultViewModel;
 import com.dev.crm.core.repository.jdbc.AsignarClienteGestorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClienteGestorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DeudasGestoresJdbcRepository;
+import com.dev.crm.core.repository.jdbc.DeudasPorGestorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.GestoresJdbcRepository;
 import com.dev.crm.core.service.GestorService;
 import com.dev.crm.core.util.GenericUtil;
@@ -40,6 +43,10 @@ public class GestorServiceImpl implements GestorService {
 	@Autowired
 	@Qualifier("deudasGestoresJdbcRepository")
 	private DeudasGestoresJdbcRepository deudasGestoresJdbcRepository;
+	
+	@Autowired
+	@Qualifier("deudasPorGestorJdbcRepository")
+	private DeudasPorGestorJdbcRepository deudasPorGestorJdbcRepository;
 	
 	@Override
 	public List<ClienteGestorResultViewModel> listarClienteGestor() {
@@ -74,6 +81,29 @@ public class GestorServiceImpl implements GestorService {
 				}
 				else {
 					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<DeudasPorGestorResultViewModel> listarDeudasPorGestor(DeudasPorGestorRequest request) {
+
+		List<DeudasPorGestorResultViewModel> deudasPorGestor = new ArrayList<DeudasPorGestorResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				deudasPorGestor = deudasPorGestorJdbcRepository.listarDeudasPorGestor(request);
+				if(GenericUtil.isCollectionEmpty(deudasPorGestor)) {
+					return null;
+				}
+				else {
+					return deudasPorGestor;
 				}
 			}
 		}

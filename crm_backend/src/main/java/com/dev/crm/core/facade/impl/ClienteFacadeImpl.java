@@ -14,6 +14,7 @@ import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
+import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
 import com.dev.crm.core.dto.DatosClienteResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
 import com.dev.crm.core.dto.PersonaClienteRequest;
@@ -364,6 +365,25 @@ public class ClienteFacadeImpl implements ClienteFacade {
 			}
 			else {
 				return null;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ResponseBaseOperation generarCodigoConsecutivoCliente(CodigoConsecutivoClienteRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				clienteService.generarCodigoConsecutivoCliente(request);
+				return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, Constantes.MESSAGE_GENERATED, request);
+			}
+			else if(GenericUtil.isNull(request)) {
+				return new ResponseBaseOperation(Constantes.ERROR_STATUS, Constantes.MESSAGE_ERROR, null);
 			}
 		}
 		catch(Exception e) {

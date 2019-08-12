@@ -28,6 +28,7 @@ import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
+import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
 import com.dev.crm.core.dto.DatosClienteResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
 import com.dev.crm.core.dto.PersonaClienteRequest;
@@ -274,6 +275,22 @@ public class ClienteRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<ClienteResultViewModel>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@PostMapping("/generarConsecutivoCliente")
+	public ResponseEntity<ResponseBaseOperation> generarCodigoConsecutivoCliente(@Valid @RequestBody CodigoConsecutivoClienteRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				ResponseBaseOperation response = clienteFacade.generarCodigoConsecutivoCliente(request);
+				return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

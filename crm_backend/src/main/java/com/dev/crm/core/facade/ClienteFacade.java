@@ -8,6 +8,7 @@ import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
+import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
 import com.dev.crm.core.dto.DatosClienteResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
 import com.dev.crm.core.dto.PersonaClienteRequest;
@@ -44,4 +45,6 @@ public interface ClienteFacade {
 	DatosClienteResultViewModel recuperarDatosCliente(String documentoPersonaCliente);
 	
 	ResponseBaseOperation spModificarDomicilio(CambioDireccionRequest request);
+	
+	ResponseBaseOperation generarCodigoConsecutivoCliente(CodigoConsecutivoClienteRequest request);
 }

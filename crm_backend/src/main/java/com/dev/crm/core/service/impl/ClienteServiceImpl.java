@@ -14,6 +14,7 @@ import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
+import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
 import com.dev.crm.core.dto.DatosClienteResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
 import com.dev.crm.core.dto.PersonaClienteRequest;
@@ -22,6 +23,7 @@ import com.dev.crm.core.repository.jdbc.CambioDomicilioJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClientePagoResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClienteVendedorJdbcRepository;
+import com.dev.crm.core.repository.jdbc.ConsecutivoClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.EditarPersonaClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PdfListaClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.RecuperarDatosClienteJdbcRepository;
@@ -65,6 +67,10 @@ public class ClienteServiceImpl implements ClienteService {
 	@Autowired
 	@Qualifier("pdfListaClienteJdbcRepository")
 	private PdfListaClienteJdbcRepository pdfListaClienteJdbcRepository;
+	
+	@Autowired
+	@Qualifier("consecutivoClienteJdbcRepository")
+	private ConsecutivoClienteJdbcRepository consecutivoClienteJdbcRepository;
 	
 	@Override
 	public List<Cliente> findAll() {
@@ -241,6 +247,20 @@ public class ClienteServiceImpl implements ClienteService {
 				cliente.setFacebookCliente(c.getFacebookCliente());
 				cliente.setSexo(c.getSexo());
 				clienteDAO.update(cliente);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void generarCodigoConsecutivoCliente(CodigoConsecutivoClienteRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				consecutivoClienteJdbcRepository.generarCodigoConsecutivoCliente(request);
 			}
 		}
 		catch(Exception e) {

@@ -533,7 +533,7 @@ $(document).on('ready', function() {
 			if($('#gestoresResponsables').val().trim() != "") {
 				
 				var formDataBuscarReporteGestor = {
-						diasDeudas: $('#gestoresResponsables').val()	
+						gestorResponsable: $('#gestoresResponsables').val()	
 				};
 				
 				console.log(formDataBuscarReporteGestor);
@@ -541,7 +541,7 @@ $(document).on('ready', function() {
 				$.ajax({
 					
 					type: 'POST',
-					url: '/api/v1/gestor/reporteDeudasGestores',
+					url: '/api/v1/gestor/deudasPorGestor',
 					headers: {
 						"Content-Type" : "application/json",
 						"Accept": "application/json"
@@ -558,21 +558,17 @@ $(document).on('ready', function() {
 				            });
 						}
 						else if(response != null) {
-							console.log(response);
 							printJS({
 								printable: response,
 								showModal: true,
-								documentTitle: 'Reporte de Clientes por Gestor',
+								documentTitle: 'Reporte de Deudas de Clientes por Gestor',
 								properties: [
-									{ field: 'numeracion', displayName: '#'},
-									{ field: 'codigoCuenta', displayName: 'Nº Cuenta'},
-									{ field: 'documentoPersonaCliente', displayName: 'Nº Documento'},
-									{ field: 'mesPago', displayName: 'Mes Deuda'},
+									{ field: 'cliente', displayName: 'Cliente'},
 									{ field: 'direccionCliente', displayName: 'Direccion Actual'},
-									{ field: 'referencia', displayName: 'Referencia'},
-									{ field: 'cliente', displayName: 'Cliente'}
+									{ field: 'mesDeuda', displayName: 'Mes Deuda'},
+									{ field: 'deuda', displayName: 'Cantidad'}
 								], 
-								type: 'json'})
+								type: 'json'});
 						}
 					},
 					error: function() {

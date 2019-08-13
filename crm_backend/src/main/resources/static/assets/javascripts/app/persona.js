@@ -8,6 +8,8 @@ $(document).on('ready', function() {
 	 
 	 validarFormDatosPersonaCliente();
 	
+	 validarDocumentoPersonaCliente();
+	
 	 guardarDatosClientePersona();
 	 
 	 mostrarFormCambiarDireccion();
@@ -219,11 +221,55 @@ $(document).on('ready', function() {
 		cancelarForm();
 	});
 	
+	/**
+	 * 
+	 * function accionValidarDocumentoPersonaCliente
+	 * 
+	 * */
+	function validarDocumentoPersonaCliente() {
+		
+		$('#validarDocumentoPersonaCLiente').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#documentoPersona').val().match(/^[0-9\.-]{7,11}$/)) {
+				
+				var formDataValidarDocumentoPersonaCliente = {
+						documentoPersonaCliente: $('#documentoPersona').val()	
+				};
+				console.log(formDataValidarDocumentoPersonaCliente);
+			}
+			
+			if($('#documentoPersona').val() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'El campo Numero Documento no puede estar vacio, ingrese un valor valido'
+	            });
+		    	
+		    	$('#documentoPersona').focus();
+		    	return false;
+			}
+			else if(!($('#documentoPersona').val().match(/^[0-9\.-]{7,11}$/))) {
+				
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'El campo Numero Documento no permite caracteres especiales ni letras'
+	            });
+				
+				$('#documentoPersona').val('');
+				$('#documentoPersona').focus();
+		    	return false;
+			}
+		});
+	}
+	
+	
 	$('#guardarPersona').on('click', function(e) {
 		e.preventDefault();
 		
 		
-		if($('#documentoPersona').val().match(/^[0-9]{7,11}$/) && $('#nombreUbigeo').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
+		if($('#documentoPersona').val().match(/^[0-9\.-]{7,11}$/) && $('#nombreUbigeo').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
 			&& $('#nombrePersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#apellidoPaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
 			&& $('#apellidoMaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#direccionActualPersona').val() != "" 
 			&& $('#referenciaPersona').val() != "" && $('#telefonoUnoPersona').val().match(/^[0-9]{7,9}$/) 
@@ -577,7 +623,7 @@ $(document).on('ready', function() {
 		    	return false;
 			}
 											
-			if(!($('#documentoPersona').val().match(/^[0-9]{7,11}$/))) {
+			if(!($('#documentoPersona').val().match(/^[0-9\.-]{7,11}$/))) {
 				
 				swal({
 	                type: 'error',

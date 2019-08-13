@@ -87,12 +87,14 @@
 															<div class="row">
 																<div class="col-md-6 form-group">
 																	<label for="documentoPersona">DNI-RUC</label>
-																	<div class="input-group mb-md">
-																		<span class="input-group-addon">
-																			<i class="fa fa-credit-card"></i>
-																		</span>
-																		<input type="text" class="form-control input-sm" id="documentoPersona" placeholder="Numero Documento">
-																	</div>
+																	<form method="post" role="form">
+																		<div class="input-group mb-sm">
+																			<input type="text" class="form-control input-sm" id="documentoPersona" placeholder="Numero Documento">
+																			<span class="input-group-btn">
+																				<button class="btn btn-default btn-sm" id="validarDocumentoPersonaCLiente" type="submit"><i class="fa fa-search"></i></button>
+																			</span>
+																		</div>
+																	</form>
 																</div>
 																<div class="col-md-6 form-group">
 																	<label for="nombreUbigeo">Ubigeo</label>

@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.ActivacionRequest;
+import com.dev.crm.core.dto.ActivacionesPorDiaRequest;
+import com.dev.crm.core.dto.ActivacionesPorDiaResultViewModel;
+import com.dev.crm.core.dto.ActivacionesPorRangoRequest;
+import com.dev.crm.core.dto.ActivacionesPorRangoResultViewModel;
 import com.dev.crm.core.dto.ActivacionesResultViewModel;
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
@@ -115,6 +119,44 @@ public class InstalacionRestController {
 		}
 	}
  	
+	@PostMapping("/activacionesPorDia")
+	public ResponseEntity<List<ActivacionesPorDiaResultViewModel>> listarActivacionesPorDia(@Valid @RequestBody ActivacionesPorDiaRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<ActivacionesPorDiaResultViewModel> activacionesPorDia = instalacionFacade.listarActivacionesPorDia(request);
+				if(GenericUtil.isCollectionEmpty(activacionesPorDia)) {
+					return new ResponseEntity<List<ActivacionesPorDiaResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				return new ResponseEntity<List<ActivacionesPorDiaResultViewModel>>(activacionesPorDia, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<ActivacionesPorDiaResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
+	@PostMapping("/activacionesPorRango")
+	public ResponseEntity<List<ActivacionesPorRangoResultViewModel>> listarActivacionesPorRango(@Valid @RequestBody ActivacionesPorRangoRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				List<ActivacionesPorRangoResultViewModel> activacionesPorRango = instalacionFacade.listarActivacionesPorRango(request);
+				if(GenericUtil.isCollectionEmpty(activacionesPorRango)) {
+					return new ResponseEntity<List<ActivacionesPorRangoResultViewModel>>(HttpStatus.NO_CONTENT);
+				}
+				return new ResponseEntity<List<ActivacionesPorRangoResultViewModel>>(activacionesPorRango, HttpStatus.OK);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<ActivacionesPorRangoResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
+	}
+	
 	@GetMapping(value = "/reporteActivaciones", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<InputStreamResource> reporteActivacionesInstalacion() {
 		

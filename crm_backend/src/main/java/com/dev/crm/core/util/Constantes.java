@@ -137,6 +137,8 @@ public class Constantes {
 	public static final String SP_LISTAR_CUENTAS_INSTALADAS_RANGO_FECHA = "sp_listar_cuentas_rango_solicitado_instalado";
 	public static final String SP_RECUPERAR_DEUDAS_POR_GESTOR = "recuperar_dias_deudas_gestor";
 	public static final String RECUPERAR_CODIGO_CONSECUTIVO_CLIENTE = "recuperar_codigo_consecutivo";
+	public static final String SP_LISTAR_ACTIVACIONES_POR_DIA = "sp_listar_reporte_ac_ins_dia";
+	public static final String SP_LISTAR_ACTIVACIONES_POR_RANGO = "sp_listar_reporte_ac_ins_rango";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

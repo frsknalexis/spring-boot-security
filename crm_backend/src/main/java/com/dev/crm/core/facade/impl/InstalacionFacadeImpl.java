@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.ActivacionRequest;
+import com.dev.crm.core.dto.ActivacionesPorDiaRequest;
+import com.dev.crm.core.dto.ActivacionesPorDiaResultViewModel;
+import com.dev.crm.core.dto.ActivacionesPorRangoRequest;
+import com.dev.crm.core.dto.ActivacionesPorRangoResultViewModel;
 import com.dev.crm.core.dto.ActivacionesResultViewModel;
 import com.dev.crm.core.dto.InformeInstalacionDiaResultViewModel;
 import com.dev.crm.core.dto.InstalacionDiaInternetResultViewModel;
@@ -125,6 +129,52 @@ public class InstalacionFacadeImpl implements InstalacionFacade {
 			}
 			else {
 				return activacionesInstalacion;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<ActivacionesPorDiaResultViewModel> listarActivacionesPorDia(ActivacionesPorDiaRequest request) {
+		
+		List<ActivacionesPorDiaResultViewModel> activacionesPorDia = new ArrayList<ActivacionesPorDiaResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				activacionesPorDia = instalacionService.listarActivacionesPorDia(request);
+				if(GenericUtil.isCollectionEmpty(activacionesPorDia)) {
+					return null;
+				}
+				else {
+					return activacionesPorDia;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<ActivacionesPorRangoResultViewModel> listarActivacionesPorRango(ActivacionesPorRangoRequest request) {
+		
+		List<ActivacionesPorRangoResultViewModel> activacionesPorRango = new ArrayList<ActivacionesPorRangoResultViewModel>();
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				activacionesPorRango = instalacionService.listarActivacionesPorRango(request);
+				if(GenericUtil.isCollectionEmpty(activacionesPorRango)) {
+					return null;
+				}
+				else {
+					return activacionesPorRango;
+				}
 			}
 		}
 		catch(Exception e) {

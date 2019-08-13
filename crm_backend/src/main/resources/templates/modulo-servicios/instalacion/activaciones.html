@@ -27,6 +27,12 @@
 						<div class="col-md-4 col-lg-4 mb-xs">
 							<button type="button" id="btnReporteActivaciones" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Generar Reporte de Activaciones</button>
 						</div>
+						<div class="col-md-4 col-lg-4 mb-xs">
+							<button type="button" id="btnReporteActivacionesPorDia" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Reporte de Activaciones por Dia</button>
+						</div>
+						<div class="col-md-4 col-lg-4 mb-xs">
+							<button type="button" id="btnReporteActivacionesPorRango" class="btn btn-block btn-sm btn-info"><i class="fa fa-download"></i> Reporte de Activaciones por Rango de Fecha</button>
+						</div>
 						<div class="col-md-12 col-lg-12">
 							<div class="tabs tabs-primary">
 								<ul class="nav nav-tabs">
@@ -132,6 +138,73 @@
 												<button type="button" id="cancelarModal" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 												<button type="submit" id="agregarActivacion" class="btn btn-primary"><i class="fa fa-check"></i> Agregar</button>
 										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" tabindex="-1" id="modalActivacionesPorRangoFecha" role="dialog" aria-labelledby="myModalLabelActivacionesPorRangoFecha" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form role="form" method="post" id="formPagosPorRangoFecha">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelActivacionesPorRangoFecha">Busqueda de Activaciones Por Rango de Fecha</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-6 col-lg-6 form-group">
+												<label for="fechaInicialBusqueda">Fecha Inicial</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</span>
+													<input type="date" class="form-control input-sm" id="fechaInicialBusqueda">
+												</div>
+											</div>
+											<div class="col-md-6 col-lg-6 form-group">
+												<label for="fechaFinBusqueda">Fecha Final</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</span>
+													<input type="date" class="form-control input-sm" id="fechaFinBusqueda">
+												</div>
+											</div>											
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" id="cancelarAccionBuscarActivacionesPorRango" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="buscarActivacionesPorRango" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" tabindex="-1" id="modalActivacionesPorDia" role="dialog" aria-labelledby="myModalLabelActivacionesPorDia" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<form role="form" method="post" id="formPagosPorDia">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+										<h4 class="modal-title" id="myModalLabelActivacionesPorDia">Busqueda de Activaciones Por Dia</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12 form-group">
+												<label for="fechaBusqueda">Fecha Busqueda</label>
+												<div class="input-group mb-md">
+													<span class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</span>
+													<input type="date" class="form-control input-sm" id="fechaBusqueda">
+												</div>
+											</div>											
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" id="cancelarAccionBuscarActivacionesPorDia" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="buscarActivacionesPorDia" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
 									</div>
 								</form>
 							</div>

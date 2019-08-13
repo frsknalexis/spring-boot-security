@@ -10,6 +10,10 @@ $(document).on('ready', function() {
 	
 	generarReporteActivacionesInstalacion();
 	
+	mostrarFormReporteActivacionesPorRangoFecha();
+	
+	mostrarFormReporteActivacionesPorDia();
+	
 	window.setInterval(
 		    function(){
 		    // Sección de código para modificar el DIV
@@ -228,6 +232,193 @@ $(document).on('ready', function() {
 		});
 	}
 	
+	function mostrarFormReporteActivacionesPorRangoFecha() {
+		
+		$('#btnReporteActivacionesPorRango').on('click', function() {
+			$('#modalActivacionesPorRangoFecha').modal('show');
+		});
+		
+		buscarActivacionesPorRango();
+		cancelarAccionBuscarActivacionesPorRangoFecha();
+	}
+	
+	function cancelarAccionBuscarActivacionesPorRangoFecha() {
+		
+		$('#cancelarAccionBuscarActivacionesPorRango').on('click', function() {
+			$('#fechaInicialBusqueda').val(''); 
+			$('#fechaFinBusqueda').val('');
+		});
+	}
+	
+	function buscarActivacionesPorRango() {
+		
+		$('#buscarActivacionesPorRango').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#fechaInicialBusqueda').val() != "" && $('#fechaFinBusqueda').val() != "") {
+				
+				var formDataBusquedaActivacionesPorRango =  {
+						fechaInicial: $('#fechaInicialBusqueda').val(),
+						fechaFinal: $('#fechaFinBusqueda').val()
+				};
+				console.log(formDataBusquedaActivacionesPorRango);
+				
+				$.ajax({
+					
+					type: 'POST',
+					url: '/api/v1/instalacion/activacionesPorRango',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataBusquedaActivacionesPorRango),
+					dataType: 'json',
+					success: function(response) {
+						if(response == null) {
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Activaciones Por Rango Fecha',
+								properties: [
+									{ field: 'numeracion', displayName: '#'},
+									{field: 'cliente', displayName: 'Cliente'},
+									{ field: 'documentoCliente', displayName: 'Nº Documento'},
+									{ field: 'direccionCliente', displayName: 'Direccion'},
+									{ field: 'fechaInicioServicio', displayName: 'Fecha Inicio'},
+									{ field: 'internet', displayName: 'Internet'},
+									{ field: 'ubicacion', displayName: 'Ubicacion'},
+									{ field: 'observacion', displayName: 'Observacion'}
+								], 
+								type: 'json'})
+						}
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+				});
+			}
+			else if($('#fechaInicialBusqueda').val() == "" && $('#fechaFinBusqueda').val() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe llenar todos los campos !'
+	            });
+				return false;
+			}
+			else if($('#fechaInicialBusqueda').val() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para la Fecha Inicial !'
+	            });
+				return false;
+			}
+			else if($('#fechaFinBusqueda').val() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para la Fecha Final !'
+	            });
+				return false;
+			}
+		});
+	}
+	
+	function mostrarFormReporteActivacionesPorDia() {
+		
+		$('#btnReporteActivacionesPorDia').on('click', function() {
+			$('#modalActivacionesPorDia').modal('show');
+		});
+		buscarActivacionesPorDia();
+		cancelarAccionBuscarActivacionesPorDia();
+	}
+	
+	function cancelarAccionBuscarActivacionesPorDia() {
+		$('#cancelarAccionBuscarActivacionesPorDia').on('click', function() {
+			$('#fechaBusqueda').val('');
+		});
+	}
+	
+	function buscarActivacionesPorDia() {
+		
+		$('#buscarActivacionesPorDia').on('click', function(e) {
+			e.preventDefault();
+			
+			if($('#fechaBusqueda').val() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe ingresar un valor valido para este campo !'
+	            });
+			}
+			else if($('#fechaBusqueda').val() != "") {
+				
+				var formDataBusquedaActivacionesPorDia = {
+						fechaBusqueda: $('#fechaBusqueda').val()
+				};
+				console.log(formDataBusquedaActivacionesPorDia);
+				
+				$.ajax({
+					type: 'POST',
+					url: '/api/v1/instalacion/activacionesPorDia',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataBusquedaActivacionesPorDia),
+					dataType: 'json',
+					success: function(response) {
+						
+						if(response == null) {
+							swal({
+				                type: 'warning',
+				                title: 'Ooops',
+				                text: 'No se Encontraron Resultados de Busqueda !'
+				            });
+						}
+						else if(response != null) {
+							console.log(response);
+							printJS({
+								printable: response,
+								showModal: true,
+								documentTitle: 'Reporte de Activaciones Por Dia',
+								properties: [
+									{ field: 'numeracion', displayName: '#'},
+									{field: 'cliente', displayName: 'Cliente'},
+									{ field: 'documentoPersonaCliente', displayName: 'Nº Documento'},
+									{ field: 'direccionCliente', displayName: 'Direccion'},
+									{ field: 'fechaInicioServicio', displayName: 'Fecha Inicio'},
+									{ field: 'internet', displayName: 'Internet'},
+									{ field: 'ubicacion', displayName: 'Ubicacion'},
+									{ field: 'observacion', displayName: 'Observacion'}
+								], 
+								type: 'json'})
+						}
+					},
+					error: function() {
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Ocurrio un Error !'
+			            });
+					}
+					
+				});
+			}
+		});
+	}
 	
 	function cargarmensajespopusnuevo(valor,id){
 		

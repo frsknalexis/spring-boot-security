@@ -28,6 +28,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
+import com.dev.crm.core.dto.GananciaPorDiaCajaResultViewModel;
 import com.dev.crm.core.dto.GananciaPorMesCajaResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
@@ -526,6 +527,22 @@ public class PagoRestController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<List<GananciaPorMesCajaResultViewModel>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/gananciaPorDiaCaja")
+	public ResponseEntity<List<GananciaPorDiaCajaResultViewModel>> gananciaPorDiaCaja() {
+		
+		try {
+			
+			List<GananciaPorDiaCajaResultViewModel> gananciaPorDiaCaja = pagoFacade.gananciaPorDiaCaja();
+			if(GenericUtil.isCollectionEmpty(gananciaPorDiaCaja)) {
+				return new ResponseEntity<List<GananciaPorDiaCajaResultViewModel>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<GananciaPorDiaCajaResultViewModel>>(gananciaPorDiaCaja, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<List<GananciaPorDiaCajaResultViewModel>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

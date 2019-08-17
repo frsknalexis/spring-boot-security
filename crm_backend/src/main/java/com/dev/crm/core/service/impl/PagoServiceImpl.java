@@ -15,6 +15,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
+import com.dev.crm.core.dto.GananciaPorDiaCajaResultViewModel;
 import com.dev.crm.core.dto.GananciaPorMesCajaResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
@@ -39,6 +40,7 @@ import com.dev.crm.core.repository.jdbc.ConsecutivoPagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetallePagoResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DeudasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DiasDeudasJdbcRepository;
+import com.dev.crm.core.repository.jdbc.GananciaPorDiaCajaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.GananciaPorMesCajaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.HistorialDescuentoResquestdbcRepository;
 import com.dev.crm.core.repository.jdbc.ListaPagosPorCajaJdbcRepository;
@@ -161,6 +163,10 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("gananciaPorMesCajaJdbcRepository")
 	private GananciaPorMesCajaJdbcRepository gananciaPorMesCajaJdbcRepository;
+	
+	@Autowired
+	@Qualifier("gananciaPorDiaCajaJdbcRepository")
+	private GananciaPorDiaCajaJdbcRepository gananciaPorDiaCajaJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -502,6 +508,27 @@ public class PagoServiceImpl implements PagoService {
 			}
 			else {
 				return gananciasPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<GananciaPorDiaCajaResultViewModel> gananciaPorDiaCaja() {
+		
+		List<GananciaPorDiaCajaResultViewModel> gananciaPorDiaCaja = new ArrayList<GananciaPorDiaCajaResultViewModel>();
+		
+		try {
+			
+			gananciaPorDiaCaja = gananciaPorDiaCajaJdbcRepository.gananciaPorDiaCaja();
+			if(GenericUtil.isCollectionEmpty(gananciaPorDiaCaja)) {
+				return null;
+			}
+			else {
+				return gananciaPorDiaCaja;
 			}
 		}
 		catch(Exception e) {

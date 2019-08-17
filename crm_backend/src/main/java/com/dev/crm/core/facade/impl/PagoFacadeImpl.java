@@ -14,6 +14,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
+import com.dev.crm.core.dto.GananciaPorDiaCajaResultViewModel;
 import com.dev.crm.core.dto.GananciaPorMesCajaResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
@@ -444,6 +445,27 @@ public class PagoFacadeImpl implements PagoFacade {
 			}
 			else {
 				return gananciaPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<GananciaPorDiaCajaResultViewModel> gananciaPorDiaCaja() {
+		
+		List<GananciaPorDiaCajaResultViewModel> gananciaPorDiaCaja = new ArrayList<GananciaPorDiaCajaResultViewModel>();
+		
+		try {
+			
+			gananciaPorDiaCaja = pagoService.gananciaPorDiaCaja();
+			if(GenericUtil.isCollectionEmpty(gananciaPorDiaCaja)) {
+				return null;
+			}
+			else {
+				return gananciaPorDiaCaja;
 			}
 		}
 		catch(Exception e) {

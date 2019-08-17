@@ -12,6 +12,8 @@
 	generarReporteGraficoCobranzasCajaTres();
 	
 	generarReporteGraficoGananciaPorCaja();
+	
+	generarReporteGraficoGananciaPorDia();
 
 }).apply( this, [ jQuery ]);
 
@@ -125,6 +127,40 @@ function generarReporteGraficoCobranzasCajaTres() {
 					lineColors: ['#0088cc'],
 					fillOpacity: 0.7,
 					hideHover: true
+				});
+			}
+		}
+	});
+}
+
+function generarReporteGraficoGananciaPorDia() {
+	
+	var arrayDataGananciaPorDiaCaja = new Array();
+	
+	$.ajax({
+		
+		type: 'GET',
+		url: '/api/v1/pago/gananciaPorDiaCaja',
+		dataType: 'json',
+		success: function(response) {
+			
+			if(response != null) {
+				
+				for(var i = 0; i < response.length; i++) {
+					var gananciaPorDia = {
+							label: response[i].caja,
+							value: response[i].cantidadPago
+					};
+					arrayDataGananciaPorDiaCaja.push(gananciaPorDia);
+				}
+				/*
+				Morris: Donut
+				*/
+				Morris.Donut({
+					resize: true,
+					element: 'morrisDonutGananciaPorDiaCaja',
+					data: arrayDataGananciaPorDiaCaja,
+					colors: ['#0088cc', '#734ba9', '#E36159']
 				});
 			}
 		}

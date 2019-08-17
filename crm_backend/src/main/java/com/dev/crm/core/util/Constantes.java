@@ -139,6 +139,7 @@ public class Constantes {
 	public static final String RECUPERAR_CODIGO_CONSECUTIVO_CLIENTE = "recuperar_codigo_consecutivo";
 	public static final String SP_LISTAR_ACTIVACIONES_POR_DIA = "sp_listar_reporte_ac_ins_dia";
 	public static final String SP_LISTAR_ACTIVACIONES_POR_RANGO = "sp_listar_reporte_ac_ins_rango";
+	public static final String SP_CONTADOR_GANANCIA_POR_DIA_CAJA = "sp_contador_ganancia_dia";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

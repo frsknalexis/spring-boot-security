@@ -9,6 +9,7 @@ import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
+import com.dev.crm.core.dto.GananciaPorDiaCajaResultViewModel;
 import com.dev.crm.core.dto.GananciaPorMesCajaResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
@@ -57,6 +58,8 @@ public interface PagoFacade {
 	List<PagosPorMesCaja3ResultViewModel> pagosPorMesCaja3();
 	
 	List<GananciaPorMesCajaResultViewModel> ganaciaPorMesCaja();
+	
+	List<GananciaPorDiaCajaResultViewModel> gananciaPorDiaCaja();
 	
 	List<DiasDeudasResultViewModel> recuperarDiasDeudasParametrizado(DiasDeudasRequest request);
 	

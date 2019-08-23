@@ -21,6 +21,7 @@ import com.dev.crm.core.dto.CuentasRangoResultViewModel;
 import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
+import com.dev.crm.core.dto.DetalleCuentaCableRequest;
 import com.dev.crm.core.dto.DetalleCuentaDTO;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
@@ -60,6 +61,27 @@ public class DetalleCuentaFacadeImpl implements DetalleCuentaFacade {
 					return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
 				}
 				else if(StringUtil.eq(result, Constantes.LLENO)) {
+					return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public ResponseBaseOperation insercionCuentaCable(DetalleCuentaCableRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = detalleCuentaService.insercionCuentaCable(request);
+				if(StringUtil.eq(result, Constantes.HECHO)) {
+					return new ResponseBaseOperation(Constantes.CREATED_STATUS, result, request);
+				}
+				else if(StringUtil.eq(result, Constantes.ESTADO)) {
 					return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
 				}
 			}

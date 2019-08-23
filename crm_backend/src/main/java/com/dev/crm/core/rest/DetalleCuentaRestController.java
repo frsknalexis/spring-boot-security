@@ -32,6 +32,7 @@ import com.dev.crm.core.dto.CuentasRangoResultViewModel;
 import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
+import com.dev.crm.core.dto.DetalleCuentaCableRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
@@ -154,6 +155,22 @@ public class DetalleCuentaRestController {
 		}
 	}
 	
+	@PostMapping("/saveCuentaCable")
+	public ResponseEntity<ResponseBaseOperation> insercionCuentaCable(@Valid @RequestBody DetalleCuentaCableRequest request) {
+		
+		try {
+			
+			User usuarioLogueado = userDetail.findLoggedInUser();
+			String usuario = usuarioLogueado.getUsername();
+			request.setCodigoUsuario(usuario);
+			ResponseBaseOperation response = detalleCuentaFacade.insercionCuentaCable(request);
+			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@PostMapping("/envioDatos")
 	public ResponseEntity<ResponseBaseOperation> spEnvioDatosInternetServicio(@Valid @RequestBody DatosInternetServicioRequest request) {
 		
@@ -180,24 +197,6 @@ public class DetalleCuentaRestController {
 		}
 	}
 	
-	/*
-	@PostMapping("/saveCuentaCable")
-	public ResponseEntity<ResponseBaseOperation> spInsercionCuentaCable(@Valid @RequestBody DetalleCuentaDTO detalleCuentaDTO) {
-		
-		try {
-			
-			User usuarioLogueado = userDetail.findLoggedInUser();
-			String usuario = usuarioLogueado.getUsername();
-			detalleCuentaDTO.setCodigoexterno(usuario);
-			ResponseBaseOperation response = detalleCuentaFacade.spInsercionCuentaCable(detalleCuentaDTO);
-			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
-		}
-		catch(Exception e) {
-			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	*/
 	@GetMapping("/contadorPendientesCable")
 	public ResponseEntity<ResponseBaseOperation> spContadorPendientesCable() {
 		

@@ -1,6 +1,5 @@
 $(document).on('ready', function() {
 	
-	
 	disabledButtonGenerarCuenta(true);
 	
 	disabledInputs(false);
@@ -31,7 +30,6 @@ $(document).on('ready', function() {
 	
 	comboServicio(); 
 	
-	
 	/**
 	 * 
 	 *function para listar las cuentas generadas 
@@ -52,8 +50,7 @@ $(document).on('ready', function() {
 	function ocultar_mostrar(id){
 		
 		if(id !== 0){
-			
-			
+						
 			for( var i = 1;i < id ; i++ ){
 			if(i < id){
 				
@@ -73,7 +70,6 @@ $(document).on('ready', function() {
 				}
 			}
 		}
-	
 	}
 	
 	function disabledButtonGenerarCuenta(flag) {
@@ -151,14 +147,12 @@ $(document).on('ready', function() {
 		$('#buscarCliente').on('click', function(e) {
 			e.preventDefault();
 			
-			if($('#busqueda').val().match(/^[0-9]{7,11}$/)) {
+			if($('#busqueda').val().match(/^[0-9\.-\s]{7,12}$/)) {
 				
 				var formData = {
 						documentoPersona: $('#busqueda').val()
 				};
-				
-				
-				
+						
 				$.ajax({
 					
 					type: 'POST',
@@ -204,7 +198,7 @@ $(document).on('ready', function() {
 				});
 			}
 			
-			if(!($('#busqueda').val().match(/^[0-9]{7,11}$/))) {
+			if(!($('#busqueda').val().match(/^[0-9\.-\s]{7,12}$/))) {
 				
 				swal({
 	                type: 'error',
@@ -252,15 +246,29 @@ $(document).on('ready', function() {
 			
 			e.preventDefault();
 			
-			if($('#fechaSolicitudClienteDetalleCuenta').val() == "") {
-				
+			if($('#fechaSolicitudClienteDetalleCuenta').val() == "" && $('#detalleCuentaVendedor').val().trim() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe llenar todos los Campos !'
+	            });
+				return false;
+			}
+			
+			else if($('#fechaSolicitudClienteDetalleCuenta').val() == "") {
 				swal({
 	                type: 'error',
 	                title: 'Ooops',
 	                text: 'Debe ingresar un valor valido para la Fecha de Solicitud'
 	            });
-				
-				$('#fechaSolicitudClienteDetalleCuenta').focus();
+				return false;
+			}
+			else if($('#detalleCuentaVendedor').val().trim() == "") {
+				swal({
+	                type: 'error',
+	                title: 'Ooops',
+	                text: 'Debe Seleccionar un Vendedor Responsable'
+	            });
 				return false;
 			}
 		});
@@ -282,8 +290,6 @@ $(document).on('ready', function() {
 			dataType: 'json',
 			success: function(response) {
 				
-				console.log(response);
-				
 				$detalleCuentaVendedor.html('');
 				$detalleCuentaVendedor.append('<option value="">Seleccione un  Vendedor Responsable</option>');
 				
@@ -304,7 +310,7 @@ $(document).on('ready', function() {
 		$('#generarCuenta').on('click', function(e) {
 			
 			e.preventDefault();
-			if($('#documentoPersonaCliente').val().match(/^[0-9]{7,11}$/) && $('#fechaSolicitudClienteDetalleCuenta').val() != "" 
+			if($('#documentoPersonaCliente').val().match(/^[0-9\.-\s]{7,12}$/) && $('#fechaSolicitudClienteDetalleCuenta').val() != "" 
 				&& $('#detalleCuentaVendedor').val().trim() != "") {
 				
 				var formDataIC = {
@@ -327,8 +333,6 @@ $(document).on('ready', function() {
 					data: JSON.stringify(formDataIC),
 					dataType: 'json',
 					success: function(response) {
-						
-						
 						
 						if(response.status == "CREATED" && response.message == "HECHO") {
 							
@@ -385,15 +389,16 @@ $(document).on('ready', function() {
 		$('#generarCuenta').on('click', function(e) {
 			
 			e.preventDefault();
-			if($('#documentoPersonaCliente').val().match(/^[0-9]{7,11}$/)) {
+			if($('#documentoPersonaCliente').val().match(/^[0-9\.-\s]{7,12}$/) && $('#fechaSolicitudClienteDetalleCuenta').val() != "" 
+				&& $('#detalleCuentaVendedor').val().trim() != "") {
 				
 				var formDataCC = {
-					documentoPersonaCliente: $('#documentoPersonaCliente').val(),
-					observacionDetalleCuenta: $('#detalleCuentaObservacion').val()
+						documentoPersonaCliente: $('#documentoPersonaCliente').val(),
+						observacionDetalleCuenta: $('#detalleCuentaObservacion').val(),
+						fechaSolicitudClienteDetalleCuenta: $('#fechaSolicitudClienteDetalleCuenta').val(),
+						nombreVendedor: $('#detalleCuentaVendedor').val()
 				};
-				
-			
-				
+				console.log(formDataCC);
 				$.ajax({
 					
 					type: 'POST',
@@ -406,8 +411,7 @@ $(document).on('ready', function() {
 					dataType: 'json',
 					success: function(response) {
 						
-					
-						
+						console.log(response);
 						if(response.status =="CREATED" && response.message == "HECHO") {
 							
 							swal({
@@ -480,14 +484,11 @@ $(document).on('ready', function() {
 				cancelarAccion();
 				verificarCliente();
 				generarCuentaCableColor();
-				
 			}
 		});
 	}
 	
 	function cargarmensajespopusnuevo(valor,id){
-		
-		
 		
 		var title = "Tareas Pendientes!!!";
 		
@@ -496,8 +497,6 @@ $(document).on('ready', function() {
 		var theme = "warning";
 		var closeOnClick = true;
 		var displayClose =true;
-		
-		
 		
 		if(valor !== 0)
 		{
@@ -515,9 +514,7 @@ $(document).on('ready', function() {
 									
 									var mensaje = response.descripcionmensaje;
 									var message = mensaje;
-							
-									
-									
+																
 									window.createNotification({
 										closeOnClick: closeOnClick,
 										displayCloseButton: displayClose,
@@ -528,18 +525,14 @@ $(document).on('ready', function() {
 								title: title,
 								message: message
 							});
-							
 						}
 					});
 				}
 			}
-			
 		}
 	}
 
 	function cargarmensajespopus(id){
-		
-		
 		
 		var title = "Tareas Pendientes!!!";
 		
@@ -567,8 +560,7 @@ $(document).on('ready', function() {
 									
 									var mensaje = response.descripcionmensaje;
 									var message = mensaje;
-							
-									
+														
 									window.createNotification({
 										closeOnClick: closeOnClick,
 										displayCloseButton: displayClose,
@@ -584,16 +576,13 @@ $(document).on('ready', function() {
 					});
 				}
 			}
-			
 		}
 	}
 	
 	function estado(id){
 		
-		
 		if(id !== 0){
-			
-			
+				
 			for(var i=1;i<=id;i++){
 			if(i <= id){
 				
@@ -603,8 +592,7 @@ $(document).on('ready', function() {
 					url: '/api/v1/atencion/searchMensaje/' + i,
 					dataType: 'json',
 					success: function(response) {
-						
-						
+									
 						var tag = document.createElement("li");
 						tag.innerHTML = '<span class="toggle">Jan</span>';
 						
@@ -625,7 +613,6 @@ $(document).on('ready', function() {
 	
 	function estadonuevo(valor){
 		
-		
 		if(valor !== 0){
 			
 			document.getElementById("agregarmensajesnoti").innerHTML="";
@@ -638,8 +625,7 @@ $(document).on('ready', function() {
 					url: '/api/v1/atencion/searchMensaje/' + (parseInt(valor) - parseInt(i)),
 					dataType: 'json',
 					success: function(response) {
-						
-						
+										
 						var tag = document.createElement("li");
 						tag.innerHTML = '<span class="toggle">Jan</span>';
 						
@@ -668,7 +654,6 @@ $(document).on('ready', function() {
 		dinamico = document.getElementsByName("canjes")[0].value;
 		valuee = document.getElementsByName("canjess")[0].value;
 		
-		
 		var verificando = valuee - dinamico;
 		
 		if(estatico === valuee && valuee === dinamico){
@@ -696,7 +681,6 @@ $(document).on('ready', function() {
 	
 	function cargarTotalRegistrosPersona() {
 		
-		
 		var formData = {
 				
 		};
@@ -717,15 +701,11 @@ $(document).on('ready', function() {
 				$('#totalidad').html(response.message);
 				$('#canjess').val(response.message);
 			}
-			
 		});	
-		
 	}
 	
-	
 	function cargarTotalRegistrosPersonita() {
-		
-		
+			
 		var formData = {
 				
 		};
@@ -748,8 +728,6 @@ $(document).on('ready', function() {
 				$('#canjes').val(response.message);
 				$('#canjess').val(response.message);
 			}
-			
 		});	
-		
 	}
 });

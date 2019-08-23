@@ -15,6 +15,7 @@ import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
+import com.dev.crm.core.dto.CodigoConsecutivoClienteResultViewModel;
 import com.dev.crm.core.dto.DatosClienteResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
 import com.dev.crm.core.dto.PersonaClienteRequest;
@@ -374,17 +375,19 @@ public class ClienteFacadeImpl implements ClienteFacade {
 	}
 
 	@Override
-	public ResponseBaseOperation generarCodigoConsecutivoCliente(CodigoConsecutivoClienteRequest request) {
+	public CodigoConsecutivoClienteResultViewModel generarCodigoConsecutivoCliente(CodigoConsecutivoClienteRequest request) {
+		
+		CodigoConsecutivoClienteResultViewModel codigoConsecutivoCliente = null;
 		
 		try {
 			
 			if(GenericUtil.isNotNull(request)) {
-				clienteService.generarCodigoConsecutivoCliente(request);
-				return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, Constantes.MESSAGE_GENERATED, request);
+				codigoConsecutivoCliente = clienteService.generarCodigoConsecutivoCliente(request);
 			}
-			else if(GenericUtil.isNull(request)) {
-				return new ResponseBaseOperation(Constantes.ERROR_STATUS, Constantes.MESSAGE_ERROR, null);
+			if(GenericUtil.isNull(codigoConsecutivoCliente)) {
+				return null;
 			}
+			return codigoConsecutivoCliente;
 		}
 		catch(Exception e) {
 			e.printStackTrace();

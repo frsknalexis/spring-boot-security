@@ -15,6 +15,7 @@ import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
+import com.dev.crm.core.dto.CodigoConsecutivoClienteResultViewModel;
 import com.dev.crm.core.dto.DatosClienteResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
 import com.dev.crm.core.dto.PersonaClienteRequest;
@@ -255,17 +256,24 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 	
 	@Override
-	public void generarCodigoConsecutivoCliente(CodigoConsecutivoClienteRequest request) {
+	public CodigoConsecutivoClienteResultViewModel generarCodigoConsecutivoCliente(CodigoConsecutivoClienteRequest request) {
+		
+		CodigoConsecutivoClienteResultViewModel codigoConsecutivoCliente = null;
 		
 		try {
 			
 			if(GenericUtil.isNotNull(request)) {
-				consecutivoClienteJdbcRepository.generarCodigoConsecutivoCliente(request);
+				codigoConsecutivoCliente = consecutivoClienteJdbcRepository.generarCodigoConsecutivoCliente(request);
 			}
+			if(GenericUtil.isNull(codigoConsecutivoCliente)) {
+				return null;
+			}
+			return codigoConsecutivoCliente;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override

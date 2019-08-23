@@ -29,6 +29,7 @@ import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
+import com.dev.crm.core.dto.CodigoConsecutivoClienteResultViewModel;
 import com.dev.crm.core.dto.DatosClienteResultViewModel;
 import com.dev.crm.core.dto.PdfClienteResultViewModel;
 import com.dev.crm.core.dto.PersonaClienteRequest;
@@ -280,19 +281,23 @@ public class ClienteRestController {
 	}
 	
 	@PostMapping("/generarConsecutivoCliente")
-	public ResponseEntity<ResponseBaseOperation> generarCodigoConsecutivoCliente(@Valid @RequestBody CodigoConsecutivoClienteRequest request) {
+	public ResponseEntity<CodigoConsecutivoClienteResultViewModel> generarCodigoConsecutivoCliente(@Valid @RequestBody CodigoConsecutivoClienteRequest request) {
+		
+		CodigoConsecutivoClienteResultViewModel codigoConsecutivoCliente = null;
 		
 		try {
 			
 			if(GenericUtil.isNotNull(request)) {
-				ResponseBaseOperation response = clienteFacade.generarCodigoConsecutivoCliente(request);
-				return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.OK);
+				codigoConsecutivoCliente = clienteFacade.generarCodigoConsecutivoCliente(request);
 			}
+			if(GenericUtil.isNull(codigoConsecutivoCliente)) {
+				return new ResponseEntity<CodigoConsecutivoClienteResultViewModel>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<CodigoConsecutivoClienteResultViewModel>(codigoConsecutivoCliente, HttpStatus.OK);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			return new ResponseEntity<CodigoConsecutivoClienteResultViewModel>(HttpStatus.BAD_REQUEST);
 		}
-		return null;
 	}
 	
 	@GetMapping("/searchClientePago/{documentoPersona}")

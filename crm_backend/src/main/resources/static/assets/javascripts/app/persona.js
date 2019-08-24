@@ -293,7 +293,7 @@ $(document).on('ready', function() {
 	$('#guardarPersona').on('click', function(e) {
 		e.preventDefault();
 				
-		if($('#documentoPersona').val().match(/^[0-9\.-\s]{7,12}$/) && $('#nombreUbigeo').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
+		if($('#documentoPersona').val().match(/^[0-9\.-\s]{7,12}$/) && $('#codigoUbigeo').val().trim() != ""
 			&& $('#nombrePersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#apellidoPaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/)
 			&& $('#apellidoMaternoPersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/) && $('#direccionActualPersona').val() != "" 
 			&& $('#referenciaPersona').val() != "" && $('#telefonoUnoPersona').val().match(/^[0-9]{7,9}$/) 
@@ -330,6 +330,8 @@ $(document).on('ready', function() {
 					data: JSON.stringify(formData),
 					dataType: 'json',
 					success: function(response) {
+						
+						console.log(response);
 												
 						if(response.status == 'SUCCESS' && response.message == "HECHO") {
 							
@@ -356,7 +358,9 @@ $(document).on('ready', function() {
 								data: JSON.stringify(formDataCliente),
 								dataType: 'json',
 								success: function(response) {
-												
+									
+									console.log(response);
+									
 									if(response.status == 'CREATED') {
 										
 										swal({
@@ -463,7 +467,7 @@ $(document).on('ready', function() {
 			}
 		}
 		
-		if($('#documentoPersona').val() == "" && $('#nombreUbigeo').val() == "" && $('#nombrePersona').val() == "" 
+		if($('#documentoPersona').val() == "" && $('#codigoUbigeo').val().trim() == "" && $('#nombrePersona').val() == "" 
 				&& $('#apellidoPaternoPersona').val() == "" && $('#apellidoMaternoPersona').val() == "" && $('#direccionActualPersona').val() == ""
 				&& $('#referenciaPersona').val() == "" && $('#telefonoUnoPersona').val() == "" && $('#correoCliente').val() == "" 
 				&& $('#facebookCliente').val() == "" && $('#codigoSexo').val().trim() == "")  {
@@ -489,15 +493,17 @@ $(document).on('ready', function() {
 		    	return false;
 			}
 			
-			if($('#nombreUbigeo').val() == "" || $('#nombreUbigeo').val() == 0) {
+			if($('#codigoUbigeo').val().trim() == "") {
 				
 				swal({
 	                type: 'error',
 	                title: 'Ooops',
-	                text: 'El campo Ubigeo no puede estar vacio, ingrese un valor valido'
+	                text: 'Debe seleccionar un Ubigeo'
 	            });
+				
+		    	return false;
 		    	
-		    	$('#nombreUbigeo').focus();
+		    	$('#codigoUbigeo').focus();
 		    	return false;
 			}
 			
@@ -649,20 +655,7 @@ $(document).on('ready', function() {
 			
 			else {
 				
-				if(!($('#nombreUbigeo').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/))) {
-					
-					swal({
-		                type: 'error',
-		                title: 'Ooops',
-		                text: 'El campo Ubigeo no permite caracteres especiales ni numeros'
-		            });
-					
-					$('#nombreUbigeo').val('');
-					$('#nombreUbigeo').focus();
-			    	return false;
-				}
-				
-				else if(!($('#nombrePersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/))) {
+				if(!($('#nombrePersona').val().match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/))) {
 					
 					swal({
 		                type: 'error',

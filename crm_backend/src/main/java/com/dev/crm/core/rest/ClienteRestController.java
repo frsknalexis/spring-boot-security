@@ -26,6 +26,7 @@ import com.dev.crm.core.dto.CambioDireccionRequest;
 import com.dev.crm.core.dto.ClienteDTO;
 import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
+import com.dev.crm.core.dto.ClienteRequest;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
@@ -159,6 +160,23 @@ public class ClienteRestController {
 		catch(Exception e) {
 			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PostMapping("/saveCliente")
+	public ResponseEntity<ResponseBaseOperation> insertarCliente(@Valid @RequestBody ClienteRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				
+				ResponseBaseOperation response = clienteFacade.insertarCliente(request);
+				return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
 	}
 	
 	@PutMapping("/update")

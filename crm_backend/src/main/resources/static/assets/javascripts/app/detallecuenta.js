@@ -165,6 +165,7 @@ $(document).on('ready', function() {
 					dataType: 'json',
 					success: function(response) {
 		
+						console.log(response);
 						if(response != null) {
 							
 							$('#documentoPersonaCliente').val(response.documentoPersona);

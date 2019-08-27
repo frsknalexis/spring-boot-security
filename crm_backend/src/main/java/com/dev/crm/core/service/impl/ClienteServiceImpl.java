@@ -12,6 +12,7 @@ import com.dev.crm.core.dao.ClienteDAO;
 import com.dev.crm.core.dto.CambioDireccionRequest;
 import com.dev.crm.core.dto.ClienteFiltroRequest;
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
+import com.dev.crm.core.dto.ClienteRequest;
 import com.dev.crm.core.dto.ClienteResultViewModel;
 import com.dev.crm.core.dto.ClienteVendedorResultViewModel;
 import com.dev.crm.core.dto.CodigoConsecutivoClienteRequest;
@@ -26,6 +27,7 @@ import com.dev.crm.core.repository.jdbc.ClientePagoResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClienteVendedorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ConsecutivoClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.EditarPersonaClienteJdbcRepository;
+import com.dev.crm.core.repository.jdbc.InserccionClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PdfListaClienteJdbcRepository;
 import com.dev.crm.core.repository.jdbc.RecuperarDatosClienteJdbcRepository;
 import com.dev.crm.core.service.ClienteService;
@@ -72,6 +74,10 @@ public class ClienteServiceImpl implements ClienteService {
 	@Autowired
 	@Qualifier("consecutivoClienteJdbcRepository")
 	private ConsecutivoClienteJdbcRepository consecutivoClienteJdbcRepository;
+	
+	@Autowired
+	@Qualifier("inserccionClienteJdbcRepository")
+	private InserccionClienteJdbcRepository inserccionClienteJdbcRepository;
 	
 	@Override
 	public List<Cliente> findAll() {
@@ -217,6 +223,22 @@ public class ClienteServiceImpl implements ClienteService {
 			
 			c.setEstado(Constantes.HABILITADO);
 			clienteDAO.spInsertarCliente(c);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void insertarCliente(ClienteRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				
+				request.setEstado(Constantes.HABILITADO);
+				inserccionClienteJdbcRepository.insertarCliente(request);
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();

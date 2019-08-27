@@ -25,6 +25,7 @@ public class Constantes {
 	public static final String INSTALACIONES_TECNICO_VIEW = "modulo-servicios/instalacion/instalacionesTecnico";
 	public static final String LISTA_PAGOS_VIEW = "modulo-pagos/pagos/listapagos";
 	public static final String CLIENTE_GESTORES_VIEW = "modulo-pagos/gestores/clientegestores";
+	public static final String PAGO_GESTORES_VIEW = "modulo-pagos/gestores/pagogestores";
 	public static final String LOGIN_VIEW = "login";
 	public static final String ADMINISTRACION_PAGOS_VIEW = "modulo-administracion/pagos";
 	public static final String ADMINISTRACION_REPORTES_VIEW = "modulo-administracion/reportes";
@@ -142,6 +143,8 @@ public class Constantes {
 	public static final String SP_CONTADOR_GANANCIA_POR_DIA_CAJA = "sp_contador_ganancia_dia";
 	public static final String SP_LISTAR_SEXO = "sp_listar_sexo";
 	public static final String SP_LISTAR_UBIGEO = "sp_listar_ubigeo";
+	public static final String SP_INSERCCION_CLIENTE = "sp_inserccion_cliente";
+	public static final String SP_PAGO_SERVICIO_GESTOR = "sp_pago_servicio_gestor";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

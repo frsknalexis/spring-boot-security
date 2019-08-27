@@ -37,6 +37,7 @@ import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
+import com.dev.crm.core.dto.PagoServicioGestorRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
@@ -186,6 +187,22 @@ public class PagoRestController {
 		catch(Exception e) {
 			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@PostMapping("/pagoServicioGestor")
+	public ResponseEntity<ResponseBaseOperation> realizarPagoServicioGestor(@Valid @RequestBody PagoServicioGestorRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				ResponseBaseOperation response = pagoFacade.realizarPagoServicioGestor(request);
+				return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+		return null;
 	}
 	
 	@PostMapping("/pagosAdelantados")

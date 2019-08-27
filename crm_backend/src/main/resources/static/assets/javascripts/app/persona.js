@@ -337,20 +337,16 @@ $(document).on('ready', function() {
 							
 							var formDataCliente = {	
 									documentoPersonaCliente: $('#documentoPersona').val(),
-									consecutivoCliente: $('#consecutivoCliente').val(),
-									codigoCliente: $('#codigoCliente').val(),
 									nombreComercialCliente: $('#nombreComercialCliente').val(),
 									correoCliente: $('#correoCliente').val(),
 									facebookCliente: $('#facebookCliente').val(),
-									sexo: {
-										codigoSexo: $('#codigoSexo').val()
-									}
+									codigoSexo: $('#codigoSexo').val()
 							};
 							
 							$.ajax({
 								
 								type:'POST',
-								url: '/api/v1/cliente/save',
+								url: '/api/v1/cliente/saveCliente',
 								headers: {
 									"Content-Type": "application/json",
 									"Accept": "application/json"

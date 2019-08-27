@@ -24,6 +24,7 @@ import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
+import com.dev.crm.core.dto.PagoServicioGestorRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
@@ -53,6 +54,7 @@ import com.dev.crm.core.repository.jdbc.PagoListOutdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoMoraJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorRangoFechaBusquedaJdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagoServicioGestorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagosPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagosPorMesCaja1JdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagosPorMesCaja2JdbcRepository;
@@ -168,6 +170,10 @@ public class PagoServiceImpl implements PagoService {
 	@Qualifier("gananciaPorDiaCajaJdbcRepository")
 	private GananciaPorDiaCajaJdbcRepository gananciaPorDiaCajaJdbcRepository;
 	
+	@Autowired
+	@Qualifier("pagoServicioGestorJdbcRepository")
+	private PagoServicioGestorJdbcRepository pagoServicioGestorJdbcRepository;
+	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
 		
@@ -231,6 +237,27 @@ public class PagoServiceImpl implements PagoService {
 		return null;
 	}
 	
+	@Override
+	public String realizarPagoServicioGestor(PagoServicioGestorRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = pagoServicioGestorJdbcRepository.realizarPagoServicioGestor(request);
+				if(StringUtil.hasText(result)) {
+					return result;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public String spInsertarConsecutivoPago(ConsecutivoPagoRequest request) {
 		

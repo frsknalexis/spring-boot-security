@@ -87,14 +87,17 @@
 						<li class="nav-parent" id="modulo pago" style="display:none">
 							<a> 
 								<i class="fa fa-cubes" aria-hidden="true"></i> 
-								<span>Modulo Pagos</span>
+								<span>Modulo Cobranzas</span>
 							</a>
 							<ul class="nav nav-children">
 								<li id="submodulo pago" style="display:none">
 									<a th:href="@{/pago/pagos}"><i class="fa fa-credit-card"></i> Pagos </a>
 								</li>
+								<li>
+									<a th:href="@{/pago/pagosGestores}"><i class="fa fa-credit-card"></i> Pagos Gestor</a>
+								</li>
 								<li id="submodulo gestorpago" style="display:none">
-									<a th:href="@{/gestor/clienteGestores/view}"><i class="fa fa-paper-plane"></i> Cliente Gestor</a>
+									<a th:href="@{/gestor/clienteGestores/view}"><i class="fa fa-paper-plane"></i> Cliente Gestor </a>
 								</li>
 							</ul>
 						</li>

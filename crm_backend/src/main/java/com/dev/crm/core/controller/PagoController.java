@@ -15,6 +15,11 @@ public class PagoController {
 		return Constantes.PAGOS_VIEW;
 	}
 	
+	@GetMapping("/pagosGestores")
+	public String pagosGestoresViewController() {
+		return Constantes.PAGO_GESTORES_VIEW;
+	}
+	
 	@GetMapping("/listaPagos")
 	public String listaPagosViewController() {
 		return Constantes.LISTA_PAGOS_VIEW;

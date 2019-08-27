@@ -23,6 +23,7 @@ import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
+import com.dev.crm.core.dto.PagoServicioGestorRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
@@ -137,7 +138,32 @@ public class PagoFacadeImpl implements PagoFacade {
 		return null;
 	}
 	
-	
+	@Override
+	public ResponseBaseOperation realizarPagoServicioGestor(PagoServicioGestorRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = pagoService.realizarPagoServicioGestor(request);
+				if(StringUtil.hasText(result)) {
+					if(StringUtil.eq(result, Constantes.HECHO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					}
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public ResponseBaseOperation spInsertarConsecutivoPago(ConsecutivoPagoRequest request) {
 		

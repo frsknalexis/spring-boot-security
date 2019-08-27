@@ -18,6 +18,7 @@ import com.dev.crm.core.dto.PagoAdelantadoRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
+import com.dev.crm.core.dto.PagoServicioGestorRequest;
 import com.dev.crm.core.dto.PagosDelDiaResultViewModel;
 import com.dev.crm.core.dto.PagosPorDiaRequest;
 import com.dev.crm.core.dto.PagosPorDiaResultViewModel;
@@ -67,6 +68,8 @@ public interface PagoService {
 	String spPagoMora(PagoMoraRequest pagoMora);
 	
 	String spPagoAdelantado(PagoAdelantadoRequest request);
+	
+	String realizarPagoServicioGestor(PagoServicioGestorRequest request);
 	
 	String spInsertarConsecutivoPago(ConsecutivoPagoRequest request);
 	

@@ -26,7 +26,6 @@ $(document).on('ready', function() {
 		    	$('#total').load(cargarTotalRegistrosPersona());
 		    	evaluando();
 		    // Ejemplo: Cada dos segundos se imprime la hora
-		    
 		  }
 		  // Intervalo de tiempo
 		,5000);
@@ -192,6 +191,7 @@ $(document).on('ready', function() {
 		$('#codigoComprobante').val('');
 		$('#cantidadPago').val('');
 		$('#documentoPersonaPago').val('');
+		$('#nombreGestorPago').val('');
 		$('#datoactualdeuda').val('');
 	}
 	
@@ -251,7 +251,6 @@ $(document).on('ready', function() {
 				url: '/api/v1/pago/recuperarDatoPagoMesMonto/' + documentoPersonaCliente,
 				dataType: 'json',
 				success: function(response) {
-					
 					$('#datoactualdeuda').val("Mes de deuda: "+ response.mesactualdeudanombre + " con un monto S/" + response.valordedeudaactual + " soles");
 				}
 			});
@@ -273,8 +272,6 @@ $(document).on('ready', function() {
 			url: '/api/v1/gestor/gestores',
 			dataType: 'json',
 			success: function(response) {
-				
-				console.log(response);
 				$nombreGestorPago.html('');
 				$nombreGestorPago.append('<option value="">Seleccione un Gestor</option>');
 				for(var i = 0; i < response.length; i++) {
@@ -409,10 +406,11 @@ $(document).on('ready', function() {
 			if($('#codigoComprobante').val().trim() != "" && $('#cantidadPago').val() > 0 && $('#nombreGestorPago').val().trim() != "") {
 				
 				var formData = {
-					documentoPersonaCliente: $('#documentoPersonaClientePago').val(),
-					codigoComprobante: $('#codigoComprobante').val(),
-					montoPago: $('#cantidadPago').val(),
-					documentoPersonaPago: $('#documentoPersonaPago').val()
+						documentoPersonaPago: $('#documentoPersonaClientePago').val(),
+						codigoComprobante: $('#codigoComprobante').val(),
+						cantidadPago: $('#cantidadPago').val(),
+						documentoPersonaPago: $('#documentoPersonaPago').val(),
+						nombreGestor: $('#nombreGestorPago').val()
 				};
 				
 				console.log(formData);
@@ -420,7 +418,7 @@ $(document).on('ready', function() {
 				$.ajax({
 					
 					type: 'POST',
-					url: '/api/v1/pago/pagosAdelantados',
+					url: '/api/v1/pago/pagoServicioGestor',
 					headers: {
 						"Content-Type": "application/json",
 						"Accept": "application/json"
@@ -431,7 +429,7 @@ $(document).on('ready', function() {
 						
 						console.log(response);
 						
-						if(response.status == "SUCCESS" && response.message == "PAGO ADELANTADO CON PROMO") {
+						if(response.status == "SUCCESS" && response.message == "HECHO") {
 							
 							swal({
 								type: "success",
@@ -446,35 +444,13 @@ $(document).on('ready', function() {
 								}
 							});
 						}
-						else if(response.status == "SUCCESS" && response.message == "PAGO ADELANTADO SIN PROMO") {
+						else if(response.status == "ERROR" && response.message == "EXCEDIO") {
 							
 							swal({
-								type: "success",
-								title: "Se Realizo el Pago Correctamente",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar",
-								closeOnConfirm: false
-							}).then((result) => {
-
-								if(result.value) {
-									$(location).attr('href', '/pago/listaPagos');
-								}
-							});
-						}
-						else if(response.status == "SUCCESS" && response.message == "PAGO RAPIDO") {
-							
-							swal({
-								type: "success",
-								title: "Se Realizo el Pago Correctamente",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar",
-								closeOnConfirm: false
-							}).then((result) => {
-
-								if(result.value) {
-									$(location).attr('href', '/pago/listaPagos');
-								}
-							});
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Excedio el monto a Pagar !'
+				            });
 						}
 					},
 					error: function() {
@@ -614,8 +590,7 @@ $(document).on('ready', function() {
 			setTimeout(function() {
 				$('#modalVerDeudaCliente').modal('show');
 				listarDeudasCliente(documentoPersonaCliente);
-			}, 3500);
-			
+			}, 3700);
 		});
 	}
 	
@@ -628,14 +603,13 @@ $(document).on('ready', function() {
 			setTimeout(function() {
 				$('#modalVerPagoCliente').modal('show');
 				listarPagosCliente(documentoPersonaCliente);
-			}, 3500);
+			}, 3700);
 		});
 	}
 	
 	function cargarmensajespopusnuevo(valor,id){
 			
 		var title = "Tareas Pendientes!!!";
-		
 		var position = "Bottom right";
 		var duration = "1000";
 		var theme = "warning";
@@ -678,7 +652,6 @@ $(document).on('ready', function() {
 	function cargarmensajespopus(id){
 				
 		var title = "Tareas Pendientes!!!";
-		
 		var position = "Bottom right";
 		var duration = "1000";
 		var theme = "warning";

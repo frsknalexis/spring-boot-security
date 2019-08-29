@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.DeudasGestorMontoAcumuladoResultViewModel;
 import com.dev.crm.core.dto.DeudasGestoresResultViewModel;
 import com.dev.crm.core.dto.DeudasPorGestorRequest;
 import com.dev.crm.core.dto.DeudasPorGestorResultViewModel;
@@ -62,6 +63,27 @@ public class GestorFacadeImpl implements GestorFacade {
 			}
 			else {
 				return gestores;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<DeudasGestorMontoAcumuladoResultViewModel> listarDeudasGestorMontoAcumulado() {
+		
+		List<DeudasGestorMontoAcumuladoResultViewModel> listaDeudasGestorAcumulado = new ArrayList<DeudasGestorMontoAcumuladoResultViewModel>();
+		
+		try {
+			
+			listaDeudasGestorAcumulado = gestorService.listarDeudasGestorMontoAcumulado();
+			if(GenericUtil.isCollectionEmpty(listaDeudasGestorAcumulado)) {
+				return null;
+			}
+			else {
+				return listaDeudasGestorAcumulado;
 			}
 		}
 		catch(Exception e) {

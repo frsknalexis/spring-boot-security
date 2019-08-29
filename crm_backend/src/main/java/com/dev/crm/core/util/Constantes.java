@@ -145,6 +145,8 @@ public class Constantes {
 	public static final String SP_LISTAR_UBIGEO = "sp_listar_ubigeo";
 	public static final String SP_INSERCCION_CLIENTE = "sp_inserccion_cliente";
 	public static final String SP_PAGO_SERVICIO_GESTOR = "sp_pago_servicio_gestor";
+	public static final String SP_LISTAR_CONSOLIDADO_INTERNET = "sp_listar_consolidado_internet";
+	public static final String SP_RECUPERAR_DIAS_DEUDAS_GESTOR_MONTO_ACUMULADO = "recuperar_dias_deudas_gestor_monto_acumulado";
 	
 	public static final boolean HABILITADO = true;
 	public static final boolean INHABILITADO = false;

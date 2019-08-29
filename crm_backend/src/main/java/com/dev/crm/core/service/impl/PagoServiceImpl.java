@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.ConsolidadoInternetResultViewModel;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
@@ -38,6 +39,7 @@ import com.dev.crm.core.dto.PdfPagoDiaResultViewModel;
 import com.dev.crm.core.dto.ReciboResultViewModel;
 import com.dev.crm.core.repository.jdbc.ClientePagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ConsecutivoPagoJdbcRepository;
+import com.dev.crm.core.repository.jdbc.ConsolidadoInternetJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetallePagoResultJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DeudasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DiasDeudasJdbcRepository;
@@ -173,6 +175,10 @@ public class PagoServiceImpl implements PagoService {
 	@Autowired
 	@Qualifier("pagoServicioGestorJdbcRepository")
 	private PagoServicioGestorJdbcRepository pagoServicioGestorJdbcRepository;
+	
+	@Autowired
+	@Qualifier("consolidadoInternetJdbcRepository")
+	private ConsolidadoInternetJdbcRepository consolidadoInternetJdbcRepository;
 	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
@@ -535,6 +541,27 @@ public class PagoServiceImpl implements PagoService {
 			}
 			else {
 				return gananciasPorMesCaja;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<ConsolidadoInternetResultViewModel> listarConsolidadoInternet() {
+		
+		List<ConsolidadoInternetResultViewModel> listaConsolidadoInternet = new ArrayList<ConsolidadoInternetResultViewModel>();
+		
+		try {
+			
+			listaConsolidadoInternet = consolidadoInternetJdbcRepository.listarConsolidadoInternet();
+			if(GenericUtil.isCollectionEmpty(listaConsolidadoInternet)) {
+				return null;
+			}
+			else {
+				return listaConsolidadoInternet;
 			}
 		}
 		catch(Exception e) {

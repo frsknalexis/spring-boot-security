@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.crm.core.dto.ClienteGestorRequest;
 import com.dev.crm.core.dto.ClienteGestorResultViewModel;
+import com.dev.crm.core.dto.DeudasGestorMontoAcumuladoResultViewModel;
 import com.dev.crm.core.dto.DeudasGestoresResultViewModel;
 import com.dev.crm.core.dto.DeudasPorGestorRequest;
 import com.dev.crm.core.dto.DeudasPorGestorResultViewModel;
@@ -17,6 +18,7 @@ import com.dev.crm.core.dto.DiasDeudasRequest;
 import com.dev.crm.core.dto.GestoresResultViewModel;
 import com.dev.crm.core.repository.jdbc.AsignarClienteGestorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.ClienteGestorJdbcRepository;
+import com.dev.crm.core.repository.jdbc.DeudasGestorMontoAcumuladoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DeudasGestoresJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DeudasPorGestorJdbcRepository;
 import com.dev.crm.core.repository.jdbc.GestoresJdbcRepository;
@@ -47,6 +49,10 @@ public class GestorServiceImpl implements GestorService {
 	@Autowired
 	@Qualifier("deudasPorGestorJdbcRepository")
 	private DeudasPorGestorJdbcRepository deudasPorGestorJdbcRepository;
+	
+	@Autowired
+	@Qualifier("deudasGestorMontoAcumuladoJdbcRepository")
+	private DeudasGestorMontoAcumuladoJdbcRepository deudasGestorMontoAcumuladoJdbcRepository;
 	
 	@Override
 	public List<ClienteGestorResultViewModel> listarClienteGestor() {
@@ -149,6 +155,27 @@ public class GestorServiceImpl implements GestorService {
 			}
 			else {
 				return gestores;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<DeudasGestorMontoAcumuladoResultViewModel> listarDeudasGestorMontoAcumulado() {
+		
+		List<DeudasGestorMontoAcumuladoResultViewModel> listaDeudasGestorAcumulado = new ArrayList<DeudasGestorMontoAcumuladoResultViewModel>();
+		
+		try {
+			
+			listaDeudasGestorAcumulado = deudasGestorMontoAcumuladoJdbcRepository.listarDeudasGestorMontoAcumulado();
+			if(GenericUtil.isCollectionEmpty(listaDeudasGestorAcumulado)) {
+				return null;
+			}
+			else {
+				return listaDeudasGestorAcumulado;
 			}
 		}
 		catch(Exception e) {

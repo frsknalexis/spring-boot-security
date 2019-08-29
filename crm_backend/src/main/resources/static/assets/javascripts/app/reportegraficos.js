@@ -14,6 +14,10 @@
 	generarReporteGraficoGananciaPorCaja();
 	
 	generarReporteGraficoGananciaPorDia();
+	
+	generarReporteConsolidado();
+	
+	generarReporteMontoAcumuladoGestor();
 
 }).apply( this, [ jQuery ]);
 
@@ -198,6 +202,28 @@ function generarReporteGraficoGananciaPorCaja() {
 				});
 			}
 		}
+	});
+}
+
+function generarReporteConsolidado() {
+	
+	$('#btnReporteConsolidado').on('click', function() {
+		$(this).attr('href', '/api/v1/pago/consolidadoInternet');
+		var url = $(this).attr('href');
+		window.open(url, '_blank');
+		return false;
+		console.log(url);
+	});
+}
+
+function generarReporteMontoAcumuladoGestor() {
+	
+	$('#btnReporteMontoAcumuladoGestor').on('click', function() {
+		$(this).attr('href', '/api/v1/gestor/reporteGestorMontoAcumulado');
+		var url = $(this).attr('href');
+		window.open(url, '_blank');
+		return false;
+		console.log(url);
 	});
 }
 

@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.List;
 
 import com.dev.crm.core.dto.ActivacionesResultViewModel;
+import com.dev.crm.core.dto.ConsolidadoInternetResultViewModel;
+import com.dev.crm.core.dto.DeudasGestorMontoAcumuladoResultViewModel;
 import com.dev.crm.core.dto.DiasDeudasResultViewModel;
 import com.dev.crm.core.dto.LiquidacionMaterialResultViewModel;
 import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
@@ -626,6 +628,150 @@ public class PdfGenerator {
 		return new ByteArrayInputStream(baos.toByteArray());
 	}
 	
+	public static ByteArrayInputStream deudasGestorAcumuladoReportToPDF(List<DeudasGestorMontoAcumuladoResultViewModel> listaDeudasGestorAcumulado) {
+		
+		Document document = new Document(PageSize.A4);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			
+			PdfPTable table = new PdfPTable(11);
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {1.2f, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+			font.setColor(BaseColor.WHITE);
+			
+			PdfPCell hcell;
+			hcell = new PdfPCell(new Phrase("GESTOR", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("UNA CUOTA", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("IMPORTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("DOS CUOTAS", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("IMPORTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("TRES CUOTAS", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("IMPORTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CUATRO CUOTAS", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("IMPORTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CINCO CUOTAS", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("IMPORTE", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			for(DeudasGestorMontoAcumuladoResultViewModel deudaGestorAcumulado : listaDeudasGestorAcumulado) {
+				
+				PdfPCell cell;
+				
+				Font f = FontFactory.getFont(FontFactory.HELVETICA, 10);
+				
+				cell = new PdfPCell(new Phrase(deudaGestorAcumulado.getGestor(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.integerToString(deudaGestorAcumulado.getMorosidadUnMesCantidad()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.bigDecimalToString(deudaGestorAcumulado.getMorosidadUnMes()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+					
+				cell = new PdfPCell(new Phrase(StringUtil.integerToString(deudaGestorAcumulado.getMorosidadDosMesesCantidad()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.bigDecimalToString(deudaGestorAcumulado.getMorosidadDosMeses()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.integerToString(deudaGestorAcumulado.getMorosidadTresMesesCantidad()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.bigDecimalToString(deudaGestorAcumulado.getMorosidadTresMeses()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.integerToString(deudaGestorAcumulado.getMorosidadCuatroMesesCantidad()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.bigDecimalToString(deudaGestorAcumulado.getMorosidadCuatroMeses()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.integerToString(deudaGestorAcumulado.getMorosidadCincoMesesCantidad()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(StringUtil.bigDecimalToString(deudaGestorAcumulado.getMorosidadCincoMeses()), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+			}
+			
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			document.add(table);
+			
+			document.close();
+		}
+		catch(DocumentException e) {
+			e.printStackTrace();
+		}
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+	
 	public static ByteArrayInputStream activacionesInstalacionReportToPDF(List<ActivacionesResultViewModel> activacionesInstalacion) {
 		
 		Document document = new Document(PageSize.A4);
@@ -723,6 +869,80 @@ public class PdfGenerator {
 				table.addCell(cell);
 				
 				cell = new PdfPCell(new Phrase(activacion.getObservacion(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+			}
+			
+			PdfWriter.getInstance(document, baos);
+			document.open();
+			document.add(table);
+			
+			document.close();
+		}
+		catch(DocumentException e) {
+			e.printStackTrace();
+		}
+		return new ByteArrayInputStream(baos.toByteArray());
+	}
+	
+	public static ByteArrayInputStream consolidadoInternetReportToPDF(List<ConsolidadoInternetResultViewModel> listaConsolidadoInternet) {
+		
+		Document document = new Document(PageSize.A4);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try {
+			
+			PdfPTable table = new PdfPTable(4);
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] {1.5f, 1, 1, 1});
+			Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+			font.setColor(BaseColor.WHITE);
+			
+			PdfPCell hcell;
+			hcell = new PdfPCell(new Phrase("FECHA PAGO", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CAJA 1", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CAJA 2", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("CAJA 3", font));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(BaseColor.DARK_GRAY);
+			table.addCell(hcell);
+			
+			for(ConsolidadoInternetResultViewModel consolidadoInternet : listaConsolidadoInternet) {
+				
+				PdfPCell cell;
+				
+				Font f = FontFactory.getFont(FontFactory.HELVETICA, 10);
+				
+				cell = new PdfPCell(new Phrase(consolidadoInternet.getFechaPago(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(consolidadoInternet.getCajaUno(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(consolidadoInternet.getCajaDos(), f));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase(consolidadoInternet.getCajaTres(), f));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(cell);

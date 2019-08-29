@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.ConsolidadoInternetResultViewModel;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
@@ -60,6 +61,8 @@ public interface PagoService {
 	List<GananciaPorMesCajaResultViewModel> ganaciaPorMesCaja();
 	
 	List<GananciaPorDiaCajaResultViewModel> gananciaPorDiaCaja();
+	
+	List<ConsolidadoInternetResultViewModel> listarConsolidadoInternet();
 	
 	List<DiasDeudasResultViewModel> recuperarDiasDeudasParametrizado(DiasDeudasRequest request);
 	

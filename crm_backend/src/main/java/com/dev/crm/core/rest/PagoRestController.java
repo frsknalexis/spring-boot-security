@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.ConsolidadoInternetResultViewModel;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
@@ -309,6 +310,28 @@ public class PagoRestController {
 			
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Content-Disposition", "inline; filename=recibo.pdf");
+			
+			return ResponseEntity.ok()
+					.headers(headers)
+					.contentType(MediaType.APPLICATION_PDF)
+					.body(new InputStreamResource(bis));
+		}
+		catch(Exception e) {
+			return new ResponseEntity<InputStreamResource>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping(value = "/consolidadoInternet", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> generarReporteConsolidadoInternetToPDF() throws IOException {
+		
+		try {
+			
+			List<ConsolidadoInternetResultViewModel> listaConsolidadoInternet = pagoFacade.listarConsolidadoInternet();
+			
+			ByteArrayInputStream bis = PdfGenerator.consolidadoInternetReportToPDF(listaConsolidadoInternet);
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Disposition", "inline; filename=ConsolidadoInternet.pdf");
 			
 			return ResponseEntity.ok()
 					.headers(headers)

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.dev.crm.core.dto.ClientePagoResultViewModel;
 import com.dev.crm.core.dto.ConsecutivoPagoRequest;
+import com.dev.crm.core.dto.ConsolidadoInternetResultViewModel;
 import com.dev.crm.core.dto.DescuentoHistorialRequest;
 import com.dev.crm.core.dto.DescuentoPagoResultViewModel;
 import com.dev.crm.core.dto.DetallePagoResultViewModel;
@@ -479,6 +480,27 @@ public class PagoFacadeImpl implements PagoFacade {
 		return null;
 	}
 	
+	@Override
+	public List<ConsolidadoInternetResultViewModel> listarConsolidadoInternet() {
+		
+		List<ConsolidadoInternetResultViewModel> listaConsolidadoInternet = new ArrayList<ConsolidadoInternetResultViewModel>();
+		
+		try {
+			
+			listaConsolidadoInternet = pagoService.listarConsolidadoInternet();
+			if(GenericUtil.isCollectionEmpty(listaConsolidadoInternet)) {
+				return null;
+			}
+			else {
+				return listaConsolidadoInternet;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public List<GananciaPorDiaCajaResultViewModel> gananciaPorDiaCaja() {
 		

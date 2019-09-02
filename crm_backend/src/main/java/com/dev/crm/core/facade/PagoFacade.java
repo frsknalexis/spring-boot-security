@@ -16,6 +16,7 @@ import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
+import com.dev.crm.core.dto.PagoMoraCableRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
@@ -70,6 +71,8 @@ public interface PagoFacade {
 	ResponseBaseOperation spPagoServicio(PagoRequest pagoRequest);
 	
 	ResponseBaseOperation spPagoMora(PagoMoraRequest pagoMora);
+	
+	ResponseBaseOperation pagoMoraCable(PagoMoraCableRequest request);
 	
 	ResponseBaseOperation spPagoAdelantado(PagoAdelantadoRequest request);
 	

@@ -26,6 +26,7 @@ public class Constantes {
 	public static final String LISTA_PAGOS_VIEW = "modulo-pagos/pagos/listapagos";
 	public static final String CLIENTE_GESTORES_VIEW = "modulo-pagos/gestores/clientegestores";
 	public static final String PAGO_GESTORES_VIEW = "modulo-pagos/gestores/pagogestores";
+	public static final String PAGO_CLIENTES_VIEW = "modulo-pagos/pagos/pagoclientes";
 	public static final String LOGIN_VIEW = "login";
 	public static final String ADMINISTRACION_PAGOS_VIEW = "modulo-administracion/pagos";
 	public static final String ADMINISTRACION_REPORTES_VIEW = "modulo-administracion/reportes";
@@ -56,6 +57,7 @@ public class Constantes {
 	public static final String SP_LISTAR_COMPROBANTE = "sp_listar_comprobante";
 	public static final String SP_MESES_DEUDAS = "sp_meses_deudas";
 	public static final String SP_PAGO_MORA = "sp_insercion_pago_mora";
+	public static final String SP_INSERCION_PAGO_MORA_CABLE = "sp_insercion_pago_mora_cable";
 	public static final String SP_AGREGAR_PERSONA = "sp_inserccion_persona_ci";
 	public static final String SP_LISTAR_CLIENTES_ATENCION = "sp_listar_clientes_atencion";
 	public static final String SP_LISTAR_DATOS_GENERALES_CLIENTE = "sp_listar_datos_generales_cliente";

@@ -16,6 +16,7 @@ import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
+import com.dev.crm.core.dto.PagoMoraCableRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
@@ -69,6 +70,8 @@ public interface PagoService {
 	String spPagoServicio(PagoRequest pagoRequest);
 	
 	String spPagoMora(PagoMoraRequest pagoMora);
+	
+	String pagoMoraCable(PagoMoraCableRequest request);
 	
 	String spPagoAdelantado(PagoAdelantadoRequest request);
 	

@@ -22,6 +22,7 @@ import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
+import com.dev.crm.core.dto.PagoMoraCableRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
@@ -53,6 +54,7 @@ import com.dev.crm.core.repository.jdbc.PagoAdelantadoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoDelDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoListOutdbcRepository;
+import com.dev.crm.core.repository.jdbc.PagoMoraCableJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoMoraJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorDiaJdbcRepository;
 import com.dev.crm.core.repository.jdbc.PagoPorRangoFechaBusquedaJdbcRepository;
@@ -180,6 +182,10 @@ public class PagoServiceImpl implements PagoService {
 	@Qualifier("consolidadoInternetJdbcRepository")
 	private ConsolidadoInternetJdbcRepository consolidadoInternetJdbcRepository;
 	
+	@Autowired
+	@Qualifier("pagoMoraCableJdbcRepository")
+	private PagoMoraCableJdbcRepository pagoMoraCableJdbcRepository;
+	
 	@Override
 	public String spPagoServicio(PagoRequest pagoRequest) {
 		
@@ -222,6 +228,27 @@ public class PagoServiceImpl implements PagoService {
 		return null;
 	}
 	
+	@Override
+	public String pagoMoraCable(PagoMoraCableRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = pagoMoraCableJdbcRepository.pagoMoraCable(request);
+				if(StringUtil.hasText(result)) {
+					return result;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public String spPagoAdelantado(PagoAdelantadoRequest request) {
 		

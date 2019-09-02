@@ -35,6 +35,7 @@ import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
+import com.dev.crm.core.dto.PagoMoraCableRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
@@ -189,6 +190,28 @@ public class PagoRestController {
 			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PostMapping("/pagoMoraCable")
+	public ResponseEntity<ResponseBaseOperation> pagoMoraCable(@Valid @RequestBody PagoMoraCableRequest request) {
+	
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				User usuarioLogueado = userDetail.findLoggedInUser();
+				String codigoCaja = usuarioLogueado.getUsername();
+				request.setCodigoCaja(codigoCaja);
+				ResponseBaseOperation response = pagoFacade.pagoMoraCable(request);
+				return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+			}
+			else {
+				return new ResponseEntity<ResponseBaseOperation>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 	@PostMapping("/pagoServicioGestor")
 	public ResponseEntity<ResponseBaseOperation> realizarPagoServicioGestor(@Valid @RequestBody PagoServicioGestorRequest request) {

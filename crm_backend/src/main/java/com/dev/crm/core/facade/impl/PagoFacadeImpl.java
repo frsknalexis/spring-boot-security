@@ -21,6 +21,7 @@ import com.dev.crm.core.dto.ListaPagosPorCajaResultViewModel;
 import com.dev.crm.core.dto.MesActualDeuda;
 import com.dev.crm.core.dto.MesDeudaResultViewModel;
 import com.dev.crm.core.dto.PagoAdelantadoRequest;
+import com.dev.crm.core.dto.PagoMoraCableRequest;
 import com.dev.crm.core.dto.PagoMoraRequest;
 import com.dev.crm.core.dto.PagoPorDiaResultViewModel;
 import com.dev.crm.core.dto.PagoRequest;
@@ -110,6 +111,38 @@ public class PagoFacadeImpl implements PagoFacade {
 		return null;
 	}
 	
+	@Override
+	public ResponseBaseOperation pagoMoraCable(PagoMoraCableRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = pagoService.pagoMoraCable(request);
+				if(StringUtil.hasText(result)) {
+					if(StringUtil.eq(result, Constantes.HECHO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.AUTORIZADO)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					}
+					else if(StringUtil.eq(result, Constantes.ERROR)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					}
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public ResponseBaseOperation spPagoAdelantado(PagoAdelantadoRequest request) {
 		

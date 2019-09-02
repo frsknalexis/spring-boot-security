@@ -24,4 +24,9 @@ public class PagoController {
 	public String listaPagosViewController() {
 		return Constantes.LISTA_PAGOS_VIEW;
 	}
+	
+	@GetMapping("/clientePagos")
+	public String clientePagosViewController() {
+		return Constantes.PAGO_CLIENTES_VIEW;
+	}
 }

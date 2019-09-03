@@ -42,6 +42,7 @@ public class Constantes {
 	public static final String SP_BUSCAR_PERSONA_CLIENTE_VENDEDOR = "sp_buscar_persona_cliente_vendedor";
 	public static final String SP_INSERCION_CUENTA_INTERNET = "sp_insercion_cuenta_internet";
 	public static final String SP_INSERCION_CUENTA_CABLE ="sp_insercion_cuenta_cable";
+	public static final String SP_INSERCION_CUENTA_DUO = "sp_insercion_cuenta_duo";
 	public static final String SP_REPROGRAMAR_INSTALACION_CABLE = "sp_reprogramar_insta_cable";
 	public static final String SP_REPROGRAMAR_INSTALACION_INTERNET = "sp_reprogramar_insta_internet";
 	public static final String SP_REVALIDANDO_FECHA_CABLE = "sp_revalidando_fecha_cable";

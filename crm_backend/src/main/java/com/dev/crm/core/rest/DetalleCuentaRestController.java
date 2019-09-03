@@ -33,6 +33,7 @@ import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaCableRequest;
+import com.dev.crm.core.dto.DetalleCuentaDuoRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
@@ -165,6 +166,28 @@ public class DetalleCuentaRestController {
 			request.setCodigoUsuario(usuario);
 			ResponseBaseOperation response = detalleCuentaFacade.insercionCuentaCable(request);
 			return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping(value = "/saveCuentaDuo",
+			consumes = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ResponseBaseOperation> insercionCuentaDuo(@Valid @RequestBody DetalleCuentaDuoRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				User usuarioLogueado = userDetail.findLoggedInUser();
+				String usuario = usuarioLogueado.getUsername();
+				request.setCodigoUsuario(usuario);
+				ResponseBaseOperation response = detalleCuentaFacade.insercionCuentaDuo(request);
+				return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
+			}
+			else {
+				return new ResponseEntity<ResponseBaseOperation>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 		catch(Exception e) {
 			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);

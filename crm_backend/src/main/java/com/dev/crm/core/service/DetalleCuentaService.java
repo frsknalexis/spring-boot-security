@@ -16,6 +16,7 @@ import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaCableRequest;
+import com.dev.crm.core.dto.DetalleCuentaDuoRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
@@ -31,6 +32,8 @@ public interface DetalleCuentaService {
 	String insercionCuentaCable(DetalleCuentaCableRequest request);
 	
 	String spInsercionCuentaCable(DetalleCuenta detalleCuenta);
+	
+	String insercionCuentaDuo(DetalleCuentaDuoRequest request);
 	
 	String spEnvioDatosInternetServicio(DatosInternetServicioRequest request);
 	

@@ -23,6 +23,7 @@ import com.dev.crm.core.dto.CuentasResultViewModel;
 import com.dev.crm.core.dto.DatosInternetServicioRequest;
 import com.dev.crm.core.dto.DatosMaterialesRequest;
 import com.dev.crm.core.dto.DetalleCuentaCableRequest;
+import com.dev.crm.core.dto.DetalleCuentaDuoRequest;
 import com.dev.crm.core.dto.DetalleCuentaRequest;
 import com.dev.crm.core.dto.EstadoCuentasResultViewModel;
 import com.dev.crm.core.dto.EstadosCuentaResultViewModel;
@@ -40,6 +41,7 @@ import com.dev.crm.core.repository.jdbc.CuentasPorInstalarJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosInternetServicioJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DatosMaterialesJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetalleCuentaCableJdbcRepository;
+import com.dev.crm.core.repository.jdbc.DetalleCuentaDuoJdbcRepository;
 import com.dev.crm.core.repository.jdbc.DetalleCuentaInternetJdbcRepository;
 import com.dev.crm.core.repository.jdbc.EstadoCuentasJdbcRepository;
 import com.dev.crm.core.repository.jdbc.EstadosCuentaJdbcRepository;
@@ -122,6 +124,10 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 	@Qualifier("detalleCuentaCableJdbcRepository")
 	private DetalleCuentaCableJdbcRepository detalleCuentaCableJdbcRepository;
 	
+	@Autowired
+	@Qualifier("detalleCuentaDuoJdbcRepository")
+	private DetalleCuentaDuoJdbcRepository detalleCuentaDuoJdbcRepository;
+	
 	@Override
 	public String spInsercionCuentaInternet(DetalleCuentaRequest request) {
 		
@@ -150,6 +156,27 @@ public class DetalleCuentaServiceImpl implements DetalleCuentaService {
 			
 			if(GenericUtil.isNotNull(request)) {
 				String result = detalleCuentaCableJdbcRepository.insercionCuentaCable(request);
+				if(StringUtil.hasText(result)) {
+					return result;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public String insercionCuentaDuo(DetalleCuentaDuoRequest request) {
+		
+		try {
+			
+			if(GenericUtil.isNotNull(request)) {
+				String result = detalleCuentaDuoJdbcRepository.insercionCuentaDuo(request);
 				if(StringUtil.hasText(result)) {
 					return result;
 				}

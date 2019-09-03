@@ -38,7 +38,6 @@ $(document).on('ready', function() {
 	function listarCuentasGeneradas() {
 		
 		$('#listaCuentasGeneradas').on('click', function() {
-			
 			$(location).attr('href', '/detalleCuenta/cuentas/view');
 		});
 	}
@@ -90,7 +89,6 @@ $(document).on('ready', function() {
 	 * 
 	 */
 	function limpiarForm() {
-		
 		$('#documentoPersonaCliente').val('');
 		$('#detalleCuentaCliente').val('');
 		$('#detalleCuentaDireccion').val('');
@@ -128,9 +126,7 @@ $(document).on('ready', function() {
 	 * 
 	 */
 	function cancelarAccion() {
-		
 		$('#cancelarAccion').on('click', function() {
-			
 			limpiarForm();
 			disabledInputs(true);
 			disabledButtonGenerarCuenta(true);
@@ -166,8 +162,7 @@ $(document).on('ready', function() {
 					success: function(response) {
 		
 						console.log(response);
-						if(response != null) {
-							
+						if(response != null) {				
 							$('#documentoPersonaCliente').val(response.documentoPersona);
 							$('#detalleCuentaCliente').val(response.cliente);
 							$('#detalleCuentaDireccion').val(response.direccionPersona);
@@ -198,15 +193,12 @@ $(document).on('ready', function() {
 					}
 				});
 			}
-			
 			if(!($('#busqueda').val().match(/^[0-9\.-\s]{7,12}$/))) {
-				
 				swal({
 	                type: 'error',
 	                title: 'Ooops',
 	                text: 'Debe ingresar un valor valido de DNI/RUC para realizar la busqueda'
 	            });
-				
 				$('#busqueda').val('');
 				$('#busqueda').focus();
 		    	return false;
@@ -290,10 +282,8 @@ $(document).on('ready', function() {
 			url: '/api/v1/vendedor/vendedores',
 			dataType: 'json',
 			success: function(response) {
-				
 				$detalleCuentaVendedor.html('');
 				$detalleCuentaVendedor.append('<option value="">Seleccione un  Vendedor Responsable</option>');
-				
 				for(var i = 0; i < response.length; i++) {
 					$detalleCuentaVendedor.append('<option value="'+ response[i].vendedor +'">'+ response[i].vendedor +'</option>');
 				}
@@ -320,9 +310,7 @@ $(document).on('ready', function() {
 						fechaSolicitudClienteDetalleCuenta: $('#fechaSolicitudClienteDetalleCuenta').val(),
 						nombreVendedor: $('#detalleCuentaVendedor').val()
 				};
-				
 				console.log(formDataIC);
-				
 				$.ajax({
 					
 					type: 'POST',
@@ -382,6 +370,72 @@ $(document).on('ready', function() {
 	
 	/**
 	 * 
+	 * function para generarCuentaDuo
+	 * 
+	 */
+	function generarCuentaDuo() {
+		
+		$('#generarCuenta').on('click', function(e) {
+			
+			e.preventDefault();
+			if($('#documentoPersonaCliente').val().match(/^[0-9\.-\s]{7,12}$/) && $('#fechaSolicitudClienteDetalleCuenta').val() != "" 
+				&& $('#detalleCuentaVendedor').val().trim() != "") {
+				
+				var formDataDuo = {
+						documentoPersonCliente: $('#documentoPersonaCliente').val(),
+						observacionDetalleCuenta: $('#detalleCuentaObservacion').val(),
+						fechaSolicitudClienteDetalleCuenta: $('#fechaSolicitudClienteDetalleCuenta').val(), 
+						nombreVendedor: $('#detalleCuentaVendedor').val()
+				};
+				console.log(formDataDuo);
+				$.ajax({
+					type: 'POST',
+					url: '/api/v1/detalleCuenta/saveCuentaDuo',
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					data: JSON.stringify(formDataDuo),
+					dataType: 'json',
+					success: function(response) {
+						console.log(response);
+						if(response.status == "CREATED" && response.message == "HECHO") {	
+							swal({
+								type: "success",
+								title: "Se Genero la Cuenta de Duo con exito",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+							}).then((result) => {
+
+								if(result.value) {
+									$(location).attr('href', '/detalleCuenta/generarCuenta/view');
+								}
+							});
+						}
+						else if(response.status == "ERROR" && response.message == "SERVICIO OPERANDO") {
+							
+							swal({
+				                type: 'error',
+				                title: 'Ooops',
+				                text: 'Ya se Genero la Cuenta de Duo para el Cliente, verifique el estado del Servicio !'
+				            });
+						}
+					},
+					error: function() {	
+						swal({
+			                type: 'error',
+			                title: 'Ooops',
+			                text: 'Error al Generar Cuenta de Duo !'
+			            });
+					}
+				});
+			}
+		});
+	}
+	
+	/**
+	 * 
 	 *funcion para generarCuentaCableColor 
 	 * 
 	 */
@@ -411,7 +465,6 @@ $(document).on('ready', function() {
 					data: JSON.stringify(formDataCC),
 					dataType: 'json',
 					success: function(response) {
-						
 						console.log(response);
 						if(response.status =="CREATED" && response.message == "HECHO") {
 							
@@ -465,26 +518,30 @@ $(document).on('ready', function() {
 				limpiarForm();
 				disabledInputs(false);
 				disabledButtonGenerarCuenta(true);
-				
 			}
 			else if($tipoServicio.val() == "IC") {
-				
 				limpiarForm();
 				disabledInputs(true);
 				disabledButtonGenerarCuenta(false);
 				cancelarAccion();
 				verificarCliente();
 				generarCuentaInternetColor();
-				
 			}
 			else if($tipoServicio.val() == 'CC') {
-				
 				limpiarForm();
 				disabledInputs(true);
 				disabledButtonGenerarCuenta(false);
 				cancelarAccion();
 				verificarCliente();
 				generarCuentaCableColor();
+			}
+			else if($tipoServicio.val() == 'DUO') {
+				limpiarForm();
+				disabledInputs(true);
+				disabledButtonGenerarCuenta(false);
+				cancelarAccion();
+				verificarCliente();
+				generarCuentaDuo();
 			}
 		});
 	}
@@ -658,23 +715,18 @@ $(document).on('ready', function() {
 		var verificando = valuee - dinamico;
 		
 		if(estatico === valuee && valuee === dinamico){
-			
 			estado(valuee);
 			cargarmensajespopus(valuee);
 			$('#canje').val("0");
 		}
 		if(verificando === 0){
-			
 			estado(verificando);
 			cargarmensajespopus(verificando);
 			$('#canje').val("0");
 		}
 		if(verificando !== 0){
-			
 			estadonuevo(parseInt(valuee));
-			
 			cargarmensajespopusnuevo(parseInt(dinamico) + 1,parseInt(verificando));
-		
 			$('#canje').val("0");
 			$('#canjes').val(valuee);
 		}
@@ -687,7 +739,6 @@ $(document).on('ready', function() {
 		};
 		
 		$.ajax({
-			
 			type: 'POST',
 			url: '/api/v1/atencion/obtenercantidad',
 			headers: {
@@ -697,7 +748,6 @@ $(document).on('ready', function() {
 			data: JSON.stringify(formData),
 			dataType: 'json',
 			success: function(response) {
-				
 				$('#total').html(response.message);
 				$('#totalidad').html(response.message);
 				$('#canjess').val(response.message);
@@ -712,7 +762,6 @@ $(document).on('ready', function() {
 		};
 		
 		$.ajax({
-			
 			type: 'POST',
 			url: '/api/v1/atencion/obtenercantidad',
 			headers: {
@@ -722,7 +771,6 @@ $(document).on('ready', function() {
 			data: JSON.stringify(formData),
 			dataType: 'json',
 			success: function(response) {
-				
 				$('#total').html(response.message);
 				$('#totalidad').html(response.message);
 				$('#canje').val(response.message);

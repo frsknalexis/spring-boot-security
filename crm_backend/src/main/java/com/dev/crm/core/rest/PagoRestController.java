@@ -222,11 +222,13 @@ public class PagoRestController {
 				ResponseBaseOperation response = pagoFacade.realizarPagoServicioGestor(request);
 				return new ResponseEntity<ResponseBaseOperation>(response, HttpStatus.CREATED);
 			}
+			else {
+				return new ResponseEntity<ResponseBaseOperation>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 		catch(Exception e) {
 			return new ResponseEntity<ResponseBaseOperation>(HttpStatus.BAD_REQUEST);
 		}
-		return null;
 	}
 	
 	@PostMapping("/pagosAdelantados")

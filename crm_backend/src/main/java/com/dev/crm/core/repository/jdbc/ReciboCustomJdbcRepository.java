@@ -72,7 +72,7 @@ public class ReciboCustomJdbcRepository implements ReciboJdbcRepository {
 				recibo.setDireccion((String) out.get("VDIRECCION"));
 				recibo.setFechaInicio((Date) out.get("VFECHAI"));
 				recibo.setMesValido((String) out.get("VMES"));
-				recibo.setMonto(((Double) out.get("VCANTIDAD")));
+				recibo.setMonto((Double) out.get("VCANTIDAD"));
 				recibo.setDescuento(new BigDecimal((Double) out.get("VDESCUENTO")));
 				recibo.setFechaPago((Date) out.get("VFECHA"));
 				recibo.setTipoComprobante((String) out.get("VTIPC"));

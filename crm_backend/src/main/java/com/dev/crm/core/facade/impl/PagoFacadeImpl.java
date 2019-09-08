@@ -180,11 +180,17 @@ public class PagoFacadeImpl implements PagoFacade {
 			if(GenericUtil.isNotNull(request)) {
 				String result = pagoService.realizarPagoServicioGestor(request);
 				if(StringUtil.hasText(result)) {
-					if(StringUtil.eq(result, Constantes.HECHO)) {
-						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, result, request);
+					if(StringUtil.eq(result, Constantes.PAGO_ADELANTADO_CON_PROMO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, Constantes.PAGO_ADELANTADO_CON_PROMO, request);
 					}
-					else if(StringUtil.eq(result, Constantes.EXCEDIO)) {
-						return new ResponseBaseOperation(Constantes.ERROR_STATUS, result, request);
+					else if(StringUtil.eq(result, Constantes.PAGO_ADELANTADO_SIN_PROMO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, Constantes.PAGO_ADELANTADO_SIN_PROMO, request);
+					}
+					else if(StringUtil.eq(result, Constantes.PAGO_RAPIDO)) {
+						return new ResponseBaseOperation(Constantes.SUCCESS_STATUS, Constantes.PAGO_RAPIDO, request);
+					}
+					else if(StringUtil.eq(result, Constantes.ESTO_ES_MALO)) {
+						return new ResponseBaseOperation(Constantes.ERROR_STATUS, Constantes.ESTO_ES_MALO, request);
 					}
 				}
 				else {

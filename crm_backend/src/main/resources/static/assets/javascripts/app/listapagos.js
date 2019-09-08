@@ -56,7 +56,6 @@ $(document).on('ready', function() {
 				}
 			}
 		}
-	
 	}
 	
 	/**
@@ -159,7 +158,6 @@ $(document).on('ready', function() {
 			
 			var codigoPago = $(this).attr('codigoPago');
 			console.log("codigoPago: " + codigoPago);
-			
 			$('#modalFormRevalidarPago').modal('show');
 			$('#codigoPagoRevalidar').val(codigoPago);
 		});
@@ -238,15 +236,13 @@ $(document).on('ready', function() {
 			
 			var valor = $(this).val();
 			
-			
 			if(parseInt(valor) <= -1) {
 				
 				swal({
 	                type: 'error',
 	                title: 'Ooops',
 	                text: 'Ingrese un valor valido para el Monto a Pagar'
-	            });
-				
+	            });			
 				$(this).val('');
 				$(this).focus();
 			}
@@ -323,9 +319,7 @@ $(document).on('ready', function() {
 		});
 	}
 	
-function cargarmensajespopusnuevo(valor,id){
-		
-		
+	function cargarmensajespopusnuevo(valor,id){
 		
 		var title = "Tareas Pendientes!!!";
 		
@@ -335,11 +329,8 @@ function cargarmensajespopusnuevo(valor,id){
 		var closeOnClick = true;
 		var displayClose =true;
 		
-		
-		
 		if(valor !== 0)
 		{
-			
 			for(var i = 0;id > i;i++)
 			{			
 				if(id > i){
@@ -353,9 +344,7 @@ function cargarmensajespopusnuevo(valor,id){
 									
 									var mensaje = response.descripcionmensaje;
 									var message = mensaje;
-							
-									
-									
+								
 									window.createNotification({
 										closeOnClick: closeOnClick,
 										displayCloseButton: displayClose,
@@ -365,19 +354,15 @@ function cargarmensajespopusnuevo(valor,id){
 									})({
 								title: title,
 								message: message
-							});
-							
+							});				
 						}
 					});
 				}
-			}
-			
+			}	
 		}
 	}
 
 	function cargarmensajespopus(id){
-		
-		
 		
 		var title = "Tareas Pendientes!!!";
 		
@@ -405,8 +390,7 @@ function cargarmensajespopusnuevo(valor,id){
 									
 									var mensaje = response.descripcionmensaje;
 									var message = mensaje;
-							
-									
+								
 									window.createNotification({
 										closeOnClick: closeOnClick,
 										displayCloseButton: displayClose,
@@ -416,21 +400,17 @@ function cargarmensajespopusnuevo(valor,id){
 									})({
 								title: title,
 								message: message
-							});
-							
+							});				
 						}
 					});
 				}
-			}
-			
+			}	
 		}
 	}
 	
 	function estado(id){
 		
-		
 		if(id !== 0){
-			
 			
 			for(var i=1;i<=id;i++){
 			if(i <= id){
@@ -441,8 +421,7 @@ function cargarmensajespopusnuevo(valor,id){
 					url: '/api/v1/atencion/searchMensaje/' + i,
 					dataType: 'json',
 					success: function(response) {
-						
-						
+										
 						var tag = document.createElement("li");
 						tag.innerHTML = '<span class="toggle">Jan</span>';
 						
@@ -463,7 +442,6 @@ function cargarmensajespopusnuevo(valor,id){
 	
 	function estadonuevo(valor){
 		
-		
 		if(valor !== 0){
 			
 			document.getElementById("agregarmensajesnoti").innerHTML="";
@@ -476,8 +454,7 @@ function cargarmensajespopusnuevo(valor,id){
 					url: '/api/v1/atencion/searchMensaje/' + (parseInt(valor) - parseInt(i)),
 					dataType: 'json',
 					success: function(response) {
-						
-						
+										
 						var tag = document.createElement("li");
 						tag.innerHTML = '<span class="toggle">Jan</span>';
 						
@@ -506,7 +483,6 @@ function cargarmensajespopusnuevo(valor,id){
 		dinamico = document.getElementsByName("canjes")[0].value;
 		valuee = document.getElementsByName("canjess")[0].value;
 		
-		
 		var verificando = valuee - dinamico;
 		
 		if(estatico === valuee && valuee === dinamico){
@@ -534,7 +510,6 @@ function cargarmensajespopusnuevo(valor,id){
 	
 	function cargarTotalRegistrosPersona() {
 		
-		
 		var formData = {
 				
 		};
@@ -555,14 +530,11 @@ function cargarmensajespopusnuevo(valor,id){
 				$('#totalidad').html(response.message);
 				$('#canjess').val(response.message);
 			}
-			
 		});	
-		
 	}
 	
 	
 	function cargarTotalRegistrosPersonita() {
-		
 		
 		var formData = {
 				
@@ -586,9 +558,6 @@ function cargarmensajespopusnuevo(valor,id){
 				$('#canjes').val(response.message);
 				$('#canjess').val(response.message);
 			}
-			
-		});	
-		
+		});		
 	}
-	
 });

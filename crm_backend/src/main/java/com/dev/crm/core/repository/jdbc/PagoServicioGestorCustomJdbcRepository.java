@@ -33,19 +33,20 @@ public class PagoServicioGestorCustomJdbcRepository implements PagoServicioGesto
 		try {
 			
 			simpleJdbcCall.withProcedureName(Constantes.SP_PAGO_SERVICIO_GESTOR)
-				.declareParameters(new SqlParameter("CDOCOMP", Types.INTEGER),
-						new SqlParameter("CODDOC", Types.VARCHAR),
-						new SqlParameter("DNI_RUC", Types.VARCHAR),
-						new SqlParameter("PAGO", Types.FLOAT),
-						new SqlParameter("NOMB_GES", Types.VARCHAR),
+				.declareParameters(new SqlParameter("DNIRUC", Types.VARCHAR),
+						new SqlParameter("CODCMP", Types.INTEGER),
+						new SqlParameter("DNIPAGA", Types.VARCHAR),
+						new SqlParameter("CODUSU", Types.VARCHAR),
+						new SqlParameter("CANTPAGO", Types.DECIMAL),
 						new SqlOutParameter("MENSAJE", Types.VARCHAR));
 			
 			Map<String, Object> inParams = new HashMap<String, Object>();
-			inParams.put("CDOCOMP", request.getCodigoComprobante());
-			inParams.put("CODDOC", request.getDocumentoPersonaPago());
-			inParams.put("DNI_RUC", request.getDocumentoPersonaCliente());
-			inParams.put("PAGO", request.getCantidadPago());
-			inParams.put("NOMB_GES", request.getNombreGestor());
+			inParams.put("DNIRUC", request.getDocumentoPersonaCliente());
+			inParams.put("CODCMP", request.getCodigoComprobante());
+			inParams.put("DNIPAGA", request.getDocumentoPersonaPago());
+			inParams.put("CODUSU", request.getNombreGestor());
+			inParams.put("CANTPAGO", request.getCantidadPago());
+			
 			
 			Map<String, Object> out = simpleJdbcCall.execute(inParams);
 			String result = (String) out.get("MENSAJE");

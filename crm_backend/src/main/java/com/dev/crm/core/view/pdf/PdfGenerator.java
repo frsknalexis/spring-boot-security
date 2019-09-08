@@ -3,6 +3,7 @@ package com.dev.crm.core.view.pdf;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -1567,13 +1568,13 @@ public class PdfGenerator {
 			table.addCell(cellcabecera_3);			
 			
 			cellcabecera_4.disableBorderSide(Rectangle.BOX);
-			calldatoblack.add(new Phrase(  new  Chunk("               R.U.C. / D.N.I: ").setBackground(BaseColor.LIGHT_GRAY)));
+			calldatoblack.add(new Phrase(  new  Chunk("               R.U.C. / D.N.I: ", fffX).setBackground(BaseColor.LIGHT_GRAY)));
 			calldatoblack.setAlignment(Element.ALIGN_RIGHT);
 			cellcabecera_4.addElement(calldatoblack);
 			calldatoblack1.setAlignment(Element.ALIGN_RIGHT);
-			calldatoblack1.add(new Phrase(  new Chunk("                 SEÑOR(ES):  ").setBackground(BaseColor.LIGHT_GRAY)));
+			calldatoblack1.add(new Phrase(  new Chunk("                 SEÑOR(ES):  ", fffX).setBackground(BaseColor.LIGHT_GRAY)));
 			cellcabecera_4.addElement(calldatoblack1);
-			calldatoblack2.add(new Phrase(new Chunk("                 DIRECCIÓN:  ").setBackground(BaseColor.LIGHT_GRAY)));
+			calldatoblack2.add(new Phrase(new Chunk("                 DIRECCIÓN:  ", fffX).setBackground(BaseColor.LIGHT_GRAY)));
 			calldatoblack2.setAlignment(Element.ALIGN_RIGHT);
 			cellcabecera_4.addElement(calldatoblack2);
 			centro.addCell(cellcabecera_4);
@@ -1651,9 +1652,9 @@ public class PdfGenerator {
 			cellcabecera_14.setHorizontalAlignment(Element.ALIGN_TOP);
 			contenido.addCell(cellcabecera_14);
 			
-			Double monto = recibo.getMonto() / 1.18;
-			Double valor = recibo.getMonto() ;
-			Double resultado =  - monto + valor;
+			Double monto = (double) Math.round((recibo.getMonto() / 1.18) * 100.0) / 100.0;
+			Double valor = (double) Math.round((recibo.getMonto()) * 100.0)/100.0;
+			Double resultado =  (double) Math.round((- monto + valor)  * 100.0) / 100.0;
 			
 			calldatocont8.add(new Phrase( monto.toString(),ff));
 			calldatocont8.setAlignment(Element.ALIGN_RIGHT);
@@ -1759,8 +1760,7 @@ public class PdfGenerator {
 			codeEAN.setCode("00"+""+recibo.getCodigoBarra());
 			
 			cellcabecera_31.disableBorderSide(Rectangle.BOX);
-			calldatocont24.add(new Phrase("Correo Cable     : atencionalcliente@cablecolor.com\n"
-										+ "Correo Internet	 : atencionalcliente@internetcolor.com",ff));
+			calldatocont24.add(new Phrase(" ",ff));
 			calldatocont24.setAlignment(Element.ALIGN_LEFT);
 			cellcabecera_31.addElement(calldatocont24);
 			pie.addCell(cellcabecera_31);

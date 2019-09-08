@@ -429,8 +429,35 @@ $(document).on('ready', function() {
 						
 						console.log(response);
 						
-						if(response.status == "SUCCESS" && response.message == "HECHO") {
-							
+						if(response.status == "SUCCESS" && response.message == "PAGO ADELANTADO CON PROMO") {
+							swal({
+								type: "success",
+								title: "Se Realizo el Pago Adelantado con Promocion Correctamente",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+							}).then((result) => {
+
+								if(result.value) {
+									$(location).attr('href', '/pago/listaPagos');
+								}
+							});
+						}
+						else if(response.status == "SUCCESS" && response.message == "PAGO ADELANTADO SIN PROMO") {
+							swal({
+								type: "success",
+								title: "Se Realizo el Pago Adelantado sin Promocion Correctamente",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar",
+								closeOnConfirm: false
+							}).then((result) => {
+
+								if(result.value) {
+									$(location).attr('href', '/pago/listaPagos');
+								}
+							});
+						}
+						else if(response.status == "SUCCESS" && response.message == "PAGO RAPIDO") {
 							swal({
 								type: "success",
 								title: "Se Realizo el Pago Correctamente",
@@ -444,12 +471,11 @@ $(document).on('ready', function() {
 								}
 							});
 						}
-						else if(response.status == "ERROR" && response.message == "EXCEDIO") {
-							
+						else if(response.status == "ERROR" && response.message == "ESTO ES MALO") {
 							swal({
 				                type: 'error',
 				                title: 'Ooops',
-				                text: 'Excedio el monto a Pagar !'
+				                text: 'Ocurrio un Error al Realizar el Pago !'
 				            });
 						}
 					},
@@ -584,9 +610,7 @@ $(document).on('ready', function() {
 	function verDeudaCliente() {
 		
 		$('#verDeudaCliente').on('click', function() {
-			
 			var documentoPersonaCliente = $(this).attr('documentoPersonaCliente');
-
 			setTimeout(function() {
 				$('#modalVerDeudaCliente').modal('show');
 				listarDeudasCliente(documentoPersonaCliente);
@@ -597,9 +621,7 @@ $(document).on('ready', function() {
 	function evaluadopagos(){
 		
 		$('#verPagoCliente').on('click', function() {
-			
 			var documentoPersonaCliente = $(this).attr('documentoPersonaCliente');
-			
 			setTimeout(function() {
 				$('#modalVerPagoCliente').modal('show');
 				listarPagosCliente(documentoPersonaCliente);
@@ -641,7 +663,6 @@ $(document).on('ready', function() {
 								title: title,
 								message: message
 							});
-							
 						}
 					});
 				}
@@ -687,7 +708,6 @@ $(document).on('ready', function() {
 								title: title,
 								message: message
 							});
-							
 						}
 					});
 				}
@@ -773,23 +793,18 @@ $(document).on('ready', function() {
 		var verificando = valuee - dinamico;
 		
 		if(estatico === valuee && valuee === dinamico){
-		
 			estado(valuee);
 			cargarmensajespopus(valuee);
 			$('#canje').val("0");
 		}
 		if(verificando === 0){
-		
 			estado(verificando);
 			cargarmensajespopus(verificando);
 			$('#canje').val("0");
 		}
 		if(verificando !== 0){
-		
 			estadonuevo(parseInt(valuee));
-			
 			cargarmensajespopusnuevo(parseInt(dinamico) + 1,parseInt(verificando));
-		
 			$('#canje').val("0");
 			$('#canjes').val(valuee);
 		}
@@ -812,7 +827,6 @@ $(document).on('ready', function() {
 			data: JSON.stringify(formData),
 			dataType: 'json',
 			success: function(response) {
-				
 				$('#total').html(response.message);
 				$('#totalidad').html(response.message);
 				$('#canjess').val(response.message);
@@ -836,8 +850,7 @@ $(document).on('ready', function() {
 			},
 			data: JSON.stringify(formData),
 			dataType: 'json',
-			success: function(response) {
-				
+			success: function(response) {			
 				$('#total').html(response.message);
 				$('#totalidad').html(response.message);
 				$('#canje').val(response.message);

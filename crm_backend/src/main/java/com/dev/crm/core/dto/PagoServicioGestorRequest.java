@@ -10,16 +10,16 @@ public class PagoServicioGestorRequest implements Serializable {
 	 */
 	private static final long serialVersionUID = 5486911567261904419L;
 
+	private String documentoPersonaCliente;
+	
 	private Integer codigoComprobante;
 	
 	private String documentoPersonaPago;
 	
-	private String documentoPersonaCliente;
+	private String nombreGestor;
 	
 	private BigDecimal cantidadPago;
 	
-	private String nombreGestor;
-
 	public PagoServicioGestorRequest() {
 		
 	}

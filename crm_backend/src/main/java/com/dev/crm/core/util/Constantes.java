@@ -94,7 +94,7 @@ public class Constantes {
 	public static final String SP_LISTAR_PAGOS_DEL_DIA = "sp_listar_pagos_del_dia";
 	public static final String SP_INSERTAR_CONSECUTIVO_PAGO = "sp_insertar_consecutivo_pago";
 	public static final String SP_LISTAR_DETALLE_PAGO = "sp_recuperar_pagos_cliente";
-	public static final String SP_GENERAR_RECIBO = "sp_generar_recibo";
+	public static final String SP_GENERAR_RECIBO = "sp_generar_recibos";
 	public static final String SP_LISTAR_PAGOS_POR_CAJA_REPORTE = "sp_listar_excel_pdf_pagos_por_caja";
 	public static final String SP_LISTAR_PAGOS_PDF_DIA= "sp_listar_pagos_pdf_dia";
 	public static final String SP_LISTAR_PAGOS_PDF_RANGO = "sp_listar_pagos_pdf_rango";
@@ -180,6 +180,7 @@ public class Constantes {
 	public static final String PAGO_RAPIDO = "PAGO RAPIDO";
 	public static final String PAGO_ADELANTADO_SIN_PROMO = "PAGO ADELANTADO SIN PROMO";
 	public static final String PAGO_ADELANTADO_CON_PROMO = "PAGO ADELANTADO CON PROMO";
+	public static final String ESTO_ES_MALO = "ESTO ES MALO";
 	
 	public static final String REPORTE_CUENTAS = "/reports/reporteCuentas.jrxml";
 }

@@ -406,7 +406,7 @@ $(document).on('ready', function() {
 			if($('#codigoComprobante').val().trim() != "" && $('#cantidadPago').val() > 0 && $('#nombreGestorPago').val().trim() != "") {
 				
 				var formData = {
-						documentoPersonaPago: $('#documentoPersonaClientePago').val(),
+						documentoPersonaCliente: $('#documentoPersonaClientePago').val(),
 						codigoComprobante: $('#codigoComprobante').val(),
 						cantidadPago: $('#cantidadPago').val(),
 						documentoPersonaPago: $('#documentoPersonaPago').val(),
